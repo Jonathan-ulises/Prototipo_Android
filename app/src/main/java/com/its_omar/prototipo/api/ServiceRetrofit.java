@@ -7,8 +7,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ServiceRetrofit {
 
     //BASE DE LA URL
-    private static final String BASE_URL = "URL";
-
+    private static final String BASE_URL = "http://192.168.40.2:4600/";
+    //http://72.167.220.178/Prototipo/
     //Interface con los metodos para consumir servicios
     private WebService api;
 
