@@ -85,15 +85,16 @@
                     android:layout_marginTop="34dp"
                     app:startIconDrawable="@drawable/ic_account_circle"
                     app:endIconMode="clear_text"
-                    android:hint="@string/hitn_user_name"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle"
                     app:layout_constraintStart_toStartOf="@id/tvTitle"
                     app:layout_constraintEnd_toEndOf="@id/tvTitle"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNomUsuario"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:hint="@string/hitn_user_name"
                         android:fontFamily="@font/avenir_next_lt_pro_regular"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -114,6 +115,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/avenir_next_lt_pro_regular"
