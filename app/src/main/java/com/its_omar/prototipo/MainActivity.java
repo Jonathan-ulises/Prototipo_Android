@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.databinding.ActivityMainBinding;
+import com.its_omar.prototipo.model.Veri_Con;
 
 import org.json.JSONObject;
 
@@ -30,24 +31,29 @@ public class MainActivity extends AppCompatActivity {
 
         verificarConexionServidor();
 
-        /*mainBinding.btnLogin.setOnClickListener(view -> {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        });*/
     }
 
     private void verificarConexionServidor(){
         WebService geoSerice = ServiceRetrofit.getInstance().getSevices();
 
-        geoSerice.verificarConexion().enqueue(new Callback<String>() {
+        geoSerice.verificarConexion().enqueue(new Callback<Veri_Con>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Toast.makeText(getApplication(), "Si jala : " + response.body(), Toast.LENGTH_LONG).show();
+            public void onResponse(Call<Veri_Con> call, Response<Veri_Con> response) {
+
+                if(!response.isSuccessful()){
+                    Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(response.body().isOk()){
+                        Intent intent = new Intent(getApplication(), LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(getApplication(), "No jala : " + t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<Veri_Con> call, Throwable t) {
+                Toast.makeText(getApplication(), "Error -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

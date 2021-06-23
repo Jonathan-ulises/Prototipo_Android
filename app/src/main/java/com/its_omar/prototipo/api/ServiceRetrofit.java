@@ -27,7 +27,7 @@ public class ServiceRetrofit {
     //Crea una instancia de retrofit asignando la base url y el convertidor de datos
     private final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build();
 
     /**

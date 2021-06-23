@@ -2,12 +2,21 @@ package com.its_omar.prototipo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.its_omar.prototipo.api.ServiceRetrofit;
+import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.databinding.ActivityLoginBinding;
+import com.its_omar.prototipo.model.Veri_Con;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,8 +34,11 @@ public class LoginActivity extends AppCompatActivity {
         loginBinding.btnLogin.setOnClickListener(view -> {
             //Toast.makeText(this, "MSJ -> " + validarCampos(), Toast.LENGTH_SHORT).show();
             if(validarCampos()){
-                Intent intent = new Intent(this, ClientesActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(this, ClientesActivity.class);
+                startActivity(intent);*/
+                String nomU = loginBinding.etNomUsuario.getText().toString();
+                String pass = loginBinding.etPassword.getText().toString();
+                verificarDatosLogin(nomU, pass);
             }
         });
     }
@@ -77,6 +89,41 @@ public class LoginActivity extends AppCompatActivity {
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(startMain);
+    }
+
+    private void verificarDatosLogin(String nombreUsuario, String password){
+        WebService geoService = ServiceRetrofit.getInstance().getSevices();
+
+        geoService.loginApp(nombreUsuario, password).enqueue(new Callback<Veri_Con>() {
+            @Override
+            public void onResponse(Call<Veri_Con> call, Response<Veri_Con> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(response.body().isOk()){
+                        Intent intent = new Intent(getApplication(), ClientesActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        new MaterialAlertDialogBuilder(getApplication(), R.style.ThemeOverlay_MaterialComponents_Dialog)
+                                .setTitle(response.body().getMensaje())
+                                .setPositiveButton(R.string.alert_dialog_confirm_login, (dialogInterface, i) -> limpiarCampos())
+                                .show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Veri_Con> call, Throwable t) {
+                Toast.makeText(getApplication(), "Error -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void limpiarCampos(){
+        loginBinding.etNomUsuario.setText("");
+        loginBinding.etPassword.setText("");
     }
 
     private void asignarTipografia(Typeface face){
