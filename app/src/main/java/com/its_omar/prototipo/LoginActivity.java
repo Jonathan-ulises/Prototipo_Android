@@ -2,9 +2,7 @@ package com.its_omar.prototipo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -119,7 +117,9 @@ public class LoginActivity extends AppCompatActivity {
                         AlertDialog dialog = buider.create();
                         dialog.show();*/
                         new MaterialAlertDialogBuilder(ctx, R.style.ThemeOverlay_MaterialComponents_Dialog)
-                                .setTitle(response.body().getMensaje())
+                                .setIcon(R.drawable.ic_error)
+                                .setTitle(R.string.alert_login_error)
+                                .setMessage(response.body().getMensaje())
                                 .setPositiveButton(R.string.alert_dialog_confirm_login, (dialogInterface, i) -> limpiarCampos())
                                 .show();
                     }
