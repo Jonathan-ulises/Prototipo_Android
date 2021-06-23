@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Prototipo">
-        <activity android:name=".VerificacionVisitaActivity"></activity>
+        <activity android:name=".VerificacionVisitaActivity"/>
         <activity android:name=".ClientesActivity" />
         <activity android:name=".LoginActivity" />
         <activity

@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
         geoSerice.verificarConexion().enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Toast.makeText(getApplication(), " res : " + response.body(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplication(), "Si jala : " + response.body(), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(getApplication(), " resERROR : " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplication(), "No jala : " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
