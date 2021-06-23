@@ -67,6 +67,22 @@ public class VerificacionDatosFragment extends Fragment {
 
         datosBinding.rbSVEncontrado.setChecked(true);
 
+        datosBinding.rgEstatus.setOnCheckedChangeListener((group, checkedId) -> {
+            if (datosBinding.rbSVAbandonada.isChecked()){
+                datosBinding.btnCapturarDatos.setText(R.string.razon_status);
+            } else {
+                datosBinding.btnCapturarDatos.setText(R.string.btn_capturar);
+            }
+        });
+
+        datosBinding.btnCapturarDatos.setOnClickListener(v -> {
+            if (datosBinding.rbSVAbandonada.isChecked()){
+                RazonFragment fragment = new RazonFragment();
+                getFragmentManager().beginTransaction().remove(this).commit();
+                getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
+            }
+        });
+
         // Inflate the layout for this fragment
         return datosBinding.getRoot();
     }

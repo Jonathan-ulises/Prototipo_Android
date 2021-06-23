@@ -29,4 +29,5 @@
     <string name="btn_capturar">CAPTURAR Y ENVIAR</string>
     <string name="razon_textfield">Razon...</string>
     <string name="enviar_razon_btn">Enviar Razon</string>
+    <string name="razon_status">Especificar Razon</string>
 </resources>

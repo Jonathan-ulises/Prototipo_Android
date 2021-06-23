@@ -4,4 +4,10 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">28dp</item>
     </style>
+
+    <style name="MyProgressBarRectangle" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/progress_bar</item>
+        <item name="android:minHeight">80dp</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
 </resources>
