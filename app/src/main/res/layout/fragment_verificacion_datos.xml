@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.VerificacionDatosFragment">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadeScrollbars="true"
+            android:padding="@dimen/padding_component_1"
+            android:scrollbarThumbVertical="@drawable/background_scrollbar"
+            android:scrollbars="vertical">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <RadioGroup
+                    android:id="@+id/rgEstatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_2"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/rbSV_encontrado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_component_2"
+                        android:layout_weight="2"
+                        android:buttonTint="@color/primary_color"
+                        tools:checked="true"
+                        android:fontFamily="@font/avenir_next_lt_pro_regular"
+                        android:text="@string/status_encontrado" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/rbSV_abandonada"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_component_2"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/primary_color"
+                        android:fontFamily="@font/avenir_next_lt_pro_regular"
+                        android:text="@string/status_visita_abandonada" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/tvTiluloVerificacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_2"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    android:text="@string/title_verificacion_datos"
+                    android:textSize="@dimen/subtitle_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rgEstatus" />
+
+                <TextView
+                    android:id="@+id/tvBuscar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_1"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    android:text="@string/subtitle_direccion"
+                    app:layout_constraintEnd_toEndOf="@id/tvTiluloVerificacion"
+                    app:layout_constraintStart_toStartOf="@id/tvTiluloVerificacion"
+                    app:layout_constraintTop_toBottomOf="@id/tvTiluloVerificacion" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnObtenerUbicacion"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_obtener_ubicacion"
+                    app:icon="@drawable/ic_navigation"
+                    app:layout_constraintEnd_toEndOf="@id/tvTiluloVerificacion"
+                    app:layout_constraintStart_toStartOf="@id/tvTiluloVerificacion"
+                    app:layout_constraintTop_toBottomOf="@id/tvBuscar"
+                    app:strokeColor="@color/primary_color"
+                    app:strokeWidth="2dp" />
+
+                <TextView
+                    android:id="@+id/tvDireccionCap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnObtenerUbicacion"
+                    tools:text="Direccion 444, col. ###" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_component_1"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="@id/btnObtenerUbicacion"
+                    app:layout_constraintStart_toStartOf="@+id/btnObtenerUbicacion"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDireccionCap" />
+
+                <TextView
+                    android:id="@+id/tvDatosCliente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_3"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    android:text="@string/subtitle_datos_sobre_cliente"
+                    android:textSize="@dimen/subtitle_1"
+                    app:layout_constraintEnd_toEndOf="@id/divider"
+                    app:layout_constraintStart_toStartOf="@+id/divider"
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCapFirma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_2"
+                    android:elevation="16dp"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    android:text="@string/btn_firma"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDatosCliente" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCapCasa"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_1"
+                    android:elevation="16dp"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    android:text="@string/btn_casa"
+                    app:layout_constraintEnd_toEndOf="@+id/btnCapFirma"
+                    app:layout_constraintStart_toStartOf="@+id/btnCapFirma"
+                    app:layout_constraintTop_toBottomOf="@+id/btnCapFirma" />
+
+                <TextView
+                    android:id="@+id/tvValidarIdentidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_3"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    android:text="@string/subtitle_validacion_identidad"
+                    android:textSize="@dimen/subtitle_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnCapCasa" />
+
+
+                <RadioGroup
+                    android:id="@+id/rgValidacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_2"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvValidarIdentidad">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/rbValidado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_component_2"
+                        android:layout_weight="2"
+                        android:buttonTint="@color/primary_color"
+                        tools:checked="true"
+                        android:fontFamily="@font/avenir_next_lt_pro_regular"
+                        android:text="@string/status_validado" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/rbNoValidado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_component_2"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/primary_color"
+                        android:fontFamily="@font/avenir_next_lt_pro_regular"
+                        android:text="@string/status_no_validado" />
+                </RadioGroup>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCapturarDatos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_component_5"
+                    android:layout_marginBottom="@dimen/margin_component_5"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    android:text="@string/btn_capturar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rgValidacion" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

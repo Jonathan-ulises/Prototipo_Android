@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+
+
+    <!-- PRIMARY COLORS-->
+    <color name="primary_color">#23283d</color>
+    <color name="primary_variant_color">#000018</color>
+
+    <!-- SECIBDARY COLORS-->
+
+    <!-- MATERIAL COLORS-->
+    <color name="background_color">#FFFFFF</color>
+    <color name="surface_color">#FFFFFF</color>
+    <color name="error_color">#bb2005</color>
+    <!-- ON MATERIAL COLORS-->
+
+    <color name="on_primary_color">#FFFFFF</color>
+    <!--<color name="on_secondary_color"></color>-->
+    <color name="on_background_color">#000000</color>
+    <color name="on_surface_color">#000000</color>
+    <color name="on_error_color">#FFFFFF</color>
+
+    <!-- ESTADOS -->
+    <color name="es_encontrado_color">#17A500</color>
+    <color name="es_no_encontrado_color">#E99B04</color>
+    <color name="es_visita_rechazada_color">#BD2000</color>
+
+    <!-- ESTADOS / SOBRAS RADIO BUTTON -->
+    <color name="es_encontrado_sh_color">#89AA84</color>
+    <color name="es_no_encontrado_sh_color">#E4CEA1</color>
+    <color name="es_visita_rechazada_sh_color">#C39A92</color>
+</resources>

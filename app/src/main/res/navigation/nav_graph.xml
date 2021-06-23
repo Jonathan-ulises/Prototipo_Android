@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/verificacionVisitaActivity">
+
+    <activity
+        android:id="@+id/verificacionVisitaActivity"
+        android:name="com.its_omar.prototipo.VerificacionVisitaActivity"
+        android:label="activity_verificacion_visita"
+        tools:layout="@layout/activity_verificacion_visita" />
+    <fragment
+        android:id="@+id/verificacionDatosFragment"
+        android:name="com.its_omar.prototipo.fragments.VerificacionDatosFragment"
+        android:label="fragment_verificacion_datos"
+        tools:layout="@layout/fragment_verificacion_datos" >
+        <action
+            android:id="@+id/action_verificacionDatosFragment_to_verificacionVisitaActivity2"
+            app:destination="@id/verificacionVisitaActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/verificarEstatusFragment"
+        android:name="com.its_omar.prototipo.fragments.VerificarEstatusFragment"
+        android:label="VerificarEstatusFragment" >
+        <action
+            android:id="@+id/action_verificarEstatusFragment_to_verificacionVisitaActivity2"
+            app:destination="@id/verificacionVisitaActivity" />
+    </fragment>
+</navigation>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Prototipo</string>
+    <string name="hitn_user_name">Nombre de Usuario</string>
+    <string name="user_password">Contraseña</string>
+    <string name="string_btn_login">Iniciar sesion</string>
+    <string name="action_logout">Cerrar Sesion</string>
+    <string name="action_about">Acerca de..</string>
+    <string name="clientes_list_title_view">CLIENTES POR VISITAR</string>
+    <string name="btn_ver_mapa">Ver mapa</string>
+    <string name="login_title">INICIAR SESIÓN</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="visita_title_fragment">VERIFICACION DE LA VISITA</string>
+    <string name="status_verificacion">STATUS</string>
+    <string name="status_encontrado">Encontrado</string>
+    <string name="status_no_encontrado">No encontrador</string>
+    <string name="status_visita_rechazada">Visita rechazada</string>
+    <string name="verificar_button">VERIFICAR</string>
+    <string name="status_visita_abandonada">Visita abandonada</string>
+    <string name="title_verificacion_datos">VERIFICACIÓN DE DATOS</string>
+    <string name="subtitle_direccion">Buscar dirección</string>
+    <string name="btn_obtener_ubicacion">Obtener Ubicación</string>
+    <string name="subtitle_datos_sobre_cliente">DATOS SOBRE EL CLIENTE</string>
+    <string name="btn_firma">CAPTURAR FIRMA</string>
+    <string name="btn_casa">CAPTURAR CASA</string>
+    <string name="subtitle_validacion_identidad">VALIDACIÓN DE IDENTIDAD</string>
+    <string name="status_validado">Validado</string>
+    <string name="status_no_validado">No validado</string>
+    <string name="btn_capturar">CAPTURAR Y ENVIAR</string>
+    <string name="razon_textfield">Razon...</string>
+    <string name="enviar_razon_btn">Enviar Razon</string>
+</resources>
