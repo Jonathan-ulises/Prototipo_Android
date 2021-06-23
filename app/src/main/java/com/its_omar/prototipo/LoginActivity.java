@@ -2,6 +2,8 @@ package com.its_omar.prototipo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -38,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);*/
                 String nomU = loginBinding.etNomUsuario.getText().toString();
                 String pass = loginBinding.etPassword.getText().toString();
-                verificarDatosLogin(nomU, pass);
+                verificarDatosLogin(nomU, pass, this);
             }
         });
     }
@@ -91,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(startMain);
     }
 
-    private void verificarDatosLogin(String nombreUsuario, String password){
+    private void verificarDatosLogin(String nombreUsuario, String password, Context ctx){
         WebService geoService = ServiceRetrofit.getInstance().getSevices();
 
         geoService.loginApp(nombreUsuario, password).enqueue(new Callback<Veri_Con>() {
@@ -105,7 +107,18 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        new MaterialAlertDialogBuilder(getApplication(), R.style.ThemeOverlay_MaterialComponents_Dialog)
+                        /*AlertDialog.Builder buider = new AlertDialog.Builder(ctx);
+                        buider.setTitle(response.body().getMensaje());
+                        buider.setPositiveButton(R.string.alert_dialog_confirm_login, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        limpiarCampos();
+                                    }
+                                });
+
+                        AlertDialog dialog = buider.create();
+                        dialog.show();*/
+                        new MaterialAlertDialogBuilder(ctx, R.style.ThemeOverlay_MaterialComponents_Dialog)
                                 .setTitle(response.body().getMensaje())
                                 .setPositiveButton(R.string.alert_dialog_confirm_login, (dialogInterface, i) -> limpiarCampos())
                                 .show();
