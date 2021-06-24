@@ -1,7 +1,11 @@
 package com.its_omar.prototipo.api;
 
 import com.its_omar.prototipo.model.Bitacora;
+import com.its_omar.prototipo.model.Empleado;
 import com.its_omar.prototipo.model.Result;
+import com.its_omar.prototipo.model.resultClienteService.ClientesJSONResult;
+
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,7 +30,8 @@ public interface WebService {
     @POST("registrarBitacora")
     Call<Result> registrarBitacora(@Body Bitacora bitacora);
 
-
+    @POST("obtenerVisitas")
+    Call<ClientesJSONResult> getClientesEmplado(@Body Empleado idEmpleado);
 
 //deus370   12345
 }

@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.controller.ConsultasComunes;
@@ -29,8 +31,10 @@ import com.its_omar.prototipo.databinding.ActivityClientesBinding;
 import com.its_omar.prototipo.fragments.adapters.ClientesVisitaAdapter;
 import com.its_omar.prototipo.model.Bitacora;
 import com.its_omar.prototipo.model.Constantes;
+import com.its_omar.prototipo.model.Empleado;
 import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.Usuario;
+import com.its_omar.prototipo.model.resultClienteService.ClientesJSONResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +62,7 @@ public class ClientesActivity extends AppCompatActivity {
         ClientesVisitaAdapter adapter = new ClientesVisitaAdapter();
         clientesBinding.rclClienteVisita.setLayoutManager(new LinearLayoutManager(this));
 
+        consultarListaCliente(7);
 
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
             Intent intent = new Intent(this, VerificacionVisitaActivity.class);
@@ -123,9 +128,30 @@ public class ClientesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void consultarListaCliente(){
+    private void consultarListaCliente(int idEmpleado){
+
+        WebService api = ServiceRetrofit.getInstance().getSevices();
 
 
+
+        api.getClientesEmplado(new Empleado(idEmpleado)).enqueue(new Callback<ClientesJSONResult>() {
+            @Override
+            public void onResponse(Call<ClientesJSONResult> call, Response<ClientesJSONResult> response) {
+
+                if(response.body() == null){
+                    Toast.makeText(getApplication(), "" + response.code(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplication(), response.body().getResultado().isEmpty() + "", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ClientesJSONResult> call, Throwable t) {
+
+            }
+        });
     }
 
 

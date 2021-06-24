@@ -8,4 +8,5 @@ public class Constantes {
     public static final String ID_EMPLEADO_LOGEADO = "id_empleado_logeado";
     public static final String TAG_BITACORA_LOG = "reg_bita";
     public static final String TAG_ERROR_LOGOUT = "login_out";
+    public static final String TAG_ERROR_LISTA_CLIENTE = "lista_visita_cliente";
 }
