@@ -2,7 +2,9 @@ package com.its_omar.prototipo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,18 +23,25 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mainBinding;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainBinding.getRoot());
+        LoginActivity ac = new LoginActivity();
 
+        //Datos compartidos de nombre "preferences"
+        sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
         verificarConexionServidor();
 
     }
 
+    /**
+     * Verifica si la conexion con el servidor es buena
+     */
     private void verificarConexionServidor(){
         WebService geoSerice = ServiceRetrofit.getInstance().getSevices();
 
@@ -44,9 +53,17 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
                 } else {
                     if(response.body().isOk()){
-                        Intent intent = new Intent(getApplication(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+
+                        if(getSesionSharedPreference()){
+                            Intent intent = new Intent(getApplication(), ClientesActivity.class);
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+                            Intent intent = new Intent(getApplication(), LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 }
             }
@@ -57,5 +74,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * Obtiene el estatus del logeo del usuario
+     * @return estatus de la sesion
+     */
+    private boolean getSesionSharedPreference(){
+        return sharedPreferences.getBoolean("login_ok", false);
     }
 }

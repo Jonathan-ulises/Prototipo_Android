@@ -9,9 +9,8 @@
 
     <!-- PRIMARY COLORS-->
     <color name="primary_color">#23283d</color>
-    <color name="primary_variant_color">#000018</color>
-
     <!-- SECIBDARY COLORS-->
+    <color name="primary_variant_color">#000018</color>
 
     <!-- MATERIAL COLORS-->
     <color name="background_color">#FFFFFF</color>
@@ -34,4 +33,20 @@
     <color name="es_encontrado_sh_color">#89AA84</color>
     <color name="es_no_encontrado_sh_color">#E4CEA1</color>
     <color name="es_visita_rechazada_sh_color">#C39A92</color>
+
+
+    <!-- Night mode-->
+    <!-- PRIMARY COLORS-->
+    <color name="primary_color_night">#e0e0e0</color>
+    <color name="primary_variant_color_night">#aeaeae</color>
+
+    <color name="background_color_night">#000000</color>
+    <color name="surface_color_night">#000000</color>
+    <color name="error_color_night">#bb2005</color>
+
+    <color name="on_background_color_night">#ffffff</color>
+    <color name="on_primary_color_night">#000000</color>
+    <color name="on_surface_color_night">#ffffff</color>
+    <color name="on_error_color_night">#FFFFFF</color>
+
 </resources>
