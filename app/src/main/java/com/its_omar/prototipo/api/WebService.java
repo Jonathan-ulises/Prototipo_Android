@@ -20,6 +20,7 @@ public interface WebService {
     Call<Result> loginApp(@Field("username") String u_name, @Field("password") String u_pass);
 
     @POST("logout")
+    @FormUrlEncoded
     Call<Result> logoutApp(@Field("username") String nombreUsuario);
 
     @POST("registrarBitacora")

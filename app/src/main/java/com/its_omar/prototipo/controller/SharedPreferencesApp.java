@@ -43,11 +43,22 @@ public class SharedPreferencesApp {
         return sharedPreferences.getBoolean(Constantes.SESION_ESTATUS, false);
     }
 
+    /**
+     * Obtiene el usuario que inicio la sesion
+     * @return Usuario logeado {@link Usuario}
+     */
     public Usuario getUsuarioLogeado() {
         Usuario u = new Usuario();
         u.setNombreUsuario(sharedPreferences.getString(Constantes.NOMBRE_USUARIO_LOGEADO, null));
         u.setId_empleado(sharedPreferences.getInt(Constantes.ID_EMPLEADO_LOGEADO, 0));
 
         return u;
+    }
+
+    public void borrarPreferences(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(Constantes.PREFERENCES_NAME);
+        editor.clear();
+        editor.apply();
     }
 }

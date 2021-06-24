@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                         sharedPreferencesApp.saveSharePreferencesLogin(nombreUsuario, response.body().getFk_empleado());
 
                         //Toast.makeText(ctx, "" + response.body().getFk_empleado(), Toast.LENGTH_SHORT).show();
-                        //ConsultasComunes.registrarAccionBitacora("Login", "Inicio Sesion", response.body().getFk_empleado());
+                        ConsultasComunes.registrarAccionBitacora("Login", "Inicio Sesion", response.body().getFk_empleado());
 
                         Intent intent = new Intent(getApplication(), ClientesActivity.class);
                         startActivity(intent);

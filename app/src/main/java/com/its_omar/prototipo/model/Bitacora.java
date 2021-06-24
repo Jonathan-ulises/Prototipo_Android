@@ -1,9 +1,20 @@
 package com.its_omar.prototipo.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Bitacora {
 
+    @SerializedName("modulo")
+    @Expose
     private String modulo;
+
+    @SerializedName("accion")
+    @Expose
     private String accion;
+
+    @SerializedName("idEmpleado")
+    @Expose
     private int fk_empleado;
 
     public Bitacora(String modulo, String accion, int fk_empleado) {
