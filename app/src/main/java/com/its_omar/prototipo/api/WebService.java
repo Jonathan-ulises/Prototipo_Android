@@ -26,5 +26,7 @@ public interface WebService {
     @POST("registrarBitacora")
     Call<Result> registrarBitacora(@Body Bitacora bitacora);
 
+
+
 //deus370   12345
 }

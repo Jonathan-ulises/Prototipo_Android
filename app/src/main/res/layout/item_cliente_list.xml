@@ -1,65 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    style="@style/item_corner"
-    android:padding="@dimen/margin_component_1">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cvItemCliente"
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="14dp"
-        app:strokeWidth="@dimen/stroke_cardView"
-        app:strokeColor="@color/primary_color"
-        android:elevation="20dp">
+        android:clickable="true"
+        android:focusable="true"
+        style="@style/item_corner"
+        android:padding="@dimen/margin_component_1">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutCV_Cliente"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvItemCliente"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/margin_component_1">
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="14dp"
+            app:strokeWidth="@dimen/stroke_cardView"
+            app:strokeColor="@color/primary_color"
+            android:elevation="20dp">
 
 
-            <ImageView
-                android:id="@+id/ic_location"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_marginEnd="@dimen/margin_component_1"
-                android:src="@drawable/ic_marker_list_black"
-                app:layout_constraintStart_toStartOf="@+id/layoutCV_Cliente"
-                app:layout_constraintTop_toTopOf="@id/tvNombre_Cliente"
-                app:layout_constraintBottom_toBottomOf="@id/tvNombre_Cliente"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutCV_Cliente"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_component_1">
 
-            <TextView
-                android:id="@+id/tvNombre_Cliente"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                tools:text="Nombre_Cliente"
-                android:fontFamily="@font/avenir_next_lt_pro_regular"
-                android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@+id/ic_location"
-                app:layout_constraintEnd_toStartOf="@+id/ic_calendar"
-                app:layout_constraintTop_toTopOf="@id/layoutCV_Cliente"
-                app:layout_constraintBottom_toBottomOf="@id/layoutCV_Cliente"/>
 
-            <ImageView
-                android:id="@+id/ic_calendar"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:src="@drawable/ic_calendar"
-                app:layout_constraintEnd_toEndOf="@id/layoutCV_Cliente"
-                app:layout_constraintTop_toTopOf="@id/tvNombre_Cliente"
-                app:layout_constraintBottom_toBottomOf="@id/tvNombre_Cliente"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/ic_location"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_marginEnd="@dimen/margin_component_1"
+                    android:src="@drawable/ic_marker_list_black"
+                    app:layout_constraintStart_toStartOf="@+id/layoutCV_Cliente"
+                    app:layout_constraintTop_toTopOf="@id/tvNombre_Cliente"
+                    app:layout_constraintBottom_toBottomOf="@id/tvNombre_Cliente" />
+
+                <TextView
+                    android:id="@+id/tvNombre_Cliente"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="Nombre_Cliente"
+                    android:fontFamily="@font/avenir_next_lt_pro_regular"
+                    android:textSize="20sp"
+                    android:layout_marginStart="@dimen/margin_component_1"
+                    android:layout_marginEnd="@dimen/margin_component_1"
+                    app:layout_constraintStart_toEndOf="@+id/ic_location"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_calendar"
+                    app:layout_constraintTop_toTopOf="@id/layoutCV_Cliente"
+                    app:layout_constraintBottom_toBottomOf="@id/layoutCV_Cliente" />
+
+                <ImageView
+                    android:id="@+id/ic_calendar"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:src="@drawable/ic_calendar"
+                    app:layout_constraintEnd_toEndOf="@id/layoutCV_Cliente"
+                    app:layout_constraintTop_toTopOf="@id/tvNombre_Cliente"
+                    app:layout_constraintBottom_toBottomOf="@id/tvNombre_Cliente" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

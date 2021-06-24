@@ -2,6 +2,7 @@ package com.its_omar.prototipo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Application;
 import android.content.Context;
@@ -25,6 +26,7 @@ import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.controller.ConsultasComunes;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityClientesBinding;
+import com.its_omar.prototipo.fragments.adapters.ClientesVisitaAdapter;
 import com.its_omar.prototipo.model.Bitacora;
 import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Result;
@@ -51,6 +53,11 @@ public class ClientesActivity extends AppCompatActivity {
         setSupportActionBar(clientesBinding.toolbar);
 
         asignarTipografia(face);
+
+        //RecycleView
+        ClientesVisitaAdapter adapter = new ClientesVisitaAdapter();
+        clientesBinding.rclClienteVisita.setLayoutManager(new LinearLayoutManager(this));
+
 
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
             Intent intent = new Intent(this, VerificacionVisitaActivity.class);
@@ -115,4 +122,11 @@ public class ClientesActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void consultarListaCliente(){
+
+
+    }
+
+
 }
