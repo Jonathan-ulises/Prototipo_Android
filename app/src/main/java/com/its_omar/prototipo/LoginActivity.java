@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityLoginBinding;
 import com.its_omar.prototipo.model.Veri_Con;
 
@@ -35,22 +36,15 @@ public class LoginActivity extends AppCompatActivity {
 
         asignarTipografia(face);
 
-        sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
         loginBinding.btnLogin.setOnClickListener(view -> {
-            //Toast.makeText(this, "MSJ -> " + validarCampos(), Toast.LENGTH_SHORT).show();
             if(validarCampos()){
-                /*Intent intent = new Intent(this, ClientesActivity.class);
-                startActivity(intent);*/
                 String nomU = loginBinding.etNomUsuario.getText().toString();
                 String pass = loginBinding.etPassword.getText().toString();
                 verificarDatosLogin(nomU, pass, this);
             }
         });
 
-        loginBinding.btntest.setOnClickListener(v -> {
-            Toast.makeText(getApplication(), "" + sharedPreferences.getBoolean("login_ok", false), Toast.LENGTH_LONG).show();
-        });
     }
 
 //https://itsmarts.fortidns.com:4600
@@ -117,7 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
                 } else {
                     if(response.body().isOk()){
-                        saveSharePreferences();
+                        SharedPreferencesApp sharedPreferencesApp = SharedPreferencesApp.getInstance(ctx);
+                        sharedPreferencesApp.saveSharePreferencesLogin();
 
                         Intent intent = new Intent(getApplication(), ClientesActivity.class);
                         startActivity(intent);
@@ -149,15 +144,6 @@ public class LoginActivity extends AppCompatActivity {
         loginBinding.etPassword.setText("");
     }
 
-    /**
-     * Guarda el estatus de la sesion
-     */
-    private void saveSharePreferences(){
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(SESION_KEY, true);
-        editor.apply();
-    }
 
     private void asignarTipografia(Typeface face){
         loginBinding.tvTitle.setTypeface(face);

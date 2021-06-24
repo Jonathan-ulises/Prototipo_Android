@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityMainBinding;
 import com.its_omar.prototipo.model.Veri_Con;
 
@@ -30,19 +31,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainBinding.getRoot());
-        LoginActivity ac = new LoginActivity();
 
-        //Datos compartidos de nombre "preferences"
-        sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
-
-        verificarConexionServidor();
+        verificarConexionServidor(this);
 
     }
 
     /**
      * Verifica si la conexion con el servidor es buena
      */
-    private void verificarConexionServidor(){
+    private void verificarConexionServidor(Context ctx){
         WebService geoSerice = ServiceRetrofit.getInstance().getSevices();
 
         geoSerice.verificarConexion().enqueue(new Callback<Veri_Con>() {
@@ -53,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
                 } else {
                     if(response.body().isOk()){
+                        SharedPreferencesApp sharedPreferencesApp = SharedPreferencesApp.getInstance(ctx);
 
-                        if(getSesionSharedPreference()){
+                        if(sharedPreferencesApp.getSesionSharedPreference()){
                             Intent intent = new Intent(getApplication(), ClientesActivity.class);
                             startActivity(intent);
                             finish();
@@ -74,13 +72,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    /**
-     * Obtiene el estatus del logeo del usuario
-     * @return estatus de la sesion
-     */
-    private boolean getSesionSharedPreference(){
-        return sharedPreferences.getBoolean("login_ok", false);
     }
 }

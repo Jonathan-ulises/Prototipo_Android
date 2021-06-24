@@ -133,17 +133,6 @@
                     app:layout_constraintTop_toBottomOf="@id/tlContraseña"
                     app:layout_constraintStart_toStartOf="@id/tlContraseña"
                     app:layout_constraintEnd_toEndOf="@id/tlContraseña"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btntest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/string_btn_login"
-                    android:fontFamily="@font/avenir_next_lt_pro_regular"
-                    android:layout_marginTop="@dimen/margin_component_6"
-                    app:layout_constraintTop_toBottomOf="@id/btnLogin"
-                    app:layout_constraintStart_toStartOf="@id/tlContraseña"
-                    app:layout_constraintEnd_toEndOf="@id/tlContraseña"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
