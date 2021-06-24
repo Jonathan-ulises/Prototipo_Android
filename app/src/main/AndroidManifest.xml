@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Prototipo">
         <activity android:name=".VerificacionVisitaActivity"/>
-        <activity android:name=".ClientesActivity" />
+        <activity
+            android:name=".ClientesActivity"
+            android:label="@string/label_clietneActivity"/>
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"

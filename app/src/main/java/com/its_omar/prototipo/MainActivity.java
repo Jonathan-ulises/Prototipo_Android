@@ -6,16 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityMainBinding;
-import com.its_omar.prototipo.model.Veri_Con;
-
-import org.json.JSONObject;
+import com.its_omar.prototipo.model.Result;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainBinding.getRoot());
-
         verificarConexionServidor(this);
 
     }
@@ -42,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
     protected void verificarConexionServidor(Context ctx){
         WebService geoSerice = ServiceRetrofit.getInstance().getSevices();
 
-        geoSerice.verificarConexion().enqueue(new Callback<Veri_Con>() {
+        geoSerice.verificarConexion().enqueue(new Callback<Result>() {
             @Override
-            public void onResponse(Call<Veri_Con> call, Response<Veri_Con> response) {
+            public void onResponse(Call<Result> call, Response<Result> response) {
 
                 if(!response.isSuccessful()){
                     Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
@@ -67,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Veri_Con> call, Throwable t) {
+            public void onFailure(Call<Result> call, Throwable t) {
                 Toast.makeText(getApplication(), "Error -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

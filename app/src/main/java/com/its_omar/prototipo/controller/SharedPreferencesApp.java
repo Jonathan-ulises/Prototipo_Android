@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.its_omar.prototipo.model.Constantes;
+import com.its_omar.prototipo.model.Usuario;
 
 public class SharedPreferencesApp {
 
@@ -25,9 +26,11 @@ public class SharedPreferencesApp {
     /**
      * Guarda el estatus de la sesion
      */
-    public void saveSharePreferencesLogin(){
+    public void saveSharePreferencesLogin(String nombreusu, int id_empleado){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(Constantes.SESION_ESTATUS, true);
+        editor.putString(Constantes.NOMBRE_USUARIO_LOGEADO, nombreusu);
+        editor.putInt(Constantes.ID_EMPLEADO_LOGEADO, id_empleado);
         editor.apply();
     }
 
@@ -38,5 +41,13 @@ public class SharedPreferencesApp {
      */
     public boolean getSesionSharedPreference(){
         return sharedPreferences.getBoolean(Constantes.SESION_ESTATUS, false);
+    }
+
+    public Usuario getUsuarioLogeado() {
+        Usuario u = new Usuario();
+        u.setNombreUsuario(sharedPreferences.getString(Constantes.NOMBRE_USUARIO_LOGEADO, null));
+        u.setId_empleado(sharedPreferences.getInt(Constantes.ID_EMPLEADO_LOGEADO, 0));
+
+        return u;
     }
 }

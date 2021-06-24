@@ -2,7 +2,7 @@ package com.its_omar.prototipo;
 
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
-import com.its_omar.prototipo.model.Veri_Con;
+import com.its_omar.prototipo.model.Result;
 
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class MainActivityTest {
     public void verificarConexionServidor() throws IOException {
         WebService sd = ServiceRetrofit.getInstance().getSevices();
 
-        Response<Veri_Con> response = sd.verificarConexion().execute();
+        Response<Result> response = sd.verificarConexion().execute();
 
         assertTrue(response.isSuccessful());
 

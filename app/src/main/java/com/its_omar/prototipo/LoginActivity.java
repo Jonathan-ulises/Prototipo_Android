@@ -12,9 +12,10 @@ import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.controller.ConsultasComunes;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityLoginBinding;
-import com.its_omar.prototipo.model.Veri_Con;
+import com.its_omar.prototipo.model.Result;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -104,15 +105,18 @@ public class LoginActivity extends AppCompatActivity {
     protected void verificarDatosLogin(String nombreUsuario, String password, Context ctx){
         WebService geoService = ServiceRetrofit.getInstance().getSevices();
 
-        geoService.loginApp(nombreUsuario, password).enqueue(new Callback<Veri_Con>() {
+        geoService.loginApp(nombreUsuario, password).enqueue(new Callback<Result>() {
             @Override
-            public void onResponse(Call<Veri_Con> call, Response<Veri_Con> response) {
+            public void onResponse(Call<Result> call, Response<Result> response) {
                 if(!response.isSuccessful()){
                     Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
                 } else {
                     if(response.body().isOk()){
                         SharedPreferencesApp sharedPreferencesApp = SharedPreferencesApp.getInstance(ctx);
-                        sharedPreferencesApp.saveSharePreferencesLogin();
+                        sharedPreferencesApp.saveSharePreferencesLogin(nombreUsuario, response.body().getFk_empleado());
+
+                        //Toast.makeText(ctx, "" + response.body().getFk_empleado(), Toast.LENGTH_SHORT).show();
+                        //ConsultasComunes.registrarAccionBitacora("Login", "Inicio Sesion", response.body().getFk_empleado());
 
                         Intent intent = new Intent(getApplication(), ClientesActivity.class);
                         startActivity(intent);
@@ -131,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Veri_Con> call, Throwable t) {
+            public void onFailure(Call<Result> call, Throwable t) {
                 Toast.makeText(getApplication(), "Error -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

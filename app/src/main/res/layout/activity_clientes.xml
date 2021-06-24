@@ -19,13 +19,12 @@
 
             <!-- TOOLBAR-->
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                app:menu="@menu/menu_toolbar"
+                app:titleTextColor="@color/on_primary_color"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/ic_location_on"
-                app:navigationIconTint="@android:color/white">
-
-            </com.google.android.material.appbar.MaterialToolbar>
+                app:navigationIconTint="@android:color/white"/>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
