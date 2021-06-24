@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Verifica si la conexion con el servidor es buena
      */
-    private void verificarConexionServidor(Context ctx){
+    protected void verificarConexionServidor(Context ctx){
         WebService geoSerice = ServiceRetrofit.getInstance().getSevices();
 
         geoSerice.verificarConexion().enqueue(new Callback<Veri_Con>() {

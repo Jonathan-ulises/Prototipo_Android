@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param password password Nombre de usuario del login
      * @param ctx contexto de ejecucion de la activity
      */
-    private void verificarDatosLogin(String nombreUsuario, String password, Context ctx){
+    protected void verificarDatosLogin(String nombreUsuario, String password, Context ctx){
         WebService geoService = ServiceRetrofit.getInstance().getSevices();
 
         geoService.loginApp(nombreUsuario, password).enqueue(new Callback<Veri_Con>() {
