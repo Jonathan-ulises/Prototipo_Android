@@ -10,17 +10,19 @@ public class Cliente_por_visitar {
     private String aMaterno;
     private int estatusVisita;
     private String ine;
+    private String casa;
 
     public Cliente_por_visitar() {
     }
 
-    public Cliente_por_visitar(int idCliente, String nombre, String aPaterno, String aMaterno, int estatusVisita, String ine) {
+    public Cliente_por_visitar(int idCliente, String nombre, String aPaterno, String aMaterno, int estatusVisita, String ine, String casa) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.aPaterno = aPaterno;
         this.aMaterno = aMaterno;
         this.estatusVisita = estatusVisita;
         this.ine = ine;
+        this.casa = casa;
     }
 
     public int getIdCliente() {
@@ -47,6 +49,10 @@ public class Cliente_por_visitar {
         return ine;
     }
 
+    public String getCasa() {
+        return casa;
+    }
+
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
@@ -71,6 +77,10 @@ public class Cliente_por_visitar {
         this.ine = ine;
     }
 
+    public void setCasa(String casa) {
+        this.casa = casa;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,11 +91,12 @@ public class Cliente_por_visitar {
                 nombre.equals(that.nombre) &&
                 aPaterno.equals(that.aPaterno) &&
                 aMaterno.equals(that.aMaterno) &&
-                ine.equals(that.ine);
+                ine.equals(that.ine) &&
+                casa.equals(that.casa);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCliente, nombre, aPaterno, aMaterno, estatusVisita, ine);
+        return Objects.hash(idCliente, nombre, aPaterno, aMaterno, estatusVisita, ine, casa);
     }
 }

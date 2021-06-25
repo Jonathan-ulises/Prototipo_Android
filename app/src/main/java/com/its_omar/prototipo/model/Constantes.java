@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 public class Constantes {
 
+    public static final int REQUEST_CODE_CAMERA_INTENT = 1000;
+
     public static final String PREFERENCES_NAME = "preferences_login";
     public static final String SESION_ESTATUS = "login_ok";
     public static final String NOMBRE_USUARIO_LOGEADO = "usu_logeado";
@@ -15,6 +17,7 @@ public class Constantes {
     public static final String TAG_ERROR_LOGOUT = "login_out";
     public static final String TAG_ERROR_ARGUMENTS_FRAGMENT = "arg_fragment";
     public static final String TAG_ERROR_INTENT_EXTRAS = "intent_extras";
+    public static final String TAG_ERROR_FOTO_NULL = "foto_capturada";
     /**
      * Genera el nombre completo del cliente
      * @param cl Objeto del cliente {@link Cliente_por_visitar}
