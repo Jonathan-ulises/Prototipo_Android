@@ -30,11 +30,16 @@ import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityClientesBinding;
 import com.its_omar.prototipo.fragments.adapters.ClientesVisitaAdapter;
 import com.its_omar.prototipo.model.Bitacora;
+import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Empleado;
 import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.Usuario;
 import com.its_omar.prototipo.model.resultClienteService.ClientesJSONResult;
+import com.its_omar.prototipo.model.resultClienteService.Resultado;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +49,7 @@ public class ClientesActivity extends AppCompatActivity {
 
     private ActivityClientesBinding clientesBinding;
     private Context ctx;
+    ClientesVisitaAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +65,15 @@ public class ClientesActivity extends AppCompatActivity {
         asignarTipografia(face);
 
         //RecycleView
-        ClientesVisitaAdapter adapter = new ClientesVisitaAdapter();
+        adapter = new ClientesVisitaAdapter();
         clientesBinding.rclClienteVisita.setLayoutManager(new LinearLayoutManager(this));
+        clientesBinding.rclClienteVisita.setAdapter(adapter);
 
         consultarListaCliente(7);
+
+        adapter.setOnItemClickListener(cliente -> {
+            Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
+        });
 
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
             Intent intent = new Intent(this, VerificacionVisitaActivity.class);
@@ -138,11 +149,17 @@ public class ClientesActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ClientesJSONResult> call, Response<ClientesJSONResult> response) {
 
-                if(response.body() == null){
+                if(response.body().isOk()){
+                    if(response.body() != null){
+                        adapter.submitList(jsonResponse(response.body()));
+                    }
+                }
+
+                /*if(response.body() == null){
                     Toast.makeText(getApplication(), "" + response.code(), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplication(), response.body().getResultado().isEmpty() + "", Toast.LENGTH_LONG).show();
-                }
+                    Toast.makeText(getApplication(), response.body().getResultado().get(0).getJson().getNombre()+ "", Toast.LENGTH_LONG).show();
+                }*/
 
 
             }
@@ -154,5 +171,19 @@ public class ClientesActivity extends AppCompatActivity {
         });
     }
 
+    private List<Cliente_por_visitar> jsonResponse(ClientesJSONResult res){
+        List<Cliente_por_visitar> clList = new ArrayList<>();
 
+        for (Resultado r:res.getResultado()) {
+            Cliente_por_visitar cl = new Cliente_por_visitar();
+            cl.setIdCliente(r.getJson().getId_Cliente());
+            cl.setNombre(r.getJson().getNombre());
+            cl.setaPaterno(r.getJson().getaPaterno());
+            cl.setaMaterno(r.getJson().getaMaterno());
+            cl.setIne(r.getJson().getFotoINE());
+            clList.add(cl);
+        }
+
+        return clList;
+    }
 }

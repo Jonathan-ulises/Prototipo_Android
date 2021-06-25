@@ -8,9 +8,9 @@ import java.util.List;
 public class Resultado {
     @SerializedName("j")
     @Expose
-    private List<Json_list> json;
+    private Json_list json;
 
-    public List<Json_list> getJson() {
+    public Json_list getJson() {
         return json;
     }
 }

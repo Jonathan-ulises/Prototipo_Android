@@ -87,7 +87,7 @@ public class ClientesVisitaAdapter extends ListAdapter<Cliente_por_visitar, Clie
         protected void bind(Cliente_por_visitar cliente) {
             itemBinding.tvNombreCliente.setText(generarNombreCompleto(cliente));
 
-            itemBinding.getRoot().setOnClickListener(view -> {
+            itemBinding.cvItemCliente.setOnClickListener(view -> {
                 onItemClickListener.onItemClickListener(cliente);
             });
 

@@ -9,13 +9,18 @@ public class Cliente_por_visitar {
     private String aPaterno;
     private String aMaterno;
     private int estatusVisita;
+    private String ine;
 
-    public Cliente_por_visitar(int idCliente, String nombre, String aPaterno, String aMaterno, int estatusVisita) {
+    public Cliente_por_visitar() {
+    }
+
+    public Cliente_por_visitar(int idCliente, String nombre, String aPaterno, String aMaterno, int estatusVisita, String ine) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.aPaterno = aPaterno;
         this.aMaterno = aMaterno;
         this.estatusVisita = estatusVisita;
+        this.ine = ine;
     }
 
     public int getIdCliente() {
@@ -38,6 +43,34 @@ public class Cliente_por_visitar {
         return estatusVisita;
     }
 
+    public String getIne() {
+        return ine;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setaPaterno(String aPaterno) {
+        this.aPaterno = aPaterno;
+    }
+
+    public void setaMaterno(String aMaterno) {
+        this.aMaterno = aMaterno;
+    }
+
+    public void setEstatusVisita(int estatusVisita) {
+        this.estatusVisita = estatusVisita;
+    }
+
+    public void setIne(String ine) {
+        this.ine = ine;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,11 +80,12 @@ public class Cliente_por_visitar {
                 estatusVisita == that.estatusVisita &&
                 nombre.equals(that.nombre) &&
                 aPaterno.equals(that.aPaterno) &&
-                aMaterno.equals(that.aMaterno);
+                aMaterno.equals(that.aMaterno) &&
+                ine.equals(that.ine);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCliente, nombre, aPaterno, aMaterno, estatusVisita);
+        return Objects.hash(idCliente, nombre, aPaterno, aMaterno, estatusVisita, ine);
     }
 }

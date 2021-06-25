@@ -7,11 +7,17 @@ import java.util.List;
 
 public class ClientesJSONResult {
 
+    private boolean ok;
+
     @SerializedName("resultado")
     @Expose
     private List<Resultado> resultado;
 
     public List<Resultado> getResultado() {
         return resultado;
+    }
+
+    public boolean isOk() {
+        return ok;
     }
 }
