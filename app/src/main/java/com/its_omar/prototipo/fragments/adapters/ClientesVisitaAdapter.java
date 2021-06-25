@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.its_omar.prototipo.databinding.ItemClienteListBinding;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
+import com.its_omar.prototipo.model.Constantes;
 
 public class ClientesVisitaAdapter extends ListAdapter<Cliente_por_visitar, ClientesVisitaAdapter.ClientesViewHolder> {
 
@@ -85,7 +86,7 @@ public class ClientesVisitaAdapter extends ListAdapter<Cliente_por_visitar, Clie
          * @param cliente Cliente por visitar {@link Cliente_por_visitar}
          */
         protected void bind(Cliente_por_visitar cliente) {
-            itemBinding.tvNombreCliente.setText(generarNombreCompleto(cliente));
+            itemBinding.tvNombreCliente.setText(Constantes.generarNombreCompleto(cliente));
 
             itemBinding.cvItemCliente.setOnClickListener(view -> {
                 onItemClickListener.onItemClickListener(cliente);
@@ -95,13 +96,6 @@ public class ClientesVisitaAdapter extends ListAdapter<Cliente_por_visitar, Clie
             itemBinding.executePendingBindings();
         }
 
-        /**
-         * Genera el nombre completo del cliente
-         * @param cl Objeto del cliente {@link Cliente_por_visitar}
-         * @return Nombre completo {@link String}
-         */
-        private String generarNombreCompleto(@NonNull Cliente_por_visitar cl){
-            return cl.getNombre() + " " + cl.getaPaterno() + " " + cl.getaMaterno();
-        }
+
     }
 }

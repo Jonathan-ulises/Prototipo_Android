@@ -81,7 +81,11 @@ public class ClientesActivity extends AppCompatActivity {
 
         //Evento click del item de la lista
         adapter.setOnItemClickListener(cliente -> {
-            Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, VerificacionVisitaActivity.class);
+            String nombre = Constantes.generarNombreCompleto(cliente);
+            intent.putExtra(Constantes.NOMBRE_CLIENTE_EXTRA_KEY, nombre);
+            startActivity(intent);
         });
 
 
@@ -91,10 +95,7 @@ public class ClientesActivity extends AppCompatActivity {
         });
 
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
-            Intent intent = new Intent(this, VerificacionVisitaActivity.class);
-
-            startActivity(intent);
-
+            //MAPA
         });
     }
 
