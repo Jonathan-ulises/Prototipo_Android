@@ -3,7 +3,6 @@ package com.its_omar.prototipo.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,17 +10,16 @@ import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
 import com.its_omar.prototipo.databinding.FragmentVerificacionDatosBinding;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
@@ -94,6 +92,14 @@ public class VerificacionDatosFragment extends Fragment {
         });
 
 
+        datosBinding.btnCapFirma.setOnClickListener(view -> {
+            /*FirmaUsuFragment fragment = new FirmaUsuFragment();
+            getFragmentManager().beginTransaction().remove(this).commit();
+            getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();*/
+            Intent intent = new Intent(getContext(), FirmaActivity.class);
+            startActivity(intent);
+        });
+
 
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
             if (datosBinding.rbSVAbandonada.isChecked()){
@@ -156,7 +162,7 @@ public class VerificacionDatosFragment extends Fragment {
      */
     private String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }

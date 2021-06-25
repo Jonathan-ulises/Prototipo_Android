@@ -2,6 +2,7 @@ package com.its_omar.prototipo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import com.its_omar.prototipo.fragments.VerificarEstatusFragment;
@@ -14,6 +15,9 @@ public class VerificacionVisitaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verificacion_visita);
+
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Bundle extras = getIntent().getExtras();
         String nom = extras.getString(Constantes.NOMBRE_CLIENTE_EXTRA_KEY);

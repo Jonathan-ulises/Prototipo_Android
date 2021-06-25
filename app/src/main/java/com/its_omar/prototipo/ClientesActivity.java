@@ -9,6 +9,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -60,6 +61,9 @@ public class ClientesActivity extends AppCompatActivity {
         clientesBinding = ActivityClientesBinding.inflate(getLayoutInflater());
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/AvenirNextLTPro-Regular.otf");
         setContentView(clientesBinding.getRoot());
+
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.ctx = this;
 
