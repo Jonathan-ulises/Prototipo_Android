@@ -91,6 +91,7 @@ public class ClientesVisitaAdapter extends ListAdapter<Cliente_por_visitar, Clie
                 onItemClickListener.onItemClickListener(cliente);
             });
 
+            //Permite que renderice correctamente cada item de la lista
             itemBinding.executePendingBindings();
         }
 

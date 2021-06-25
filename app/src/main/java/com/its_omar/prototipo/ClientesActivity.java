@@ -98,15 +98,10 @@ public class ClientesActivity extends AppCompatActivity {
         });
     }
 
-    private void asignarTipografia(Typeface face){
-        clientesBinding.tvTituloLista.setTypeface(face);
-        clientesBinding.btnCargarMaoa.setTypeface(face);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -115,8 +110,6 @@ public class ClientesActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_logout:
-
-                //Toast.makeText(this, usu.getNombreUsuario() + " : " + usu.getId_empleado(), Toast.LENGTH_LONG).show();
 
                 if (usu != null) {
                     WebService api = ServiceRetrofit.getInstance().getSevices();
@@ -131,17 +124,13 @@ public class ClientesActivity extends AppCompatActivity {
                                 Snackbar.make(clientesBinding.getRoot(), "Ha sucedido un error", Snackbar.LENGTH_SHORT)
                                         .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
                             }
-
                         }
-
                         @Override
                         public void onFailure(Call<Result> call, Throwable t) {
                             Log.e(Constantes.TAG_ERROR_LOGOUT, "ERROR -> ", t);
                         }
                     });
                 }
-
-
                 //Logout
                 break;
             case R.id.action_about:
@@ -182,6 +171,11 @@ public class ClientesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Procesa la respuesta del servidor, esto para respuesta de consulta de clientes por visitar
+     * @param res respuesta del servicio {@link ClientesJSONResult}
+     * @return Lista de clientes por visitar {@link List<Cliente_por_visitar>}
+     */
     private List<Cliente_por_visitar> jsonResponse(ClientesJSONResult res){
         List<Cliente_por_visitar> clList = new ArrayList<>();
 
