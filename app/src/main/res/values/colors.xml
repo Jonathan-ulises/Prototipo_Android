@@ -49,4 +49,8 @@
     <color name="on_surface_color_night">#ffffff</color>
     <color name="on_error_color_night">#FFFFFF</color>
 
+    <color name="item_list_cliente_background_color">#E99B04</color>
+    <color name="item_list_cliente_ripple_color">#E99B04</color>
+
+
 </resources>
