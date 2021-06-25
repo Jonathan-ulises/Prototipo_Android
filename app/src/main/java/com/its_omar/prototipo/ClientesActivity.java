@@ -3,6 +3,7 @@ package com.its_omar.prototipo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Application;
 import android.content.Context;
@@ -50,6 +51,8 @@ public class ClientesActivity extends AppCompatActivity {
     private ActivityClientesBinding clientesBinding;
     private Context ctx;
     ClientesVisitaAdapter adapter;
+    SharedPreferencesApp sharedPreferencesApp;
+    Usuario usu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +65,29 @@ public class ClientesActivity extends AppCompatActivity {
 
         setSupportActionBar(clientesBinding.toolbar);
 
-        asignarTipografia(face);
+        //asignarTipografia(face);
 
-        //RecycleView
+        //SharePreferences -> idEmpleado Logeado
+        sharedPreferencesApp = SharedPreferencesApp.getInstance(this);
+        usu = sharedPreferencesApp.getUsuarioLogeado();
+
+        //RecycleView -> configuracion
         adapter = new ClientesVisitaAdapter();
         clientesBinding.rclClienteVisita.setLayoutManager(new LinearLayoutManager(this));
         clientesBinding.rclClienteVisita.setAdapter(adapter);
 
-        consultarListaCliente(7);
+        //ConsultaServidor
+        consultarListaCliente(usu.getId_empleado());
 
+        //Evento click del item de la lista
         adapter.setOnItemClickListener(cliente -> {
             Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
+        });
+
+
+        clientesBinding.swipeRfshList.setOnRefreshListener(() -> {
+            consultarListaCliente(usu.getId_empleado());
+            Toast.makeText(this, "Refrescado", Toast.LENGTH_SHORT).show();
         });
 
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
@@ -97,13 +112,11 @@ public class ClientesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        SharedPreferencesApp sharedPreferencesApp = SharedPreferencesApp.getInstance(this);
-        Usuario usu;
+
         switch (item.getItemId()) {
             case R.id.action_logout:
-                usu = sharedPreferencesApp.getUsuarioLogeado();
 
-                Toast.makeText(this, usu.getNombreUsuario() + " : " + usu.getId_empleado(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, usu.getNombreUsuario() + " : " + usu.getId_empleado(), Toast.LENGTH_LONG).show();
 
                 if (usu != null) {
                     WebService api = ServiceRetrofit.getInstance().getSevices();
@@ -139,12 +152,13 @@ public class ClientesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Consume el servicio para obtener la lista de clientes
+     * @param idEmpleado id del empleado Logeado
+     */
     private void consultarListaCliente(int idEmpleado){
 
         WebService api = ServiceRetrofit.getInstance().getSevices();
-
-
-
         api.getClientesEmplado(new Empleado(idEmpleado)).enqueue(new Callback<ClientesJSONResult>() {
             @Override
             public void onResponse(Call<ClientesJSONResult> call, Response<ClientesJSONResult> response) {
@@ -152,21 +166,18 @@ public class ClientesActivity extends AppCompatActivity {
                 if(response.body().isOk()){
                     if(response.body() != null){
                         adapter.submitList(jsonResponse(response.body()));
+                        adapter.notifyDataSetChanged();
+                        clientesBinding.swipeRfshList.setRefreshing(false);
                     }
                 }
-
-                /*if(response.body() == null){
-                    Toast.makeText(getApplication(), "" + response.code(), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplication(), response.body().getResultado().get(0).getJson().getNombre()+ "", Toast.LENGTH_LONG).show();
-                }*/
-
 
             }
 
             @Override
             public void onFailure(Call<ClientesJSONResult> call, Throwable t) {
-
+                Snackbar.make(clientesBinding.getRoot(), "Ha sucedido un error", Snackbar.LENGTH_SHORT)
+                        .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+                t.printStackTrace();
             }
         });
     }
