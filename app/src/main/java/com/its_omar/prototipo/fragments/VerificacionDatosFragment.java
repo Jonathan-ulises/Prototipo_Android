@@ -25,6 +25,7 @@ import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -38,6 +39,8 @@ public class VerificacionDatosFragment extends Fragment {
     private Bitmap fotoCasa;
     private Cliente_por_visitar cl;
     private SharedPreferences.Editor editor;
+    private Map<String, Integer> datosVerificados;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,6 +88,7 @@ public class VerificacionDatosFragment extends Fragment {
         datosBinding = FragmentVerificacionDatosBinding.inflate(inflater, container, false);
 
         cl = new Cliente_por_visitar();
+
         initEditorVerificacion();
 
         datosBinding.rbSVEncontrado.setChecked(true);
@@ -108,17 +112,16 @@ public class VerificacionDatosFragment extends Fragment {
 
 
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
-            SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
 
+
+
+            /*SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
             Cliente_por_visitar c = sp.getDatosClieteEnVerificacion();
-
             if(c == null){
-
                 Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
             } else {
                 Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Todo bien");
-
-            }
+            }*/
         });
 
         datosBinding.btnCapCasa.setOnClickListener(view -> abrirCamera());
@@ -182,6 +185,14 @@ public class VerificacionDatosFragment extends Fragment {
     private void initEditorVerificacion(){
         SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getActivity());
         editor = sp.getEditorForDatosVerificacion();
+    }
+
+    private void validarCampos(){
+        SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
+        //Cliente_por_visitar c = sp.getDatosClieteEnVerificacion();
+        datosVerificados = sp.getFlagValidacion();
+
+        
     }
 
 }
