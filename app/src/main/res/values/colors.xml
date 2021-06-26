@@ -40,8 +40,8 @@
     <color name="primary_color_night">#e0e0e0</color>
     <color name="primary_variant_color_night">#aeaeae</color>
 
-    <color name="background_color_night">#000000</color>
-    <color name="surface_color_night">#000000</color>
+    <color name="background_color_night">#393e50</color>
+    <color name="surface_color_night">#1c2031</color>
     <color name="error_color_night">#bb2005</color>
 
     <color name="on_background_color_night">#ffffff</color>

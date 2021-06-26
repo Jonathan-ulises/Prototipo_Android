@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/item_corner"
-        tools:background="@color/primary_variant_color"
         android:padding="@dimen/margin_component_1">
 
         <com.google.android.material.card.MaterialCardView
@@ -20,8 +19,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="14dp"
             app:strokeWidth="@dimen/stroke_cardView"
-            tools:strokeColor="@color/error_color"
-            app:strokeColor="@color/item_list_cliente_background_color"
+            app:strokeColor="?attr/colorPrimary"
             app:rippleColor="@color/item_list_cliente_ripple_color"
             android:clickable="true"
             android:focusable="true"
@@ -30,18 +28,19 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/item_list_cliente_background_color"
                 android:padding="@dimen/padding_component_1">
 
                 <ImageView
                     android:id="@+id/ic_location"
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
+                    android:layout_width="@dimen/icon_status_size"
+                    android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/margin_component_1"
-                    android:src="@drawable/ic_marker_list_black"
-                    app:tint="@android:color/white"/>
+                    android:src="@drawable/ic_circle_status"
+                    app:tint="@color/es_no_encontrado_color"
+                    android:elevation="28dp"/>
+
 
                 <TextView
                     android:id="@+id/tvNombre_Cliente"
@@ -49,7 +48,6 @@
                     android:layout_height="wrap_content"
                     tools:text="Nombre_Cliente"
                     android:fontFamily="@font/avenir_next_lt_pro_regular"
-                    android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:layout_toEndOf="@+id/ic_location"
                     android:layout_toStartOf="@+id/ic_calendar"/>
@@ -61,8 +59,7 @@
                     android:src="@drawable/ic_calendar"
                     android:layout_marginStart="@dimen/margin_component_1"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    app:tint="@android:color/white"/>
+                    android:layout_centerVertical="true"/>
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
