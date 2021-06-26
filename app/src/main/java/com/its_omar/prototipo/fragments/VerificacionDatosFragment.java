@@ -123,7 +123,11 @@ public class VerificacionDatosFragment extends Fragment {
 
         datosBinding.btnCapCasa.setOnClickListener(view -> abrirCamera());
 
-
+        datosBinding.btnObtenerUbicacion.setOnClickListener(view -> {
+            editor.putString("longitud_cl", "21.1443782");
+            editor.putString("latitud_cl", "-101.6918049");
+            editor.apply();
+        });
 
         // Inflate the layout for this fragment
         return datosBinding.getRoot();

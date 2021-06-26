@@ -34,6 +34,19 @@ public class Constantes {
     public static final String TAG_ERROR_INTENT_EXTRAS = "intent_extras";
     public static final String TAG_ERROR_FOTO_NULL = "foto_capturada";
     public static final String TAG_INFO_DATOS_VERIFICACION = "faltan_datos";
+
+
+    //FLAGS para verificar los datos enviados.
+    public static final String FLAG_FOTO_CASA = "foto_completo";
+    public static final String FLAG_FIRMA_CLIENTE = "firma_completo";
+    public static final String FLAG_LONG_CLIENTE = "uLongitud_completo";
+    public static final String FLAG_LAT_CLIENTE = "uLongitud_completo";
+    public static final int DATO_COMPLETO = 1;
+    public static final int DATO_IMCOMPLETO = 0;
+
+
+
+
     /**
      * Genera el nombre completo del cliente
      * @param cl Objeto del cliente {@link Cliente_por_visitar}
