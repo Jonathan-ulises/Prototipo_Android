@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,10 +16,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
+import com.its_omar.prototipo.controller.CapturarUbicacion;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.FragmentVerificacionDatosBinding;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
@@ -38,6 +42,11 @@ public class VerificacionDatosFragment extends Fragment {
     private Bitmap fotoCasa;
     private Cliente_por_visitar cl;
     private SharedPreferences.Editor editor;
+    private CapturarUbicacion capturarUbicacion;
+    private double cordLong;
+    private double cordLat;
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,7 +96,10 @@ public class VerificacionDatosFragment extends Fragment {
         cl = new Cliente_por_visitar();
         initEditorVerificacion();
 
+        capturarUbicacion = new CapturarUbicacion(requireActivity().getApplication());
+
         datosBinding.rbSVEncontrado.setChecked(true);
+
 
         datosBinding.rgEstatus.setOnCheckedChangeListener((group, checkedId) -> {
             if (datosBinding.rbSVAbandonada.isChecked()){
@@ -98,6 +110,7 @@ public class VerificacionDatosFragment extends Fragment {
         });
 
 
+        //evento boton capturar la firma
         datosBinding.btnCapFirma.setOnClickListener(view -> {
             /*FirmaUsuFragment fragment = new FirmaUsuFragment();
             getFragmentManager().beginTransaction().remove(this).commit();
@@ -107,6 +120,7 @@ public class VerificacionDatosFragment extends Fragment {
         });
 
 
+        //evento boton capturar datos
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
             SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
 
@@ -121,9 +135,35 @@ public class VerificacionDatosFragment extends Fragment {
             }
         });
 
+        //evento boton capturar la fotografia
         datosBinding.btnCapCasa.setOnClickListener(view -> abrirCamera());
 
 
+        datosBinding.btnObtenerUbicacion.setOnClickListener(view -> {
+            this.capturarUbicacion.startLocation(new CapturarUbicacion.CapturarUbicacionListener() {
+                @Override
+                public void onLocationUpdate(Location location, int provStatus) {
+                    String longitud = String.valueOf(location.getLongitude());
+                    String latitud = String.valueOf(location.getLatitude());
+
+                    Log.i(Constantes.TAG_CAPTURAR_UBICACION, "Paso1");
+
+                    if (longitud.isEmpty() || latitud.isEmpty()){
+                        new MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
+                                .setIcon(R.drawable.ic_error)
+                                .setTitle("Error")
+                                .setMessage("No se capturo la ubicacion correctamente")
+                                .setPositiveButton(R.string.alert_dialog_confirm_login, null)
+                                .show();
+                    } else {
+                        Toast.makeText(getContext(), "lom: " + longitud + " -- " + "lat: " + latitud, Toast.LENGTH_LONG).show();
+                        editor.putString(Constantes.LONGITUD_UBI_CLIENTE, longitud);
+                        editor.putString(Constantes.LATITUDE_UBI_CLIENTE, latitud);
+                    }
+
+                }
+            });
+        });
 
         // Inflate the layout for this fragment
         return datosBinding.getRoot();

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 public class CapturarUbicacion implements LocationListener {
 
 
@@ -26,6 +28,10 @@ public class CapturarUbicacion implements LocationListener {
 
     public interface CapturarUbicacionListener {
         void onLocationUpdate(Location location, int provStatus);
+    }
+
+    public CapturarUbicacion(Context ctx) {
+        this.ctx = ctx;
     }
 
     @Override
@@ -72,6 +78,9 @@ public class CapturarUbicacion implements LocationListener {
                 ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             return;
         }
+
+        this.capturarUbicacionListener = locationCallback;
+        locationManager = (LocationManager) ctx.getSystemService(LOCATION_SERVICE);
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && ctx.getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_INTERVAL_IN_MS, 1, this);

@@ -27,6 +27,7 @@ public class Constantes {
     public static final String ESTATUS_VERIFICACION = "verificacion_credito";
 
 
+
     //TAGS para Log
     public static final String TAG_BITACORA_LOG = "reg_bita";
     public static final String TAG_ERROR_LOGOUT = "login_out";
@@ -34,6 +35,7 @@ public class Constantes {
     public static final String TAG_ERROR_INTENT_EXTRAS = "intent_extras";
     public static final String TAG_ERROR_FOTO_NULL = "foto_capturada";
     public static final String TAG_INFO_DATOS_VERIFICACION = "faltan_datos";
+    public static final String TAG_CAPTURAR_UBICACION = "evento_cap";
     /**
      * Genera el nombre completo del cliente
      * @param cl Objeto del cliente {@link Cliente_por_visitar}
