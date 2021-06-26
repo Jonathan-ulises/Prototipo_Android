@@ -140,7 +140,7 @@ public class VerificacionDatosFragment extends Fragment {
 
                 fotoCasa = data.getExtras().getParcelable("data");
 
-                String b64 = bitmapToBase64(fotoCasa);
+                String b64 = Constantes.bitmapToBase64(fotoCasa);
 
                 cl.setCasa(b64);
 
@@ -155,15 +155,5 @@ public class VerificacionDatosFragment extends Fragment {
     }
 
 
-    /**
-     * Convierte Bitmap a formato Base64
-     * @param bitmap Foto formato Bitmap {@link Bitmap}
-     * @return Base64 {@link String}
-     */
-    private String bitmapToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream .toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
+
 }

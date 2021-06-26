@@ -1,12 +1,19 @@
 package com.its_omar.prototipo.model;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
+
 import androidx.annotation.NonNull;
+
+import java.io.ByteArrayOutputStream;
 
 public class Constantes {
 
     public static final int REQUEST_CODE_CAMERA_INTENT = 1000;
 
-    public static final String PREFERENCES_NAME = "preferences_login";
+    public static final String PREFERENCES_LOGIN = "preferences_login";
+    public static final String PREFERENCES_USUARIO_DATOS_VERIFICACION = "datos_verificacion";
+
     public static final String SESION_ESTATUS = "login_ok";
     public static final String NOMBRE_USUARIO_LOGEADO = "usu_logeado";
     public static final String ID_EMPLEADO_LOGEADO = "id_empleado_logeado";
@@ -25,5 +32,17 @@ public class Constantes {
      */
     public static String generarNombreCompleto(@NonNull Cliente_por_visitar cl){
         return cl.getNombre() + " " + cl.getaPaterno() + " " + cl.getaMaterno();
+    }
+
+    /**
+     * Convierte Bitmap a formato Base64
+     * @param bitmap Foto formato Bitmap {@link Bitmap}
+     * @return Base64 {@link String}
+     */
+    public static String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

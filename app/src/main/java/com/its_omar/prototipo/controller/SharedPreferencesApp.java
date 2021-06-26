@@ -3,6 +3,8 @@ package com.its_omar.prototipo.controller;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.Nullable;
+
 import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Usuario;
 
@@ -10,8 +12,13 @@ public class SharedPreferencesApp {
 
     private static SharedPreferencesApp instance;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesVerificacion;
     private SharedPreferencesApp(Context ctx){
-        sharedPreferences = ctx.getSharedPreferences(Constantes.PREFERENCES_NAME, Context.MODE_PRIVATE);
+        //referencias del login
+        sharedPreferences = ctx.getSharedPreferences(Constantes.PREFERENCES_LOGIN, Context.MODE_PRIVATE);
+
+        //Referencias de los datos verificados
+        sharedPreferencesVerificacion = ctx.getSharedPreferences(Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION, Context.MODE_PRIVATE);
     }
 
     public static SharedPreferencesApp getInstance(Context context){
@@ -34,6 +41,14 @@ public class SharedPreferencesApp {
         editor.apply();
     }
 
+    /**
+     * Obtiene el Editor del SharePreferences para la escribir datos de la verificacion de los datos
+     * del cliente
+     * @return Editor {@link SharedPreferences.Editor}
+     */
+    public SharedPreferences.Editor getEditorForDatosVerificacion(){
+        return sharedPreferencesVerificacion.edit();
+    }
 
     /**
      * Obtiene el estatus del logeo del usuario
@@ -57,7 +72,7 @@ public class SharedPreferencesApp {
 
     public void borrarPreferences(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(Constantes.PREFERENCES_NAME);
+        editor.remove(Constantes.PREFERENCES_LOGIN);
         editor.clear();
         editor.apply();
     }

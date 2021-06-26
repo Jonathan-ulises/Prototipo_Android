@@ -38,4 +38,6 @@
     <string name="alert_logout_message">Cerrado de ssion exitoso</string>
     <string name="alert_logout_negative_logout">CERRAR</string>
     <string name="label_verificacionVisitaActivity">Verificacion</string>
+    <string name="btn_aceptar_firma">Aceptar</string>
+    <string name="btn_reiniciar_firma">Reiniciar</string>
 </resources>
