@@ -138,7 +138,7 @@ public class SharedPreferencesApp {
         } else {
             datosAgregados.put(Constantes.FLAG_LAT_CLIENTE, Constantes.DATO_IMCOMPLETO);
         }
-        
+
         return datosAgregados;
     }
 
