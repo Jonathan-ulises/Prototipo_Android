@@ -94,8 +94,12 @@ public class ClientesActivity extends AppCompatActivity {
 
 
         clientesBinding.swipeRfshList.setOnRefreshListener(() -> {
-            consultarListaCliente(usu.getId_empleado());
-            Toast.makeText(this, "Refrescado", Toast.LENGTH_SHORT).show();
+            try {
+                consultarListaCliente(usu.getId_empleado());
+                Toast.makeText(this, "Refrescado", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("ERRORCL", "error de consulta", e);
+            }
         });
 
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
@@ -191,6 +195,11 @@ public class ClientesActivity extends AppCompatActivity {
             cl.setaPaterno(r.getJson().getaPaterno());
             cl.setaMaterno(r.getJson().getaMaterno());
             cl.setIne(r.getJson().getFotoINE());
+
+            /*Como no recibe estos datos del servidor, se pone "sin .."
+            para que no de errores el DIFF CALL*/
+            cl.setCasa("sin casa");
+            cl.setFirma("sin firma");
             clList.add(cl);
         }
 
