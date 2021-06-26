@@ -2,6 +2,7 @@ package com.its_omar.prototipo.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,13 @@ import android.view.ViewGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
+import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.FragmentVerificacionDatosBinding;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +37,7 @@ public class VerificacionDatosFragment extends Fragment {
     private FragmentVerificacionDatosBinding datosBinding;
     private Bitmap fotoCasa;
     private Cliente_por_visitar cl;
+    private SharedPreferences.Editor editor;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,6 +85,7 @@ public class VerificacionDatosFragment extends Fragment {
         datosBinding = FragmentVerificacionDatosBinding.inflate(inflater, container, false);
 
         cl = new Cliente_por_visitar();
+        initEditorVerificacion();
 
         datosBinding.rbSVEncontrado.setChecked(true);
 
@@ -102,14 +108,21 @@ public class VerificacionDatosFragment extends Fragment {
 
 
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
-            if (datosBinding.rbSVAbandonada.isChecked()){
-                RazonFragment fragment = new RazonFragment();
-                getFragmentManager().beginTransaction().remove(this).commit();
-                getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
+            SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
+
+            Cliente_por_visitar c = sp.getDatosClieteEnVerificacion();
+
+            if(c == null){
+
+                Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
+            } else {
+                Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Todo bien");
+
             }
         });
 
         datosBinding.btnCapCasa.setOnClickListener(view -> abrirCamera());
+
 
 
         // Inflate the layout for this fragment
@@ -144,6 +157,11 @@ public class VerificacionDatosFragment extends Fragment {
 
                 cl.setCasa(b64);
 
+                if(editor != null){
+                    editor.putString(Constantes.FOTO_CASA_KEY, b64);
+                    editor.apply();
+                }
+
                 Snackbar.make(datosBinding.getRoot(), "Foto capturada", Snackbar.LENGTH_SHORT)
                         .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).setAction("REINTENTAR", view -> abrirCamera()) .show();
 
@@ -154,6 +172,12 @@ public class VerificacionDatosFragment extends Fragment {
         }
     }
 
-
+    /**
+     * Inicializa el Editor del SharedPreferences para escribir datos
+     */
+    private void initEditorVerificacion(){
+        SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getActivity());
+        editor = sp.getEditorForDatosVerificacion();
+    }
 
 }

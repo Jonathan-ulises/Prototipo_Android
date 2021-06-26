@@ -11,13 +11,21 @@ public class Constantes {
 
     public static final int REQUEST_CODE_CAMERA_INTENT = 1000;
 
+    //Preferences name
     public static final String PREFERENCES_LOGIN = "preferences_login";
     public static final String PREFERENCES_USUARIO_DATOS_VERIFICACION = "datos_verificacion";
 
+    //Keys editor
     public static final String SESION_ESTATUS = "login_ok";
     public static final String NOMBRE_USUARIO_LOGEADO = "usu_logeado";
     public static final String ID_EMPLEADO_LOGEADO = "id_empleado_logeado";
     public static final String NOMBRE_CLIENTE_EXTRA_KEY = "cliente_por_visitar";
+    public static final String FOTO_CASA_KEY = "fotografia_casa";
+    public static final String FIRMA_CLIENTE_KEY = "firma_cliente";
+    public static final String LONGITUD_UBI_CLIENTE = "long_cliente";
+    public static final String LATITUDE_UBI_CLIENTE = "lat_cliente";
+    public static final String ESTATUS_VERIFICACION = "verificacion_credito";
+
 
     //TAGS para Log
     public static final String TAG_BITACORA_LOG = "reg_bita";
@@ -25,6 +33,7 @@ public class Constantes {
     public static final String TAG_ERROR_ARGUMENTS_FRAGMENT = "arg_fragment";
     public static final String TAG_ERROR_INTENT_EXTRAS = "intent_extras";
     public static final String TAG_ERROR_FOTO_NULL = "foto_capturada";
+    public static final String TAG_INFO_DATOS_VERIFICACION = "faltan_datos";
     /**
      * Genera el nombre completo del cliente
      * @param cl Objeto del cliente {@link Cliente_por_visitar}

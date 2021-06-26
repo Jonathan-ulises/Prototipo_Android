@@ -2,9 +2,11 @@ package com.its_omar.prototipo.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Usuario;
 
@@ -13,6 +15,8 @@ public class SharedPreferencesApp {
     private static SharedPreferencesApp instance;
     private SharedPreferences sharedPreferences;
     private SharedPreferences sharedPreferencesVerificacion;
+    private Cliente_por_visitar cl;
+
     private SharedPreferencesApp(Context ctx){
         //referencias del login
         sharedPreferences = ctx.getSharedPreferences(Constantes.PREFERENCES_LOGIN, Context.MODE_PRIVATE);
@@ -69,6 +73,28 @@ public class SharedPreferencesApp {
 
         return u;
     }
+
+    /**
+     * Obtiene un cliente con los datos que han sido llenados.
+     * @return Cliente de la visita {@link Cliente_por_visitar}
+     */
+    public Cliente_por_visitar getDatosClieteEnVerificacion(){
+        cl = new Cliente_por_visitar();
+        cl.setCasa(sharedPreferencesVerificacion.getString(Constantes.FOTO_CASA_KEY, "not"));
+        cl.setFirma(sharedPreferencesVerificacion.getString(Constantes.FIRMA_CLIENTE_KEY, "not"));
+
+        if(cl.getCasa().equals("not") || cl.getCasa().isEmpty()){
+            cl = null;
+            Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "casa_nullo");
+        } else if(cl.getFirma().equals("not") || cl.getFirma().isEmpty()){
+            cl = null;
+            Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "firma_nullo");
+        }
+
+        return cl;
+    }
+
+
 
     public void borrarPreferences(){
         SharedPreferences.Editor editor = sharedPreferences.edit();

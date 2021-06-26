@@ -11,11 +11,13 @@ public class Cliente_por_visitar {
     private int estatusVisita;
     private String ine;
     private String casa;
+    private String firma;
 
     public Cliente_por_visitar() {
     }
 
-    public Cliente_por_visitar(int idCliente, String nombre, String aPaterno, String aMaterno, int estatusVisita, String ine, String casa) {
+    public Cliente_por_visitar(int idCliente, String nombre, String aPaterno, String aMaterno,
+                               int estatusVisita, String ine, String casa, String firma) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.aPaterno = aPaterno;
@@ -23,6 +25,7 @@ public class Cliente_por_visitar {
         this.estatusVisita = estatusVisita;
         this.ine = ine;
         this.casa = casa;
+        this.firma = firma;
     }
 
     public int getIdCliente() {
@@ -53,6 +56,10 @@ public class Cliente_por_visitar {
         return casa;
     }
 
+    public String getFirma() {
+        return firma;
+    }
+
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
@@ -81,6 +88,10 @@ public class Cliente_por_visitar {
         this.casa = casa;
     }
 
+    public void setFirma(String firma) {
+        this.firma = firma;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,7 +103,8 @@ public class Cliente_por_visitar {
                 aPaterno.equals(that.aPaterno) &&
                 aMaterno.equals(that.aMaterno) &&
                 ine.equals(that.ine) &&
-                casa.equals(that.casa);
+                casa.equals(that.casa) &&
+                firma.equals(that.firma);
     }
 
     @Override
