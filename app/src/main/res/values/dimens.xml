@@ -17,4 +17,5 @@
     <dimen name="subtitle_2">20sp</dimen>
     <dimen name="padding_component_1">8dp</dimen>
     <dimen name="icon_status_size">20dp</dimen>
+    <dimen name="text_tooltip_error">10sp</dimen>
 </resources>

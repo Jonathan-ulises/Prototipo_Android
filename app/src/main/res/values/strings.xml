@@ -40,4 +40,5 @@
     <string name="label_verificacionVisitaActivity">Verificacion</string>
     <string name="btn_aceptar_firma">Aceptar</string>
     <string name="btn_reiniciar_firma">Reiniciar</string>
+    <string name="tooltip_error_form">Falta por realizar esta accion</string>
 </resources>
