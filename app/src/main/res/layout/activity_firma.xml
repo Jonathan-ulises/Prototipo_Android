@@ -13,7 +13,8 @@
         tools:context=".FirmaActivity">
 
 
-        <com.kyanogen.signatureview.SignatureView xmlns:sign="http://schemas.android.com/apk/res-auto"
+        <com.kyanogen.signatureview.SignatureView
+            xmlns:sign="http://schemas.android.com/apk/res-auto"
             android:id="@+id/signature_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
