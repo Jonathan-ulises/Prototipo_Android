@@ -3,23 +3,18 @@ package com.its_omar.prototipo.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
-import android.util.Base64;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.SoundEffectConstants;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
@@ -28,10 +23,19 @@ import com.its_omar.prototipo.databinding.FragmentVerificacionDatosBinding;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
 
-import java.io.ByteArrayOutputStream;
-import java.sql.SQLOutput;
 import java.util.Map;
-import java.util.Objects;
+
+import static com.its_omar.prototipo.model.Constantes.DATO_IMCOMPLETO;
+import static com.its_omar.prototipo.model.Constantes.ESTATUS_VERIFICACION;
+import static com.its_omar.prototipo.model.Constantes.FLAG_FIRMA_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.FLAG_FOTO_CASA;
+import static com.its_omar.prototipo.model.Constantes.FLAG_LAT_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.FLAG_LONG_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.FLAG_VALIDACION;
+import static com.its_omar.prototipo.model.Constantes.FOTO_CASA_KEY;
+import static com.its_omar.prototipo.model.Constantes.LATITUDE_UBI_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.LONGITUD_UBI_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.TAG_INFO_DATOS_VERIFICACION;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -121,18 +125,31 @@ public class VerificacionDatosFragment extends Fragment {
             boolean res = validarCampos();
 
             if(res){
-                Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Todo bien");
+                Log.i(TAG_INFO_DATOS_VERIFICACION, "Todo bien");
             } else {
-                Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
+                Log.i(TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
             }
         });
 
         datosBinding.btnCapCasa.setOnClickListener(view -> abrirCamera());
 
         datosBinding.btnObtenerUbicacion.setOnClickListener(view -> {
-            editor.putString("longitud_cl", "21.1443782");
-            editor.putString("latitud_cl", "-101.6918049");
+            editor.putString(LONGITUD_UBI_CLIENTE, "21.1443782");
+            editor.putString(LATITUDE_UBI_CLIENTE, "-101.6918049");
             editor.apply();
+        });
+
+        datosBinding.rgValidacion.setOnCheckedChangeListener((radioGroup, i) -> {
+            if (datosBinding.rbValidado.isChecked()){
+                editor.putInt(ESTATUS_VERIFICACION, 1);
+                editor.apply();
+            }else if (datosBinding.rbNoValidado.isChecked()) {
+                editor.putInt(ESTATUS_VERIFICACION, 0);
+                editor.apply();
+            } else {
+                editor.putInt(ESTATUS_VERIFICACION, 2);
+                editor.apply();
+            }
         });
 
         // Inflate the layout for this fragment
@@ -168,7 +185,7 @@ public class VerificacionDatosFragment extends Fragment {
                 cl.setCasa(b64);
 
                 if(editor != null){
-                    editor.putString(Constantes.FOTO_CASA_KEY, b64);
+                    editor.putString(FOTO_CASA_KEY, b64);
                     editor.apply();
                 }
 
@@ -198,10 +215,10 @@ public class VerificacionDatosFragment extends Fragment {
 
         int flagDatos = 1; //Contador de datos correctos
         boolean isComplete = false;
-        ;
+
         try {
             //Foto Casa
-            if(datosVerificados.get(Constantes.FLAG_FOTO_CASA) == Constantes.DATO_IMCOMPLETO){
+            if(datosVerificados.get(FLAG_FOTO_CASA) == DATO_IMCOMPLETO){
                 datosBinding.tpCasa.setVisibility(View.VISIBLE);
             } else {
                 datosBinding.tpCasa.setVisibility(View.GONE);
@@ -209,7 +226,7 @@ public class VerificacionDatosFragment extends Fragment {
             }
 
             //Firma cliente
-            if (datosVerificados.get(Constantes.FLAG_FIRMA_CLIENTE) == Constantes.DATO_IMCOMPLETO){
+            if (datosVerificados.get(FLAG_FIRMA_CLIENTE) == DATO_IMCOMPLETO){
                 datosBinding.tpFirma.setVisibility(View.VISIBLE);
             } else {
                 datosBinding.tpFirma.setVisibility(View.GONE);
@@ -217,8 +234,8 @@ public class VerificacionDatosFragment extends Fragment {
             }
 
             //UBICACION
-            double lon = datosVerificados.get(Constantes.FLAG_LONG_CLIENTE);
-            double lat = datosVerificados.get(Constantes.FLAG_LAT_CLIENTE);
+            double lon = datosVerificados.get(FLAG_LONG_CLIENTE);
+            double lat = datosVerificados.get(FLAG_LAT_CLIENTE);
 
             if(lon == 0d && lat == 0d){
                 datosBinding.tpUbi.setVisibility(View.VISIBLE);
@@ -227,11 +244,19 @@ public class VerificacionDatosFragment extends Fragment {
                 flagDatos++;
             }
 
+            //Validacion
+            if(datosVerificados.get(FLAG_VALIDACION) != 2) {
+                datosBinding.tpVeri.setVisibility(View.GONE);
+                flagDatos++;
+            } else {
+                datosBinding.tpVeri.setVisibility(View.VISIBLE);
+            }
+
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
 
-        if (flagDatos == 4) isComplete = true;
+        if (flagDatos == 5) isComplete = true;
 
         return isComplete;
     }
