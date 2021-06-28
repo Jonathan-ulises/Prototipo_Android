@@ -41,4 +41,10 @@
     <string name="btn_aceptar_firma">Aceptar</string>
     <string name="btn_reiniciar_firma">Reiniciar</string>
     <string name="tooltip_error_form">Falta por realizar esta accion</string>
+    <string name="alert_datos_title">Captura de datos</string>
+    <string name="alert_datos_message">¿Desea registrar los datos capturados?</string>
+    <string name="alert_datos_positive_btn">REGISTRAR</string>
+    <string name="alert_datos_negative_btn">CANCELAR</string>
+    <string name="alert_datos_faltantes_title">Datos faltantes</string>
+    <string name="alert_datos_faltantes_positive_btn">OK</string>
 </resources>

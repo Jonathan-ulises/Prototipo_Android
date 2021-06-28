@@ -160,12 +160,12 @@ public class VerificacionDatosFragment extends Fragment {
 
             if(res){
                 new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
-                        .setTitle("Captura de datos")
-                        .setMessage("¿Desea registrar los datos capturados?")
-                        .setPositiveButton("REGISTRAR", (dialogInterface, i) -> {
+                        .setTitle(R.string.alert_datos_title)
+                        .setMessage(R.string.alert_datos_message)
+                        .setPositiveButton(R.string.alert_datos_positive_btn, (dialogInterface, i) -> {
                             Toast.makeText(getContext(), "REGISTRADO", Toast.LENGTH_SHORT).show();
                         })
-                        .setNegativeButton("CANCELAR", (dialogInterface, i) -> {
+                        .setNegativeButton(R.string.alert_datos_negative_btn, (dialogInterface, i) -> {
                             Toast.makeText(getContext(), "SE LIMPIARAN LOS DATOS", Toast.LENGTH_SHORT).show();
                         })
                         .show();
@@ -178,9 +178,9 @@ public class VerificacionDatosFragment extends Fragment {
                 }
 
                 new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
-                        .setTitle("Datos faltantes")
+                        .setTitle(R.string.alert_datos_faltantes_title)
                         .setMessage(faltantes.toString())
-                        .setPositiveButton("OK", null)
+                        .setPositiveButton(R.string.alert_datos_faltantes_positive_btn, null)
                         .show();
 
 
