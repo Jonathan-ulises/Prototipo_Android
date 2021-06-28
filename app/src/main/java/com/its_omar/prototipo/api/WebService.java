@@ -3,6 +3,7 @@ package com.its_omar.prototipo.api;
 import com.its_omar.prototipo.model.Bitacora;
 import com.its_omar.prototipo.model.Empleado;
 import com.its_omar.prototipo.model.Result;
+import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 import com.its_omar.prototipo.model.resultClienteService.ClientesJSONResult;
 
 import org.json.JSONObject;
@@ -33,5 +34,7 @@ public interface WebService {
     @POST("obtenerVisitas")
     Call<ClientesJSONResult> getClientesEmplado(@Body Empleado idEmpleado);
 
+    @POST("actualizarVisita")
+    Call<Result> asignarVisita(@Body BodyJSONCliente request);
 //deus370   12345
 }

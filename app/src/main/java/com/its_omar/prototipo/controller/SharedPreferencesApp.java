@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Usuario;
+import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -173,6 +174,26 @@ public class SharedPreferencesApp {
         }
 
         return datosAgregados;
+    }
+
+    public BodyJSONCliente generateBodyRequestVisita(int idCliente){
+        String foto_v = sharedPreferencesVerificacion.getString(FOTO_CASA_KEY, "not");
+        String firma_v = sharedPreferencesVerificacion.getString(FIRMA_CLIENTE_KEY, "not");
+        double lon = Double.parseDouble(sharedPreferencesVerificacion.getString(LONGITUD_UBI_CLIENTE, "0"));
+        double lat = Double.parseDouble(sharedPreferencesVerificacion.getString(LATITUDE_UBI_CLIENTE, "0"));
+        int isValidate = sharedPreferencesVerificacion.getInt(ESTATUS_VERIFICACION, NO_REALIZADO);
+
+        BodyJSONCliente body = new BodyJSONCliente();
+        body.setIdCliente(idCliente);
+        body.setFirma(firma_v);
+        body.setFotoCasa(foto_v);
+        body.setIdEstatusVisita(isValidate);
+        body.setLongitudReal(lon);
+        body.setLatitudReal(lat);
+        body.setComentario("Todo esta correcto");
+
+        return body;
+
     }
 
     /**

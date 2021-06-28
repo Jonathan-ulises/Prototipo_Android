@@ -17,17 +17,28 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.its_omar.prototipo.ClientesActivity;
 import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
+import com.its_omar.prototipo.api.ServiceRetrofit;
+import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.controller.ConsultasComunes;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.FragmentVerificacionDatosBinding;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
+import com.its_omar.prototipo.model.Result;
+import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.its_omar.prototipo.controller.ConsultasComunes.registrarAccionBitacora;
 import static com.its_omar.prototipo.model.Constantes.DATO_IMCOMPLETO;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_VERIFICACION;
 import static com.its_omar.prototipo.model.Constantes.FLAG_FIRMA_CLIENTE;
@@ -105,6 +116,8 @@ public class VerificacionDatosFragment extends Fragment {
 
         sp = SharedPreferencesApp.getInstance(getContext());
 
+
+
         datosBinding.rbSVEncontrado.setChecked(true);
 
         //EVENTO de abandonada la visita
@@ -137,10 +150,10 @@ public class VerificacionDatosFragment extends Fragment {
         //EVENTO VALIDACION DEL CLIENTE
         datosBinding.rgValidacion.setOnCheckedChangeListener((radioGroup, i) -> {
             if (datosBinding.rbValidado.isChecked()){
-                editor.putInt(ESTATUS_VERIFICACION, 1);
+                editor.putInt(ESTATUS_VERIFICACION, 7);
                 editor.apply();
             }else if (datosBinding.rbNoValidado.isChecked()) {
-                editor.putInt(ESTATUS_VERIFICACION, 0);
+                editor.putInt(ESTATUS_VERIFICACION, 8);
                 editor.apply();
             } else {
                 editor.putInt(ESTATUS_VERIFICACION, 2);
@@ -158,7 +171,8 @@ public class VerificacionDatosFragment extends Fragment {
                         .setTitle(R.string.alert_datos_title)
                         .setMessage(R.string.alert_datos_message)
                         .setPositiveButton(R.string.alert_datos_positive_btn, (dialogInterface, i) -> {
-                            Toast.makeText(getContext(), "REGISTRADO", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(), "REGISTRADO", Toast.LENGTH_SHORT).show();
+                            subirDatos(mIdCliente);
                         })
                         .setNegativeButton(R.string.alert_datos_negative_btn, (dialogInterface, i) -> {
                             Toast.makeText(getContext(), "SE LIMPIARAN LOS DATOS", Toast.LENGTH_SHORT).show();
@@ -301,7 +315,36 @@ public class VerificacionDatosFragment extends Fragment {
         return isComplete;
     }
 
+    private void subirDatos(int iDCl){
+        int idE = sp.getUsuarioLogeado().getId_empleado();
 
+        BodyJSONCliente body = sp.generateBodyRequestVisita(iDCl);
+
+        WebService api = ServiceRetrofit.getInstance().getSevices();
+
+        api.asignarVisita(body).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if(response.code() == 200) {
+                    if(response.body().isOk()) {
+                        registrarAccionBitacora("Verificacion", "Asignacion", idE);
+
+                        Snackbar.make(datosBinding.getRoot(), "Datos Capturados", Snackbar.LENGTH_SHORT)
+                                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+
+                        Intent intent = new Intent(getActivity(), ClientesActivity.class);
+                        sp.borrarPreferencesDatos(editor);
+                        startActivity(intent);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+            }
+        });
+    }
 
     @Override
     public void onDestroy() {
