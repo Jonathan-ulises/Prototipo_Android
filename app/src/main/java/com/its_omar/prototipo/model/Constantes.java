@@ -43,6 +43,11 @@ public class Constantes {
     public static final String FLAG_LAT_CLIENTE = "uLongitud_completo";
     public static final int DATO_COMPLETO = 1;
     public static final int DATO_IMCOMPLETO = 0;
+    public static final String FLAG_VALIDACION = "validacion_completo";
+    public static final int VALIDADO = 1;
+    public static final int NO_VALIDADO = 0;
+    public static final int NO_REALIZADO = 2;
+
 
 
 
