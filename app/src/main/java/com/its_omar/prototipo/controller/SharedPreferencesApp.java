@@ -21,6 +21,8 @@ import static com.its_omar.prototipo.model.Constantes.FLAG_LONG_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.FLAG_VALIDACION;
 import static com.its_omar.prototipo.model.Constantes.FOTO_CASA_KEY;
 import static com.its_omar.prototipo.model.Constantes.ID_EMPLEADO_LOGEADO;
+import static com.its_omar.prototipo.model.Constantes.LATITUDE_UBI_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.LONGITUD_UBI_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_USUARIO_LOGEADO;
 import static com.its_omar.prototipo.model.Constantes.NO_REALIZADO;
 import static com.its_omar.prototipo.model.Constantes.NO_VALIDADO;
@@ -124,8 +126,8 @@ public class SharedPreferencesApp {
 
         String foto_v = sharedPreferencesVerificacion.getString(FOTO_CASA_KEY, "not");
         String firma_v = sharedPreferencesVerificacion.getString(FIRMA_CLIENTE_KEY, "not");
-        double lon = Double.parseDouble(sharedPreferencesVerificacion.getString("longitud_cl", "0"));
-        double lat = Double.parseDouble(sharedPreferencesVerificacion.getString("latitud_cl", "0"));
+        double lon = Double.parseDouble(sharedPreferencesVerificacion.getString(LONGITUD_UBI_CLIENTE, "0"));
+        double lat = Double.parseDouble(sharedPreferencesVerificacion.getString(LATITUDE_UBI_CLIENTE, "0"));
 
         int isValidate = sharedPreferencesVerificacion.getInt(ESTATUS_VERIFICACION, NO_REALIZADO);
 
