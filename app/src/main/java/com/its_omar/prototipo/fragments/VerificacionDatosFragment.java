@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,6 +26,7 @@ import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.SQLOutput;
 import java.util.Map;
 import java.util.Objects;
 
@@ -39,6 +41,7 @@ public class VerificacionDatosFragment extends Fragment {
     private Bitmap fotoCasa;
     private Cliente_por_visitar cl;
     private SharedPreferences.Editor editor;
+    private SharedPreferencesApp sp;
     private Map<String, Integer> datosVerificados;
 
 
@@ -91,6 +94,8 @@ public class VerificacionDatosFragment extends Fragment {
 
         initEditorVerificacion();
 
+        sp = SharedPreferencesApp.getInstance(getContext());
+
         datosBinding.rbSVEncontrado.setChecked(true);
 
         datosBinding.rgEstatus.setOnCheckedChangeListener((group, checkedId) -> {
@@ -112,9 +117,13 @@ public class VerificacionDatosFragment extends Fragment {
 
 
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
+            boolean res = validarCampos();
 
-
-
+            if(res){
+                Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Todo bien");
+            } else {
+                Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
+            }
             /*SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
             Cliente_por_visitar c = sp.getDatosClieteEnVerificacion();
             if(c == null){
@@ -187,12 +196,58 @@ public class VerificacionDatosFragment extends Fragment {
         editor = sp.getEditorForDatosVerificacion();
     }
 
-    private void validarCampos(){
-        SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
+    /**
+     * Verifica que todas las acciones se lleven a cabo
+     */
+    private boolean validarCampos(){
+        //SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
         //Cliente_por_visitar c = sp.getDatosClieteEnVerificacion();
         datosVerificados = sp.getFlagValidacion();
 
-        
+        int flagDatos = 1; //Contador de datos correctos
+        boolean isComplete = false;
+        ;
+        try {
+            //Foto Casa
+            if(datosVerificados.get(Constantes.FLAG_FOTO_CASA) == Constantes.DATO_IMCOMPLETO){
+                datosBinding.tpCasa.setVisibility(View.VISIBLE);
+            } else {
+                datosBinding.tpCasa.setVisibility(View.GONE);
+                flagDatos++;
+            }
+
+            //Firma cliente
+            if (datosVerificados.get(Constantes.FLAG_FIRMA_CLIENTE) == Constantes.DATO_IMCOMPLETO){
+                datosBinding.tpFirma.setVisibility(View.VISIBLE);
+            } else {
+                datosBinding.tpFirma.setVisibility(View.GONE);
+                flagDatos++;
+            }
+
+            //UBICACION
+            double lon = datosVerificados.get(Constantes.FLAG_LONG_CLIENTE);
+            double lat = datosVerificados.get(Constantes.FLAG_LAT_CLIENTE);
+
+            if(lon == 0d && lat == 0d){
+                datosBinding.tpUbi.setVisibility(View.VISIBLE);
+            } else {
+                datosBinding.tpUbi.setVisibility(View.GONE);
+                flagDatos++;
+            }
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        if (flagDatos == 4) isComplete = true;
+
+        return isComplete;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sp.borrarPreferencesDatos();
+        Log.i("final", "xd");
+    }
 }

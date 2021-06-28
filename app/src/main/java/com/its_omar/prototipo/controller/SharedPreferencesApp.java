@@ -126,14 +126,14 @@ public class SharedPreferencesApp {
 
         //ubicacion
         //LONG
-        if(lon > 0){
+        if(lon > 0 || lon < 0){
             datosAgregados.put(Constantes.FLAG_LONG_CLIENTE, Constantes.DATO_COMPLETO);
         } else {
             datosAgregados.put(Constantes.FLAG_LONG_CLIENTE, Constantes.DATO_IMCOMPLETO);
         }
 
         //LAT
-        if (lat > 0) {
+        if (lat > 0 || lat < 0) {
             datosAgregados.put(Constantes.FLAG_LAT_CLIENTE, Constantes.DATO_COMPLETO);
         } else {
             datosAgregados.put(Constantes.FLAG_LAT_CLIENTE, Constantes.DATO_IMCOMPLETO);
@@ -148,6 +148,13 @@ public class SharedPreferencesApp {
     public void borrarPreferences(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(Constantes.PREFERENCES_LOGIN);
+        editor.clear();
+        editor.apply();
+    }
+
+    public void borrarPreferencesDatos() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION);
         editor.clear();
         editor.apply();
     }
