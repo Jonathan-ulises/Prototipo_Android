@@ -152,10 +152,18 @@ public class SharedPreferencesApp {
         editor.apply();
     }
 
-    public void borrarPreferencesDatos() {
+    /*public void borrarPreferencesDatos() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION);
         editor.clear();
         editor.apply();
+    }*/
+
+    public void borrarPreferencesDatos(SharedPreferences.Editor editor) {
+        editor = sharedPreferencesVerificacion.edit();
+        editor.remove(Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION);
+        editor.clear();
+        editor.apply();
+        int s =  sharedPreferencesVerificacion.getAll().size();
     }
 }

@@ -247,7 +247,7 @@ public class VerificacionDatosFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        sp.borrarPreferencesDatos();
+        sp.borrarPreferencesDatos(editor);
         Log.i("final", "xd");
     }
 }
