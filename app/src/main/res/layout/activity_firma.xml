@@ -24,7 +24,7 @@
             android:layout_marginBottom="124dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            sign:penSize="10dp"
+            sign:penSize="5dp"
             sign:backgroundColor="#A3A0A0"
             sign:penColor="#000000"
             sign:enableSignature="true" />
