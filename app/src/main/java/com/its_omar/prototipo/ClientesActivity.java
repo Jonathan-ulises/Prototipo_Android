@@ -47,6 +47,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
+import static com.its_omar.prototipo.model.Constantes.generarNombreCompleto;
+
 public class ClientesActivity extends AppCompatActivity {
 
     private ActivityClientesBinding clientesBinding;
@@ -87,8 +91,9 @@ public class ClientesActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(cliente -> {
             //Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, VerificacionVisitaActivity.class);
-            String nombre = Constantes.generarNombreCompleto(cliente);
-            intent.putExtra(Constantes.NOMBRE_CLIENTE_EXTRA_KEY, nombre);
+            String nombre = generarNombreCompleto(cliente);
+            intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, nombre);
+            intent.putExtra(ID_CLIENTE, cliente.getIdCliente());
             startActivity(intent);
         });
 

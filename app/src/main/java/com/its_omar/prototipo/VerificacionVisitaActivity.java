@@ -8,6 +8,9 @@ import android.util.Log;
 import com.its_omar.prototipo.fragments.VerificarEstatusFragment;
 import com.its_omar.prototipo.model.Constantes;
 
+import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
+
 public class VerificacionVisitaActivity extends AppCompatActivity {
 
 
@@ -20,10 +23,11 @@ public class VerificacionVisitaActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Bundle extras = getIntent().getExtras();
-        String nom = extras.getString(Constantes.NOMBRE_CLIENTE_EXTRA_KEY);
+        String nom = extras.getString(NOMBRE_CLIENTE_EXTRA_KEY);
+        int id = extras.getInt(ID_CLIENTE);
         try {
 
-            VerificarEstatusFragment fragment = VerificarEstatusFragment.newInstance(nom);
+            VerificarEstatusFragment fragment = VerificarEstatusFragment.newInstance(nom, id);
             getSupportFragmentManager().beginTransaction().add(R.id.container_verificacion , fragment).commit();
         } catch (Exception e){
             Log.d("frag", "error", e);

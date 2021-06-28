@@ -33,9 +33,11 @@ public class VerificarEstatusFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String NOMBRE_CLIENTE = "nombreCl";
+    private static final String ID_CLIENTE_SELECCIONADO = "idC";
 
     // TODO: Rename and change types of parameters
     private String mNombre;
+    private int mIdC;
 
     public VerificarEstatusFragment() {
         // Required empty public constructor
@@ -49,11 +51,12 @@ public class VerificarEstatusFragment extends Fragment {
      * @return A new instance of fragment VerificarEstatusFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VerificarEstatusFragment newInstance(String nombre) {
+    public static VerificarEstatusFragment newInstance(String nombre, int id) {
         VerificarEstatusFragment fragment = new VerificarEstatusFragment();
         Bundle args = new Bundle();
         args.putString(NOMBRE_CLIENTE, nombre);
-        Log.i(Constantes.TAG_ERROR_ARGUMENTS_FRAGMENT, "recibe -> " + nombre);
+        args.putInt(ID_CLIENTE_SELECCIONADO, id);
+        Log.i(Constantes.TAG_ERROR_ARGUMENTS_FRAGMENT, "recibe -> " + nombre + " " + id);
         fragment.setArguments(args);
 
         return fragment;
@@ -65,6 +68,7 @@ public class VerificarEstatusFragment extends Fragment {
 
         if (getArguments() != null) {
             mNombre = getArguments().getString(NOMBRE_CLIENTE);
+            mIdC = getArguments().getInt(ID_CLIENTE_SELECCIONADO);
         } else {
             mNombre = "Verificacion de visita";
         }
@@ -90,7 +94,7 @@ public class VerificarEstatusFragment extends Fragment {
 
         verificarBinding.btnVerificar.setOnClickListener(view -> {
             //VerificacionVisitaActivity activity = new VerificacionVisitaActivity();
-            VerificacionDatosFragment fragment = new VerificacionDatosFragment();
+            VerificacionDatosFragment fragment = VerificacionDatosFragment.newInstance(mIdC);
             getFragmentManager().beginTransaction().remove(this).commit();
             getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
             //VerificacionDatosFragment fragment = new VerificacionDatosFragment();
