@@ -185,8 +185,8 @@ public class SharedPreferencesApp {
 
         BodyJSONCliente body = new BodyJSONCliente();
         body.setIdCliente(idCliente);
-        body.setFirma(firma_v);
-        body.setFotoCasa(foto_v);
+        body.setFirma(firma_v.replaceAll("\\R", ""));
+        body.setFotoCasa(foto_v.replaceAll("\\R", ""));
         body.setIdEstatusVisita(isValidate);
         body.setLongitudReal(lon);
         body.setLatitudReal(lat);
