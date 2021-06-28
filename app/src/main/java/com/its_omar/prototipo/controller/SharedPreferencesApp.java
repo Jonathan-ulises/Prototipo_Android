@@ -4,14 +4,31 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.its_omar.prototipo.model.Cliente_por_visitar;
-import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Usuario;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.its_omar.prototipo.model.Constantes.DATO_COMPLETO;
+import static com.its_omar.prototipo.model.Constantes.DATO_IMCOMPLETO;
+import static com.its_omar.prototipo.model.Constantes.ESTATUS_VERIFICACION;
+import static com.its_omar.prototipo.model.Constantes.FIRMA_CLIENTE_KEY;
+import static com.its_omar.prototipo.model.Constantes.FLAG_FIRMA_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.FLAG_FOTO_CASA;
+import static com.its_omar.prototipo.model.Constantes.FLAG_LAT_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.FLAG_LONG_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.FLAG_VALIDACION;
+import static com.its_omar.prototipo.model.Constantes.FOTO_CASA_KEY;
+import static com.its_omar.prototipo.model.Constantes.ID_EMPLEADO_LOGEADO;
+import static com.its_omar.prototipo.model.Constantes.NOMBRE_USUARIO_LOGEADO;
+import static com.its_omar.prototipo.model.Constantes.NO_REALIZADO;
+import static com.its_omar.prototipo.model.Constantes.NO_VALIDADO;
+import static com.its_omar.prototipo.model.Constantes.PREFERENCES_LOGIN;
+import static com.its_omar.prototipo.model.Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION;
+import static com.its_omar.prototipo.model.Constantes.SESION_ESTATUS;
+import static com.its_omar.prototipo.model.Constantes.TAG_INFO_DATOS_VERIFICACION;
+import static com.its_omar.prototipo.model.Constantes.VALIDADO;
 
 public class SharedPreferencesApp {
 
@@ -22,10 +39,10 @@ public class SharedPreferencesApp {
 
     private SharedPreferencesApp(Context ctx){
         //referencias del login
-        sharedPreferences = ctx.getSharedPreferences(Constantes.PREFERENCES_LOGIN, Context.MODE_PRIVATE);
+        sharedPreferences = ctx.getSharedPreferences(PREFERENCES_LOGIN, Context.MODE_PRIVATE);
 
         //Referencias de los datos verificados
-        sharedPreferencesVerificacion = ctx.getSharedPreferences(Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION, Context.MODE_PRIVATE);
+        sharedPreferencesVerificacion = ctx.getSharedPreferences(PREFERENCES_USUARIO_DATOS_VERIFICACION, Context.MODE_PRIVATE);
     }
 
     public static SharedPreferencesApp getInstance(Context context){
@@ -42,9 +59,9 @@ public class SharedPreferencesApp {
      */
     public void saveSharePreferencesLogin(String nombreusu, int id_empleado){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(Constantes.SESION_ESTATUS, true);
-        editor.putString(Constantes.NOMBRE_USUARIO_LOGEADO, nombreusu);
-        editor.putInt(Constantes.ID_EMPLEADO_LOGEADO, id_empleado);
+        editor.putBoolean(SESION_ESTATUS, true);
+        editor.putString(NOMBRE_USUARIO_LOGEADO, nombreusu);
+        editor.putInt(ID_EMPLEADO_LOGEADO, id_empleado);
         editor.apply();
     }
 
@@ -62,7 +79,7 @@ public class SharedPreferencesApp {
      * @return estatus de la sesion
      */
     public boolean getSesionSharedPreference(){
-        return sharedPreferences.getBoolean(Constantes.SESION_ESTATUS, false);
+        return sharedPreferences.getBoolean(SESION_ESTATUS, false);
     }
 
     /**
@@ -71,8 +88,8 @@ public class SharedPreferencesApp {
      */
     public Usuario getUsuarioLogeado() {
         Usuario u = new Usuario();
-        u.setNombreUsuario(sharedPreferences.getString(Constantes.NOMBRE_USUARIO_LOGEADO, null));
-        u.setId_empleado(sharedPreferences.getInt(Constantes.ID_EMPLEADO_LOGEADO, 0));
+        u.setNombreUsuario(sharedPreferences.getString(NOMBRE_USUARIO_LOGEADO, null));
+        u.setId_empleado(sharedPreferences.getInt(ID_EMPLEADO_LOGEADO, 0));
 
         return u;
     }
@@ -83,15 +100,15 @@ public class SharedPreferencesApp {
      */
     public Cliente_por_visitar getDatosClieteEnVerificacion(){
         cl = new Cliente_por_visitar();
-        cl.setCasa(sharedPreferencesVerificacion.getString(Constantes.FOTO_CASA_KEY, "not"));
-        cl.setFirma(sharedPreferencesVerificacion.getString(Constantes.FIRMA_CLIENTE_KEY, "not"));
+        cl.setCasa(sharedPreferencesVerificacion.getString(FOTO_CASA_KEY, "not"));
+        cl.setFirma(sharedPreferencesVerificacion.getString(FIRMA_CLIENTE_KEY, "not"));
 
         if(cl.getCasa().equals("not") || cl.getCasa().isEmpty()){
             cl = null;
-            Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "casa_nullo");
+            Log.i(TAG_INFO_DATOS_VERIFICACION, "casa_nullo");
         } else if(cl.getFirma().equals("not") || cl.getFirma().isEmpty()){
             cl = null;
-            Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "firma_nullo");
+            Log.i(TAG_INFO_DATOS_VERIFICACION, "firma_nullo");
         }
 
         return cl;
@@ -105,38 +122,52 @@ public class SharedPreferencesApp {
     public Map<String, Integer> getFlagValidacion(){
         Map<String, Integer> datosAgregados = new HashMap<String, Integer>();
 
-        String foto_v = sharedPreferencesVerificacion.getString(Constantes.FOTO_CASA_KEY, "not");
-        String firma_v = sharedPreferencesVerificacion.getString(Constantes.FIRMA_CLIENTE_KEY, "not");
+        String foto_v = sharedPreferencesVerificacion.getString(FOTO_CASA_KEY, "not");
+        String firma_v = sharedPreferencesVerificacion.getString(FIRMA_CLIENTE_KEY, "not");
         double lon = Double.parseDouble(sharedPreferencesVerificacion.getString("longitud_cl", "0"));
         double lat = Double.parseDouble(sharedPreferencesVerificacion.getString("latitud_cl", "0"));
 
+        int isValidate = sharedPreferencesVerificacion.getInt(ESTATUS_VERIFICACION, NO_REALIZADO);
+
         //foto
         if (!foto_v.equals("not")){
-            datosAgregados.put(Constantes.FLAG_FOTO_CASA, Constantes.DATO_COMPLETO);
+            datosAgregados.put(FLAG_FOTO_CASA, DATO_COMPLETO);
         } else {
-            datosAgregados.put(Constantes.FLAG_FOTO_CASA, Constantes.DATO_IMCOMPLETO);
+            datosAgregados.put(FLAG_FOTO_CASA, DATO_IMCOMPLETO);
         }
 
         //casa
         if (!firma_v.equals("not")){
-            datosAgregados.put(Constantes.FLAG_FIRMA_CLIENTE, Constantes.DATO_COMPLETO);
+            datosAgregados.put(FLAG_FIRMA_CLIENTE, DATO_COMPLETO);
         } else {
-            datosAgregados.put(Constantes.FLAG_FIRMA_CLIENTE, Constantes.DATO_IMCOMPLETO);
+            datosAgregados.put(FLAG_FIRMA_CLIENTE, DATO_IMCOMPLETO);
         }
 
         //ubicacion
         //LONG
         if(lon > 0 || lon < 0){
-            datosAgregados.put(Constantes.FLAG_LONG_CLIENTE, Constantes.DATO_COMPLETO);
+            datosAgregados.put(FLAG_LONG_CLIENTE, DATO_COMPLETO);
         } else {
-            datosAgregados.put(Constantes.FLAG_LONG_CLIENTE, Constantes.DATO_IMCOMPLETO);
+            datosAgregados.put(FLAG_LONG_CLIENTE, DATO_IMCOMPLETO);
         }
 
         //LAT
         if (lat > 0 || lat < 0) {
-            datosAgregados.put(Constantes.FLAG_LAT_CLIENTE, Constantes.DATO_COMPLETO);
+            datosAgregados.put(FLAG_LAT_CLIENTE, DATO_COMPLETO);
         } else {
-            datosAgregados.put(Constantes.FLAG_LAT_CLIENTE, Constantes.DATO_IMCOMPLETO);
+            datosAgregados.put(FLAG_LAT_CLIENTE, DATO_IMCOMPLETO);
+        }
+
+        //Verificacion
+        if (isValidate == NO_REALIZADO){
+            datosAgregados.put(FLAG_VALIDACION, NO_REALIZADO);
+        } else {
+            if (isValidate == VALIDADO) {
+                datosAgregados.put(FLAG_VALIDACION, VALIDADO);
+            } else {
+                datosAgregados.put(FLAG_VALIDACION, NO_VALIDADO);
+            }
+
         }
 
         return datosAgregados;
@@ -147,7 +178,7 @@ public class SharedPreferencesApp {
      */
     public void borrarPreferences(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(Constantes.PREFERENCES_LOGIN);
+        editor.remove(PREFERENCES_LOGIN);
         editor.clear();
         editor.apply();
     }
@@ -159,7 +190,7 @@ public class SharedPreferencesApp {
      */
     public void borrarPreferencesDatos(SharedPreferences.Editor editor) {
         editor = sharedPreferencesVerificacion.edit();
-        editor.remove(Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION);
+        editor.remove(PREFERENCES_USUARIO_DATOS_VERIFICACION);
         editor.clear();
         editor.apply();
         int s =  sharedPreferencesVerificacion.getAll().size();
