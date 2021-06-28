@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
@@ -23,6 +24,8 @@ import com.its_omar.prototipo.databinding.FragmentVerificacionDatosBinding;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.its_omar.prototipo.model.Constantes.DATO_IMCOMPLETO;
@@ -50,6 +53,7 @@ public class VerificacionDatosFragment extends Fragment {
     private SharedPreferences.Editor editor;
     private SharedPreferencesApp sp;
     private Map<String, Integer> datosVerificados;
+    private List<String> datosFaltantes; //Srive para mostrar en el alert lo que falta
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -98,14 +102,17 @@ public class VerificacionDatosFragment extends Fragment {
         datosBinding = FragmentVerificacionDatosBinding.inflate(inflater, container, false);
 
 
-        cl = new Cliente_por_visitar();
+        cl = new Cliente_por_visitar(); //Objeto a enviar al servicio
 
-        initEditorVerificacion();
+        datosFaltantes = new ArrayList<>();
+
+        initEditorVerificacion(); //Inicializa el editor
 
         sp = SharedPreferencesApp.getInstance(getContext());
 
         datosBinding.rbSVEncontrado.setChecked(true);
 
+        //EVENTO de abandonada la visita
         datosBinding.rgEstatus.setOnCheckedChangeListener((group, checkedId) -> {
             if (datosBinding.rbSVAbandonada.isChecked()){
                 datosBinding.btnCapturarDatos.setText(R.string.razon_status);
@@ -114,31 +121,25 @@ public class VerificacionDatosFragment extends Fragment {
             }
         });
 
-
-        datosBinding.btnCapFirma.setOnClickListener(view -> {
-            Intent intent = new Intent(getContext(), FirmaActivity.class);
-            startActivity(intent);
-        });
-
-
-        datosBinding.btnCapturarDatos.setOnClickListener(v -> {
-            boolean res = validarCampos();
-
-            if(res){
-                Log.i(TAG_INFO_DATOS_VERIFICACION, "Todo bien");
-            } else {
-                Log.i(TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
-            }
-        });
-
-        datosBinding.btnCapCasa.setOnClickListener(view -> abrirCamera());
-
+        //EVENTO OBTENER UBICACION TODO: IMPLEMENTAR HERE MAPS
         datosBinding.btnObtenerUbicacion.setOnClickListener(view -> {
             editor.putString(LONGITUD_UBI_CLIENTE, "21.1443782");
             editor.putString(LATITUDE_UBI_CLIENTE, "-101.6918049");
             editor.apply();
         });
 
+        //EVENTO CAPTURAR FIRMA
+        datosBinding.btnCapFirma.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), FirmaActivity.class);
+            startActivity(intent);
+        });
+
+
+        //EVENTO CAPTURAR FOTO CASA
+        datosBinding.btnCapCasa.setOnClickListener(view -> abrirCamera());
+
+
+        //EVENTO VALIDACION DEL CLIENTE
         datosBinding.rgValidacion.setOnCheckedChangeListener((radioGroup, i) -> {
             if (datosBinding.rbValidado.isChecked()){
                 editor.putInt(ESTATUS_VERIFICACION, 1);
@@ -149,6 +150,43 @@ public class VerificacionDatosFragment extends Fragment {
             } else {
                 editor.putInt(ESTATUS_VERIFICACION, 2);
                 editor.apply();
+            }
+        });
+
+
+        //EVENTO CAPTURAR DATOS
+        datosBinding.btnCapturarDatos.setOnClickListener(v -> {
+            boolean res = validarCampos();
+
+            if(res){
+                new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
+                        .setTitle("Captura de datos")
+                        .setMessage("¿Desea registrar los datos capturados?")
+                        .setPositiveButton("REGISTRAR", (dialogInterface, i) -> {
+                            Toast.makeText(getContext(), "REGISTRADO", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("CANCELAR", (dialogInterface, i) -> {
+                            Toast.makeText(getContext(), "SE LIMPIARAN LOS DATOS", Toast.LENGTH_SHORT).show();
+                        })
+                        .show();
+                Log.i(TAG_INFO_DATOS_VERIFICACION, "Todo bien");
+            } else {
+                StringBuilder faltantes = new StringBuilder();
+
+                for (String dt: datosFaltantes) {
+                    faltantes.append(dt).append("\n");
+                }
+
+                new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
+                        .setTitle("Datos faltantes")
+                        .setMessage(faltantes.toString())
+                        .setPositiveButton("OK", null)
+                        .show();
+
+
+                Toast.makeText(getContext(), "Faltan datos", Toast.LENGTH_SHORT).show();
+
+                Log.i(TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
             }
         });
 
@@ -207,8 +245,11 @@ public class VerificacionDatosFragment extends Fragment {
         editor = sp.getEditorForDatosVerificacion();
     }
 
+
     /**
-     * Verifica que todas las acciones se lleven a cabo
+     * Verifica que todas las acciones disponibles del formulario se han ejecutado, señala
+     * los apartados restantes por llenar
+     * @return esta completo el formulario {@link boolean}
      */
     private boolean validarCampos(){
         datosVerificados = sp.getFlagValidacion();
@@ -220,6 +261,7 @@ public class VerificacionDatosFragment extends Fragment {
             //Foto Casa
             if(datosVerificados.get(FLAG_FOTO_CASA) == DATO_IMCOMPLETO){
                 datosBinding.tpCasa.setVisibility(View.VISIBLE);
+                datosFaltantes.add("Capturar Casa");
             } else {
                 datosBinding.tpCasa.setVisibility(View.GONE);
                 flagDatos++;
@@ -228,6 +270,7 @@ public class VerificacionDatosFragment extends Fragment {
             //Firma cliente
             if (datosVerificados.get(FLAG_FIRMA_CLIENTE) == DATO_IMCOMPLETO){
                 datosBinding.tpFirma.setVisibility(View.VISIBLE);
+                datosFaltantes.add("Capturar Firma");
             } else {
                 datosBinding.tpFirma.setVisibility(View.GONE);
                 flagDatos++;
@@ -239,6 +282,7 @@ public class VerificacionDatosFragment extends Fragment {
 
             if(lon == 0d && lat == 0d){
                 datosBinding.tpUbi.setVisibility(View.VISIBLE);
+                datosFaltantes.add("Obtener Ubicacion");
             } else {
                 datosBinding.tpUbi.setVisibility(View.GONE);
                 flagDatos++;
@@ -250,6 +294,7 @@ public class VerificacionDatosFragment extends Fragment {
                 flagDatos++;
             } else {
                 datosBinding.tpVeri.setVisibility(View.VISIBLE);
+                datosFaltantes.add("Validacion de Identidad");
             }
 
         } catch (Exception e){
