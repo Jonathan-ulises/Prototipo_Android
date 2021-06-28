@@ -50,7 +50,13 @@ public class Constantes {
     public static final int NO_REALIZADO = 2;
 
 
-
+    public static final int ESTATUS_POR_VISITAR = 1;
+    public static final int ESTATUS_VISITADO = 2;
+    public static final int ESTATUS_NO_ENCONTRADO = 4;
+    public static final int ESTATUS_VISITA_RECHAZADA = 5;
+    public static final int ESTATUS_VISITA_ABANDONADA = 6;
+    public static final int ESTATUS_VALIDADO = 7;
+    public static final int ESTATUS_NO_VALIDADO = 8;
 
 
     /**
