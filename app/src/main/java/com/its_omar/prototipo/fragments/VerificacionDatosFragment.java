@@ -3,9 +3,11 @@ package com.its_omar.prototipo.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -17,6 +19,7 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
@@ -90,6 +93,7 @@ public class VerificacionDatosFragment extends Fragment {
                              Bundle savedInstanceState) {
         datosBinding = FragmentVerificacionDatosBinding.inflate(inflater, container, false);
 
+
         cl = new Cliente_por_visitar();
 
         initEditorVerificacion();
@@ -108,9 +112,6 @@ public class VerificacionDatosFragment extends Fragment {
 
 
         datosBinding.btnCapFirma.setOnClickListener(view -> {
-            /*FirmaUsuFragment fragment = new FirmaUsuFragment();
-            getFragmentManager().beginTransaction().remove(this).commit();
-            getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();*/
             Intent intent = new Intent(getContext(), FirmaActivity.class);
             startActivity(intent);
         });
@@ -124,13 +125,6 @@ public class VerificacionDatosFragment extends Fragment {
             } else {
                 Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
             }
-            /*SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
-            Cliente_por_visitar c = sp.getDatosClieteEnVerificacion();
-            if(c == null){
-                Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
-            } else {
-                Log.i(Constantes.TAG_INFO_DATOS_VERIFICACION, "Todo bien");
-            }*/
         });
 
         datosBinding.btnCapCasa.setOnClickListener(view -> abrirCamera());
@@ -200,8 +194,6 @@ public class VerificacionDatosFragment extends Fragment {
      * Verifica que todas las acciones se lleven a cabo
      */
     private boolean validarCampos(){
-        //SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
-        //Cliente_por_visitar c = sp.getDatosClieteEnVerificacion();
         datosVerificados = sp.getFlagValidacion();
 
         int flagDatos = 1; //Contador de datos correctos
@@ -244,10 +236,13 @@ public class VerificacionDatosFragment extends Fragment {
         return isComplete;
     }
 
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         sp.borrarPreferencesDatos(editor);
-        Log.i("final", "xd");
+        //Log.i("final", "xd");
     }
+
 }

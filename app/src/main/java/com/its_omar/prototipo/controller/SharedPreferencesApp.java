@@ -152,13 +152,11 @@ public class SharedPreferencesApp {
         editor.apply();
     }
 
-    /*public void borrarPreferencesDatos() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION);
-        editor.clear();
-        editor.apply();
-    }*/
 
+    /**
+     * Borra las preferencias de la verificacion de datos
+     * @param editor Editor de las preferencias de verificacion de datos
+     */
     public void borrarPreferencesDatos(SharedPreferences.Editor editor) {
         editor = sharedPreferencesVerificacion.edit();
         editor.remove(Constantes.PREFERENCES_USUARIO_DATOS_VERIFICACION);
