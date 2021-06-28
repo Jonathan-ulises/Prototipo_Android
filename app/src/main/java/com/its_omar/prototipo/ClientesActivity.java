@@ -163,9 +163,14 @@ public class ClientesActivity extends AppCompatActivity {
 
                 if(response.body().isOk()){
                     if(response.body() != null){
-                        adapter.submitList(jsonResponse(response.body()));
-                        adapter.notifyDataSetChanged();
-                        clientesBinding.swipeRfshList.setRefreshing(false);
+                        if(response.body().getResultado() != null){
+                            adapter.submitList(jsonResponse(response.body()));
+                            adapter.notifyDataSetChanged();
+                            clientesBinding.swipeRfshList.setRefreshing(false);
+                        } else {
+                            Toast.makeText(getApplication(), "Sin Cliente Asignados", Toast.LENGTH_SHORT).show();
+                            clientesBinding.swipeRfshList.setRefreshing(false);
+                        }
                     }
                 }
 
