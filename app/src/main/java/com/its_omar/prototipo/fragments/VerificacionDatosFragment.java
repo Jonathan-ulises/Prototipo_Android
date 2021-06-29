@@ -166,37 +166,44 @@ public class VerificacionDatosFragment extends Fragment {
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
             boolean res = validarCampos();
 
-            if(res){
-                new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
-                        .setTitle(R.string.alert_datos_title)
-                        .setMessage(R.string.alert_datos_message)
-                        .setPositiveButton(R.string.alert_datos_positive_btn, (dialogInterface, i) -> {
-                            //Toast.makeText(getContext(), "REGISTRADO", Toast.LENGTH_SHORT).show();
-                            subirDatos(mIdCliente);
-                        })
-                        .setNegativeButton(R.string.alert_datos_negative_btn, (dialogInterface, i) -> {
-                            Toast.makeText(getContext(), "SE LIMPIARAN LOS DATOS", Toast.LENGTH_SHORT).show();
-                        })
-                        .show();
-                Log.i(TAG_INFO_DATOS_VERIFICACION, "Todo bien");
+            if(datosBinding.rbSVAbandonada.isChecked()){
+
+                
             } else {
-                StringBuilder faltantes = new StringBuilder();
+                if(res){
+                    new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
+                            .setTitle(R.string.alert_datos_title)
+                            .setMessage(R.string.alert_datos_message)
+                            .setPositiveButton(R.string.alert_datos_positive_btn, (dialogInterface, i) -> {
+                                //Toast.makeText(getContext(), "REGISTRADO", Toast.LENGTH_SHORT).show();
+                                subirDatos(mIdCliente);
+                            })
+                            .setNegativeButton(R.string.alert_datos_negative_btn, (dialogInterface, i) -> {
+                                Toast.makeText(getContext(), "SE LIMPIARAN LOS DATOS", Toast.LENGTH_SHORT).show();
+                            })
+                            .show();
+                    Log.i(TAG_INFO_DATOS_VERIFICACION, "Todo bien");
+                } else {
+                    StringBuilder faltantes = new StringBuilder();
 
-                for (String dt: datosFaltantes) {
-                    faltantes.append(dt).append("\n");
+                    for (String dt: datosFaltantes) {
+                        faltantes.append(dt).append("\n");
+                    }
+
+                    new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
+                            .setTitle(R.string.alert_datos_faltantes_title)
+                            .setMessage(faltantes.toString())
+                            .setPositiveButton(R.string.alert_datos_faltantes_positive_btn, null)
+                            .show();
+
+
+                    Toast.makeText(getContext(), "Faltan datos", Toast.LENGTH_SHORT).show();
+
+                    Log.i(TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
                 }
-
-                new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
-                        .setTitle(R.string.alert_datos_faltantes_title)
-                        .setMessage(faltantes.toString())
-                        .setPositiveButton(R.string.alert_datos_faltantes_positive_btn, null)
-                        .show();
-
-
-                Toast.makeText(getContext(), "Faltan datos", Toast.LENGTH_SHORT).show();
-
-                Log.i(TAG_INFO_DATOS_VERIFICACION, "Algo salio mal");
             }
+
+
         });
 
         // Inflate the layout for this fragment

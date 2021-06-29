@@ -140,12 +140,13 @@
                     app:layout_constraintEnd_toEndOf="@id/cvEstatus"
                     app:boxStrokeWidth="2dp"
                     app:boxStrokeColor="@color/primary_color"
+                    android:hint="@string/place_holder_razon"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:inputType="textLongMessage" />
+                        android:inputType="textMultiLine" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
