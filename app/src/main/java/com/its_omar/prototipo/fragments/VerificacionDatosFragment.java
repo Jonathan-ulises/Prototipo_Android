@@ -41,6 +41,7 @@ import retrofit2.Response;
 import static com.its_omar.prototipo.controller.ConsultasComunes.registrarAccionBitacora;
 import static com.its_omar.prototipo.model.Constantes.DATO_IMCOMPLETO;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_VERIFICACION;
+import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_ABANDONADA;
 import static com.its_omar.prototipo.model.Constantes.FLAG_FIRMA_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.FLAG_FOTO_CASA;
 import static com.its_omar.prototipo.model.Constantes.FLAG_LAT_CLIENTE;
@@ -167,8 +168,10 @@ public class VerificacionDatosFragment extends Fragment {
             boolean res = validarCampos();
 
             if(datosBinding.rbSVAbandonada.isChecked()){
+                RazonFragment fragment = RazonFragment.newInstance(mIdCliente, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_ABANDONADA);
+                getFragmentManager().beginTransaction().remove(this).commit();
+                getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
 
-                
             } else {
                 if(res){
                     new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
