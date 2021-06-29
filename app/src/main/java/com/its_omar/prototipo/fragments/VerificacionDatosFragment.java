@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,16 +19,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import com.here.android.mpa.common.GeoCoordinate;
-import com.here.android.mpa.common.GeoPosition;
-import com.here.android.mpa.common.PositioningManager;
 import com.its_omar.prototipo.ClientesActivity;
 import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.controller.CapturarUbicacion;
-import com.its_omar.prototipo.controller.ConsultasComunes;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.FragmentVerificacionDatosBinding;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
@@ -35,7 +32,6 @@ import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -143,6 +139,10 @@ public class VerificacionDatosFragment extends Fragment {
         //EVENTO OBTENER UBICACION TODO: IMPLEMENTAR HERE MAPS
         datosBinding.btnObtenerUbicacion.setOnClickListener(view -> {
 
+            datosBinding.bacgrPr.setVisibility(View.VISIBLE);
+            requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            datosBinding.prBar.setVisibility(View.VISIBLE);
+
             capturarUbicacion.starLocating(new CapturarUbicacion.PlatformLocationListener() {
                 @Override
                 public void onLocationUpdate(Location location, int status) {
@@ -151,11 +151,16 @@ public class VerificacionDatosFragment extends Fragment {
 
                     Log.i("location" , "la: " + lat + "||--||" + " lon: " + lon);
 
+                    editor.putString(LONGITUD_UBI_CLIENTE, Double.toString(lon));
+                    editor.putString(LATITUDE_UBI_CLIENTE, Double.toString(lat));
+                    editor.apply();
+
+                    requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    datosBinding.bacgrPr.setVisibility(View.GONE);
+                    datosBinding.prBar.setVisibility(View.GONE);
                 }
             });
-            /*editor.putString(LONGITUD_UBI_CLIENTE, "21.1443782");
-            editor.putString(LATITUDE_UBI_CLIENTE, "-101.6918049");
-            editor.apply();*/
+
         });
 
         //EVENTO CAPTURAR FIRMA
@@ -387,13 +392,4 @@ public class VerificacionDatosFragment extends Fragment {
         //Log.i("final", "xd");
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 }

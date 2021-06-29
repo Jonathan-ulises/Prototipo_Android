@@ -22,6 +22,27 @@
                 android:layout_height="?attr/actionBarSize" />
         </com.google.android.material.appbar.AppBarLayout>
 
+        <View
+            android:id="@+id/bacgrPr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_background_progressbar"
+            android:visibility="gone"
+            android:elevation="20dp"
+            tools:visibility="visible"/>
+
+        <ProgressBar
+            android:id="@+id/prBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:elevation="24dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:indeterminate="true"
+            android:backgroundTint="@color/color_background_progressbar"
+            android:indeterminateTint="?attr/colorPrimary"
+            android:indeterminateBehavior="repeat"/>
 
         <androidx.core.widget.NestedScrollView
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
@@ -101,11 +122,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/btn_obtener_ubicacion"
                     app:icon="@drawable/ic_navigation"
+                    android:elevation="4dp"
                     app:layout_constraintEnd_toEndOf="@id/tvTiluloVerificacion"
                     app:layout_constraintStart_toStartOf="@id/tvTiluloVerificacion"
                     app:layout_constraintTop_toBottomOf="@id/tvBuscar"
                     android:buttonTint="?attr/colorPrimary"
-                    app:strokeWidth="2dp" />
+                    app:strokeWidth="2dp"
+                    app:strokeColor="?attr/colorPrimary"/>
 
                 <TextView
                     android:id="@+id/tvDireccionCap"
@@ -157,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_component_2"
-                    android:elevation="16dp"
+                    android:elevation="8dp"
                     android:fontFamily="@font/avenir_next_lt_pro_regular"
                     android:text="@string/btn_firma"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -182,7 +205,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_component_1"
-                    android:elevation="16dp"
+                    android:elevation="8dp"
                     android:fontFamily="@font/avenir_next_lt_pro_regular"
                     android:text="@string/btn_casa"
                     app:layout_constraintEnd_toEndOf="@+id/btnCapFirma"
@@ -267,6 +290,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_component_5"
                     android:layout_marginBottom="@dimen/margin_component_5"
+                    android:elevation="8dp"
                     android:fontFamily="@font/avenir_next_lt_pro_regular"
                     android:text="@string/btn_capturar"
                     app:layout_constraintBottom_toBottomOf="parent"

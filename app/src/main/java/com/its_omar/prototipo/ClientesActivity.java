@@ -1,41 +1,30 @@
 package com.its_omar.prototipo;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.TouchDelegate;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
-import com.its_omar.prototipo.controller.ConsultasComunes;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityClientesBinding;
 import com.its_omar.prototipo.fragments.adapters.ClientesVisitaAdapter;
-import com.its_omar.prototipo.model.Bitacora;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Empleado;

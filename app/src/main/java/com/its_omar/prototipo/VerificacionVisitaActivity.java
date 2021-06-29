@@ -1,12 +1,12 @@
 package com.its_omar.prototipo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.its_omar.prototipo.fragments.VerificarEstatusFragment;
-import com.its_omar.prototipo.model.Constantes;
 
 import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;

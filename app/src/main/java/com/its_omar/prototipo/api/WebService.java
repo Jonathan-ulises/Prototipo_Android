@@ -6,8 +6,6 @@ import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 import com.its_omar.prototipo.model.resultClienteService.ClientesJSONResult;
 
-import org.json.JSONObject;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;

@@ -1,24 +1,18 @@
 package com.its_omar.prototipo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Base64;
-import android.view.View;
-import android.widget.SeekBar;
 
-import com.google.android.material.button.MaterialButton;
-import com.its_omar.prototipo.controller.MyViewController;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityFirmaBinding;
 import com.its_omar.prototipo.fragments.VerificacionDatosFragment;
 import com.its_omar.prototipo.model.Constantes;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import static com.its_omar.prototipo.model.Constantes.FIRMA_CLIENTE_KEY;

@@ -2,21 +2,18 @@ package com.its_omar.prototipo.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.ClientesActivity;
-import com.its_omar.prototipo.R;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.databinding.FragmentRazonBinding;
-import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 

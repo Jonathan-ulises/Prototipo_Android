@@ -1,25 +1,18 @@
 package com.its_omar.prototipo.fragments;
 
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
-import android.widget.Toast;
-import android.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.its_omar.prototipo.R;
-import com.its_omar.prototipo.VerificacionVisitaActivity;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.FragmentVerificarEstatusBinding;
 import com.its_omar.prototipo.model.Constantes;
-
-import java.util.Objects;
 
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_NO_ENCONTRADO;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_RECHAZADA;

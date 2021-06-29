@@ -1,7 +1,5 @@
 package com.its_omar.prototipo.controller;
 
-import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
 import com.its_omar.prototipo.api.ServiceRetrofit;

@@ -53,4 +53,5 @@
     <color name="item_list_cliente_ripple_color">#E99B04</color>
 
 
+    <color name="color_background_progressbar">#70000000</color>
 </resources>

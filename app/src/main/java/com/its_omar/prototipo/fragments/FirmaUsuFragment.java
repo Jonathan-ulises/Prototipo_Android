@@ -1,20 +1,17 @@
 package com.its_omar.prototipo.fragments;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.its_omar.prototipo.R;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.its_omar.prototipo.databinding.FragmentFirmaUsuBinding;
 
 
