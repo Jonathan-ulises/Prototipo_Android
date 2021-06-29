@@ -13,17 +13,26 @@
         android:layout_height="match_parent">
 
         <!-- FONDO -->
-        <ImageView
-            android:background="@color/primary_color"
-            android:id="@+id/ivLogo"
+
+        <RelativeLayout
+            android:id="@+id/fontoContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="@dimen/margin_component_5"
-            android:src="@drawable/background_main"
+            android:background="@color/primary_color"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"/>
+            app:layout_constraintBottom_toBottomOf="@id/guideline">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_logos_geo_creditos"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/margin_component_2"/>
+        </RelativeLayout>
+
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -31,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.40"
+            app:layout_constraintGuide_percent="0.45"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -82,7 +91,7 @@
                     android:id="@+id/tlNombreUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="34dp"
+                    android:layout_marginTop="28dp"
                     app:startIconDrawable="@drawable/ic_account_circle"
                     app:endIconMode="clear_text"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle"
@@ -129,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/string_btn_login"
                     android:fontFamily="@font/avenir_next_lt_pro_regular"
-                    android:layout_marginTop="@dimen/margin_component_6"
+                    android:layout_marginTop="@dimen/margin_component_3"
                     app:layout_constraintTop_toBottomOf="@id/tlContraseña"
                     app:layout_constraintStart_toStartOf="@id/tlContraseña"
                     app:layout_constraintEnd_toEndOf="@id/tlContraseña"/>
