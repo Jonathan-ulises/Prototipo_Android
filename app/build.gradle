@@ -30,6 +30,12 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
@@ -50,4 +56,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.7'
 
     implementation 'com.kyanogen.signatureview:signature-view:1.2'
+
+    implementation(name:'HERE-sdk', ext:'aar')
 }
