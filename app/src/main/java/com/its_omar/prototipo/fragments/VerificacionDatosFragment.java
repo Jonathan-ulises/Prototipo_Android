@@ -17,11 +17,15 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.here.android.mpa.common.GeoCoordinate;
+import com.here.android.mpa.common.GeoPosition;
+import com.here.android.mpa.common.PositioningManager;
 import com.its_omar.prototipo.ClientesActivity;
 import com.its_omar.prototipo.FirmaActivity;
 import com.its_omar.prototipo.R;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.controller.CapturarUbicacion;
 import com.its_omar.prototipo.controller.ConsultasComunes;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.FragmentVerificacionDatosBinding;
@@ -30,6 +34,7 @@ import com.its_omar.prototipo.model.Constantes;
 import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +71,11 @@ public class VerificacionDatosFragment extends Fragment {
     private SharedPreferencesApp sp;
     private Map<String, Integer> datosVerificados;
     private List<String> datosFaltantes; //Srive para mostrar en el alert lo que falta
+
+    //POCISIONAMIENTO
+    private PositioningManager posManager;
+    private boolean ispausado;
+    private GeoCoordinate latLotUni;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -358,11 +368,54 @@ public class VerificacionDatosFragment extends Fragment {
         });
     }
 
+
+    private void getUbicacion(){
+        posManager = PositioningManager.getInstance();
+        posManager.addListener(new WeakReference<PositioningManager.OnPositionChangedListener>(new PositioningManager.OnPositionChangedListener() {
+            @Override
+            public void onPositionUpdated(PositioningManager.LocationMethod locationMethod, @Nullable GeoPosition geoPosition, boolean b) {
+                if (!ispausado) {
+                    latLotUni = new GeoCoordinate(geoPosition.getCoordinate().getLatitude(), geoPosition.getCoordinate().getLongitude());
+                }
+            }
+
+            @Override
+            public void onPositionFixChanged(PositioningManager.LocationMethod locationMethod, PositioningManager.LocationStatus locationStatus) {
+
+            }
+        }));
+
+        posManager.start(PositioningManager.LocationMethod.GPS_NETWORK);
+
+        if (CapturarUbicacion.checkIfLocationOpened(getActivity())) {
+            latLotUni = posManager.getLastKnownPosition().getCoordinate();
+
+            posManager.stop();
+        } else {
+            posManager.stop();
+        }
+
+
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ispausado = true;
         sp.borrarPreferencesDatos(editor);
         //Log.i("final", "xd");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ispausado = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ispausado = true;
+    }
 }
