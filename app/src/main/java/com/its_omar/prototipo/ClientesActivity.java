@@ -1,7 +1,9 @@
 package com.its_omar.prototipo;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -10,8 +12,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -47,8 +51,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
+import static com.its_omar.prototipo.model.Constantes.PERMISOS;
 import static com.its_omar.prototipo.model.Constantes.generarNombreCompleto;
 
 public class ClientesActivity extends AppCompatActivity {
@@ -65,6 +71,8 @@ public class ClientesActivity extends AppCompatActivity {
         clientesBinding = ActivityClientesBinding.inflate(getLayoutInflater());
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/AvenirNextLTPro-Regular.otf");
         setContentView(clientesBinding.getRoot());
+
+        validarPermisos(this);
 
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -214,5 +222,48 @@ public class ClientesActivity extends AppCompatActivity {
         }
 
         return clList;
+    }
+
+
+    private boolean validarPermisos(Context ctx) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+
+        if((ActivityCompat.checkSelfPermission(ctx, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+
+            return true;
+        } else {
+
+            requestPermissions(PERMISOS, 100);
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if(shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)){
+                    //Se muestra mensaje al usuario de por que deberia aceptar el permiso
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Acceder a la ubicacion del telefono XD");
+                    builder.setMessage("Debes aceptar este permiso para poder usar Trovami weon qliao");
+                    builder.setPositiveButton("aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Array de string con los permisos que pediremos al usuario
+                            final String[] permissions = new String[]{ACCESS_FINE_LOCATION};
+
+                            //Muestra un dialogo para pedir los permisos al usuario
+                            requestPermissions(permissions, 100);
+                        }
+                    });
+                    builder.show();
+                }
+            }
+        }
     }
 }

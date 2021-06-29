@@ -1,5 +1,6 @@
 package com.its_omar.prototipo.model;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
@@ -58,6 +59,10 @@ public class Constantes {
     public static final int ESTATUS_VALIDADO = 7;
     public static final int ESTATUS_NO_VALIDADO = 8;
 
+
+    public static final String[] PERMISOS = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
     /**
      * Genera el nombre completo del cliente

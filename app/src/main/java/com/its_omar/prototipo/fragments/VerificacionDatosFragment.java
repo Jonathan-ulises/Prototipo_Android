@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -73,9 +74,7 @@ public class VerificacionDatosFragment extends Fragment {
     private List<String> datosFaltantes; //Srive para mostrar en el alert lo que falta
 
     //POCISIONAMIENTO
-    private PositioningManager posManager;
-    private boolean ispausado;
-    private GeoCoordinate latLotUni;
+    private CapturarUbicacion capturarUbicacion;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -118,6 +117,7 @@ public class VerificacionDatosFragment extends Fragment {
                              Bundle savedInstanceState) {
         datosBinding = FragmentVerificacionDatosBinding.inflate(inflater, container, false);
 
+        capturarUbicacion = new CapturarUbicacion(getActivity());
 
         cl = new Cliente_por_visitar(); //Objeto a enviar al servicio
 
@@ -142,9 +142,20 @@ public class VerificacionDatosFragment extends Fragment {
 
         //EVENTO OBTENER UBICACION TODO: IMPLEMENTAR HERE MAPS
         datosBinding.btnObtenerUbicacion.setOnClickListener(view -> {
-            editor.putString(LONGITUD_UBI_CLIENTE, "21.1443782");
+
+            capturarUbicacion.starLocating(new CapturarUbicacion.PlatformLocationListener() {
+                @Override
+                public void onLocationUpdate(Location location, int status) {
+                    double lat = location.getLatitude();
+                    double lon = location.getLongitude();
+
+                    Log.i("location" , "la: " + lat + "||--||" + " lon: " + lon);
+
+                }
+            });
+            /*editor.putString(LONGITUD_UBI_CLIENTE, "21.1443782");
             editor.putString(LATITUDE_UBI_CLIENTE, "-101.6918049");
-            editor.apply();
+            editor.apply();*/
         });
 
         //EVENTO CAPTURAR FIRMA
@@ -369,39 +380,9 @@ public class VerificacionDatosFragment extends Fragment {
     }
 
 
-    private void getUbicacion(){
-        posManager = PositioningManager.getInstance();
-        posManager.addListener(new WeakReference<PositioningManager.OnPositionChangedListener>(new PositioningManager.OnPositionChangedListener() {
-            @Override
-            public void onPositionUpdated(PositioningManager.LocationMethod locationMethod, @Nullable GeoPosition geoPosition, boolean b) {
-                if (!ispausado) {
-                    latLotUni = new GeoCoordinate(geoPosition.getCoordinate().getLatitude(), geoPosition.getCoordinate().getLongitude());
-                }
-            }
-
-            @Override
-            public void onPositionFixChanged(PositioningManager.LocationMethod locationMethod, PositioningManager.LocationStatus locationStatus) {
-
-            }
-        }));
-
-        posManager.start(PositioningManager.LocationMethod.GPS_NETWORK);
-
-        if (CapturarUbicacion.checkIfLocationOpened(getActivity())) {
-            latLotUni = posManager.getLastKnownPosition().getCoordinate();
-
-            posManager.stop();
-        } else {
-            posManager.stop();
-        }
-
-
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ispausado = true;
         sp.borrarPreferencesDatos(editor);
         //Log.i("final", "xd");
     }
@@ -409,13 +390,10 @@ public class VerificacionDatosFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        ispausado = false;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ispausado = true;
     }
 }
