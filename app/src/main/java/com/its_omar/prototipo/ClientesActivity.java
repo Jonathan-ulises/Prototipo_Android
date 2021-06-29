@@ -47,6 +47,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
+import static com.its_omar.prototipo.model.Constantes.generarNombreCompleto;
+
 public class ClientesActivity extends AppCompatActivity {
 
     private ActivityClientesBinding clientesBinding;
@@ -87,15 +91,20 @@ public class ClientesActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(cliente -> {
             //Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, VerificacionVisitaActivity.class);
-            String nombre = Constantes.generarNombreCompleto(cliente);
-            intent.putExtra(Constantes.NOMBRE_CLIENTE_EXTRA_KEY, nombre);
+            String nombre = generarNombreCompleto(cliente);
+            intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, nombre);
+            intent.putExtra(ID_CLIENTE, cliente.getIdCliente());
             startActivity(intent);
         });
 
 
         clientesBinding.swipeRfshList.setOnRefreshListener(() -> {
-            consultarListaCliente(usu.getId_empleado());
-            Toast.makeText(this, "Refrescado", Toast.LENGTH_SHORT).show();
+            try {
+                consultarListaCliente(usu.getId_empleado());
+                Toast.makeText(this, "Refrescado", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("ERRORCL", "error de consulta", e);
+            }
         });
 
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
@@ -159,9 +168,14 @@ public class ClientesActivity extends AppCompatActivity {
 
                 if(response.body().isOk()){
                     if(response.body() != null){
-                        adapter.submitList(jsonResponse(response.body()));
-                        adapter.notifyDataSetChanged();
-                        clientesBinding.swipeRfshList.setRefreshing(false);
+                        if(response.body().getResultado() != null){
+                            adapter.submitList(jsonResponse(response.body()));
+                            adapter.notifyDataSetChanged();
+                            clientesBinding.swipeRfshList.setRefreshing(false);
+                        } else {
+                            Toast.makeText(getApplication(), "Sin Cliente Asignados", Toast.LENGTH_SHORT).show();
+                            clientesBinding.swipeRfshList.setRefreshing(false);
+                        }
                     }
                 }
 
@@ -191,6 +205,11 @@ public class ClientesActivity extends AppCompatActivity {
             cl.setaPaterno(r.getJson().getaPaterno());
             cl.setaMaterno(r.getJson().getaMaterno());
             cl.setIne(r.getJson().getFotoINE());
+
+            /*Como no recibe estos datos del servidor, se pone "sin .."
+            para que no de errores el DIFF CALL*/
+            cl.setCasa("sin casa");
+            cl.setFirma("sin firma");
             clList.add(cl);
         }
 

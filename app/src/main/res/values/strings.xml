@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Prototipo</string>
+    <string name="app_name">GEO Creditos</string>
     <string name="hitn_user_name">Nombre de Usuario</string>
     <string name="user_password">Contraseña</string>
     <string name="string_btn_login">Iniciar sesion</string>
@@ -13,9 +13,10 @@
     <string name="visita_title_fragment">VERIFICACION DE LA VISITA</string>
     <string name="status_verificacion">STATUS</string>
     <string name="status_encontrado">Encontrado</string>
-    <string name="status_no_encontrado">No encontrador</string>
+    <string name="status_no_encontrado">No encontrado</string>
     <string name="status_visita_rechazada">Visita rechazada</string>
     <string name="verificar_button">VERIFICAR</string>
+    <string name="especificar_razon">ENVIAR RAZON</string>
     <string name="status_visita_abandonada">Visita abandonada</string>
     <string name="title_verificacion_datos">VERIFICACIÓN DE DATOS</string>
     <string name="subtitle_direccion">Buscar dirección</string>
@@ -40,4 +41,12 @@
     <string name="label_verificacionVisitaActivity">Verificacion</string>
     <string name="btn_aceptar_firma">Aceptar</string>
     <string name="btn_reiniciar_firma">Reiniciar</string>
+    <string name="tooltip_error_form">Falta por realizar esta accion</string>
+    <string name="alert_datos_title">Captura de datos</string>
+    <string name="alert_datos_message">¿Desea registrar los datos capturados?</string>
+    <string name="alert_datos_positive_btn">REGISTRAR</string>
+    <string name="alert_datos_negative_btn">CANCELAR</string>
+    <string name="alert_datos_faltantes_title">Datos faltantes</string>
+    <string name="alert_datos_faltantes_positive_btn">OK</string>
+    <string name="place_holder_razon">Razon...</string>
 </resources>

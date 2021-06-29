@@ -21,6 +21,8 @@ import com.its_omar.prototipo.model.Constantes;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+import static com.its_omar.prototipo.model.Constantes.FIRMA_CLIENTE_KEY;
+
 public class FirmaActivity extends AppCompatActivity {
 
     private ActivityFirmaBinding binding;
@@ -51,7 +53,7 @@ public class FirmaActivity extends AppCompatActivity {
                 String f = Constantes.bitmapToBase64(firma);
 
                 if(editor != null){
-                    editor.putString(Constantes.FIRMA_CLIENTE_KEY, f);
+                    editor.putString(FIRMA_CLIENTE_KEY, f);
                     editor.apply();
                 }
 

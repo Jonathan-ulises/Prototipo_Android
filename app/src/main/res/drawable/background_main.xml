@@ -3,6 +3,6 @@
     <item android:drawable="@color/primary_color"/>
 
     <item>
-        <bitmap android:src="@drawable/geo_logo"/>
+        <bitmap android:src="@drawable/geo_logo_splash"/>
     </item>
 </layer-list>

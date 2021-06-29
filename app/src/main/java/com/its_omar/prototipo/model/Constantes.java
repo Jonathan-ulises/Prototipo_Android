@@ -20,6 +20,7 @@ public class Constantes {
     public static final String NOMBRE_USUARIO_LOGEADO = "usu_logeado";
     public static final String ID_EMPLEADO_LOGEADO = "id_empleado_logeado";
     public static final String NOMBRE_CLIENTE_EXTRA_KEY = "cliente_por_visitar";
+    public static final String ID_CLIENTE = "clente_seleccionado";
     public static final String FOTO_CASA_KEY = "fotografia_casa";
     public static final String FIRMA_CLIENTE_KEY = "firma_cliente";
     public static final String LONGITUD_UBI_CLIENTE = "long_cliente";
@@ -35,7 +36,29 @@ public class Constantes {
     public static final String TAG_ERROR_INTENT_EXTRAS = "intent_extras";
     public static final String TAG_ERROR_FOTO_NULL = "foto_capturada";
     public static final String TAG_INFO_DATOS_VERIFICACION = "faltan_datos";
-    public static final String TAG_CAPTURAR_UBICACION = "evento_cap";
+
+
+    //FLAGS para verificar los datos enviados.
+    public static final String FLAG_FOTO_CASA = "foto_completo";
+    public static final String FLAG_FIRMA_CLIENTE = "firma_completo";
+    public static final String FLAG_LONG_CLIENTE = "uLongitud_completo";
+    public static final String FLAG_LAT_CLIENTE = "uLongitud_completo";
+    public static final int DATO_COMPLETO = 1;
+    public static final int DATO_IMCOMPLETO = 0;
+    public static final String FLAG_VALIDACION = "validacion_completo";
+    public static final int VALIDADO = 1;
+    public static final int NO_VALIDADO = 0;
+    public static final int NO_REALIZADO = 2;
+
+
+    public static final int ESTATUS_POR_VISITAR = 1;
+    public static final int ESTATUS_VISITADO = 2;
+    public static final int ESTATUS_NO_ENCONTRADO = 4;
+    public static final int ESTATUS_VISITA_RECHAZADA = 5;
+    public static final int ESTATUS_VISITA_ABANDONADA = 6;
+    public static final int ESTATUS_VALIDADO = 7;
+    public static final int ESTATUS_NO_VALIDADO = 8;
+
     /**
      * Genera el nombre completo del cliente
      * @param cl Objeto del cliente {@link Cliente_por_visitar}

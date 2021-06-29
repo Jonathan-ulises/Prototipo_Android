@@ -15,10 +15,14 @@ import android.widget.Toolbar;
 
 import com.its_omar.prototipo.R;
 import com.its_omar.prototipo.VerificacionVisitaActivity;
+import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.FragmentVerificarEstatusBinding;
 import com.its_omar.prototipo.model.Constantes;
 
 import java.util.Objects;
+
+import static com.its_omar.prototipo.model.Constantes.ESTATUS_NO_ENCONTRADO;
+import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_RECHAZADA;
 //import com.its_omar.prototipo.databinding.FragmentVerificarEstatusBinding;
 
 /**
@@ -33,9 +37,11 @@ public class VerificarEstatusFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String NOMBRE_CLIENTE = "nombreCl";
+    private static final String ID_CLIENTE_SELECCIONADO = "idC";
 
     // TODO: Rename and change types of parameters
     private String mNombre;
+    private int mIdC;
 
     public VerificarEstatusFragment() {
         // Required empty public constructor
@@ -49,11 +55,12 @@ public class VerificarEstatusFragment extends Fragment {
      * @return A new instance of fragment VerificarEstatusFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VerificarEstatusFragment newInstance(String nombre) {
+    public static VerificarEstatusFragment newInstance(String nombre, int id) {
         VerificarEstatusFragment fragment = new VerificarEstatusFragment();
         Bundle args = new Bundle();
         args.putString(NOMBRE_CLIENTE, nombre);
-        Log.i(Constantes.TAG_ERROR_ARGUMENTS_FRAGMENT, "recibe -> " + nombre);
+        args.putInt(ID_CLIENTE_SELECCIONADO, id);
+        Log.i(Constantes.TAG_ERROR_ARGUMENTS_FRAGMENT, "recibe -> " + nombre + " " + id);
         fragment.setArguments(args);
 
         return fragment;
@@ -65,6 +72,7 @@ public class VerificarEstatusFragment extends Fragment {
 
         if (getArguments() != null) {
             mNombre = getArguments().getString(NOMBRE_CLIENTE);
+            mIdC = getArguments().getInt(ID_CLIENTE_SELECCIONADO);
         } else {
             mNombre = "Verificacion de visita";
         }
@@ -74,27 +82,41 @@ public class VerificarEstatusFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         verificarBinding = FragmentVerificarEstatusBinding.inflate(inflater, container, false);
-        verificarBinding.btnVerificar.setEnabled(false);
+        //verificarBinding.btnVerificar.setEnabled(true);
 
-        Toast.makeText(getContext(), mNombre, Toast.LENGTH_SHORT).show();
+        verificarBinding.btnVerificar.setText(R.string.verificar_button);
+
+        SharedPreferencesApp sp = SharedPreferencesApp.getInstance(getContext());
 
         verificarBinding.toolbar.setTitle(mNombre);
         ((AppCompatActivity)getActivity()).setSupportActionBar(verificarBinding.toolbar);
 
-        verificarBinding.rgEstatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                verificarBinding.btnVerificar.setEnabled(verificarBinding.rbSEncontrador.isChecked());
+        verificarBinding.rgEstatus.setOnCheckedChangeListener((radioGroup, i) -> {
+
+            if (verificarBinding.rbSEncontrador.isChecked()){
+                //verificarBinding.btnVerificar.setEnabled(verificarBinding.rbSEncontrador.isChecked());
+                verificarBinding.btnVerificar.setText(R.string.verificar_button);
+            } else {
+                verificarBinding.btnVerificar.setText(R.string.especificar_razon);
             }
         });
 
         verificarBinding.btnVerificar.setOnClickListener(view -> {
-            //VerificacionVisitaActivity activity = new VerificacionVisitaActivity();
-            VerificacionDatosFragment fragment = new VerificacionDatosFragment();
-            getFragmentManager().beginTransaction().remove(this).commit();
-            getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
-            //VerificacionDatosFragment fragment = new VerificacionDatosFragment();
-            //requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_verificacion, fragment);
+
+            if (verificarBinding.rbSEncontrador.isChecked()){
+                VerificacionDatosFragment fragment = VerificacionDatosFragment.newInstance(mIdC);
+                getFragmentManager().beginTransaction().remove(this).commit();
+                getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
+
+            } else if(verificarBinding.rbSNoEncontrado.isChecked()){
+                RazonFragment fragment = RazonFragment.newInstance(mIdC, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_NO_ENCONTRADO);
+                getFragmentManager().beginTransaction().remove(this).commit();
+                getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
+            } else if(verificarBinding.rbSVisitaRechazada.isChecked()){
+                RazonFragment fragment = RazonFragment.newInstance(mIdC, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_RECHAZADA);
+                getFragmentManager().beginTransaction().remove(this).commit();
+                getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
+            }
         });
 
 
