@@ -9,6 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.its_omar.prototipo.R;
+import com.its_omar.prototipo.databinding.FragmentRazonBinding;
+import com.its_omar.prototipo.model.Constantes;
+
+import static com.its_omar.prototipo.model.Constantes.ESTATUS_NO_ENCONTRADO;
+import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_ABANDONADA;
+import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_RECHAZADA;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,14 +23,18 @@ import com.its_omar.prototipo.R;
  */
 public class RazonFragment extends Fragment {
 
+    private FragmentRazonBinding razonBinding;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ID_CLIENTE = "idC";
+    private static final String ID_EMPLEADO = "idE";
+    private static final String ESTATUS_VISITA_FINAL = "estatus_visita";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int mIdCliente;
+    private int mIdEmpleado;
+    private int mEstatusV;
 
     public RazonFragment() {
         // Required empty public constructor
@@ -34,16 +44,17 @@ public class RazonFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param idC Parameter 1.
+     * @param idE Parameter 2.
      * @return A new instance of fragment RazonFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RazonFragment newInstance(String param1, String param2) {
+    public static RazonFragment newInstance(int idC, int idE, int est) {
         RazonFragment fragment = new RazonFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ID_CLIENTE, idC);
+        args.putInt(ID_EMPLEADO, idE);
+        args.putInt(ESTATUS_VISITA_FINAL, est);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,15 +63,74 @@ public class RazonFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mIdCliente = getArguments().getInt(ID_CLIENTE);
+            mIdEmpleado = getArguments().getInt(ID_EMPLEADO);
+            mEstatusV = getArguments().getInt(ESTATUS_VISITA_FINAL);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        razonBinding = FragmentRazonBinding.inflate(inflater, container, false);
+
+        initRadioButtons();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_razon, container, false);
+        return razonBinding.getRoot();
+    }
+
+    /**
+     * Inicializa la vizualizacion e interaccion de los radioButtons dependiendo el estatus recibido
+     */
+    private void initRadioButtons(){
+        switch (mEstatusV){
+            case ESTATUS_VISITA_ABANDONADA:
+                radioButtonsVisitaAbandonada();
+                break;
+            case ESTATUS_NO_ENCONTRADO:
+                radioButtonsNoEncontrado();
+                break;
+            case ESTATUS_VISITA_RECHAZADA:
+                radioButtonsVisitaRechazada();
+                break;
+        }
+
+    }
+
+    /**
+     * Preparacion de radiobutton si el estatus es una Visita Abandonada
+     */
+    private void radioButtonsVisitaAbandonada(){
+        razonBinding.rbSNoEncontrado.setChecked(false);
+        razonBinding.rbSNoEncontrado.setEnabled(false);
+        razonBinding.rbSVisitaRechazada.setChecked(false);
+        razonBinding.rbSVisitaRechazada.setEnabled(false);
+        razonBinding.rbSVisitaAbandonada.setChecked(true);
+        razonBinding.rbSVisitaAbandonada.setEnabled(true);
+    }
+
+    /**
+     * Preparacion de radiobutton si el estatus es No Encontrado
+     */
+    private void radioButtonsNoEncontrado(){
+        razonBinding.rbSNoEncontrado.setChecked(true);
+        razonBinding.rbSNoEncontrado.setEnabled(true);
+        razonBinding.rbSVisitaRechazada.setChecked(false);
+        razonBinding.rbSVisitaRechazada.setEnabled(false);
+        razonBinding.rbSVisitaAbandonada.setChecked(false);
+        razonBinding.rbSVisitaAbandonada.setEnabled(false);
+    }
+
+    /**
+     * Preparacion de radiobutton si el estatus es una Visita Rechazada
+     */
+    private void radioButtonsVisitaRechazada(){
+        razonBinding.rbSNoEncontrado.setChecked(false);
+        razonBinding.rbSNoEncontrado.setEnabled(false);
+        razonBinding.rbSVisitaRechazada.setChecked(true);
+        razonBinding.rbSVisitaRechazada.setEnabled(true);
+        razonBinding.rbSVisitaAbandonada.setChecked(false);
+        razonBinding.rbSVisitaAbandonada.setEnabled(false);
     }
 }
