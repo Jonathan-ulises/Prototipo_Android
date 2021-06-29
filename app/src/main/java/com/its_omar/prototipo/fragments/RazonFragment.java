@@ -1,5 +1,6 @@
 package com.its_omar.prototipo.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,11 +8,23 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.its_omar.prototipo.ClientesActivity;
 import com.its_omar.prototipo.R;
+import com.its_omar.prototipo.api.ServiceRetrofit;
+import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.databinding.FragmentRazonBinding;
 import com.its_omar.prototipo.model.Constantes;
+import com.its_omar.prototipo.model.Result;
+import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.its_omar.prototipo.controller.ConsultasComunes.registrarAccionBitacora;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_NO_ENCONTRADO;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_ABANDONADA;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_RECHAZADA;
@@ -76,6 +89,10 @@ public class RazonFragment extends Fragment {
 
         initRadioButtons();
 
+        razonBinding.btnVerificar.setOnClickListener(v -> {
+            subirRazon();
+        });
+
         // Inflate the layout for this fragment
         return razonBinding.getRoot();
     }
@@ -132,5 +149,44 @@ public class RazonFragment extends Fragment {
         razonBinding.rbSVisitaRechazada.setEnabled(true);
         razonBinding.rbSVisitaAbandonada.setChecked(false);
         razonBinding.rbSVisitaAbandonada.setEnabled(false);
+    }
+
+    /**
+     * Sube los datos de la razon al webservice
+     */
+    private void subirRazon(){
+        BodyJSONCliente body = new BodyJSONCliente();
+        body.setFirma("");
+        body.setFotoCasa("");
+        body.setIdCliente(mIdCliente);
+        body.setLatitudReal(0d);
+        body.setLongitudReal(0d);
+        body.setIdEstatusVisita(mEstatusV);
+        String razon = razonBinding.etRazonV.getText().toString();
+        body.setComentario(razon);
+
+        WebService api = ServiceRetrofit.getInstance().getSevices();
+
+        api.asignarVisita(body).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if(response.code() == 200){
+                    if(response.body().isOk()){
+                        registrarAccionBitacora("Verificacion", "Asignacion", mIdEmpleado);
+
+                        Snackbar.make(razonBinding.getRoot(), "Datos Capturados", Snackbar.LENGTH_SHORT)
+                                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+
+                        Intent intent = new Intent(getActivity(), ClientesActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

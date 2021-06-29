@@ -165,14 +165,16 @@ public class VerificacionDatosFragment extends Fragment {
 
         //EVENTO CAPTURAR DATOS
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
-            boolean res = validarCampos();
-
             if(datosBinding.rbSVAbandonada.isChecked()){
+                sp.borrarPreferencesDatos(editor);
                 RazonFragment fragment = RazonFragment.newInstance(mIdCliente, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_ABANDONADA);
                 getFragmentManager().beginTransaction().remove(this).commit();
                 getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
 
             } else {
+                boolean res = validarCampos();
+
+
                 if(res){
                     new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
                             .setTitle(R.string.alert_datos_title)
@@ -351,7 +353,7 @@ public class VerificacionDatosFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

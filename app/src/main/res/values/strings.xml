@@ -16,6 +16,7 @@
     <string name="status_no_encontrado">No encontrado</string>
     <string name="status_visita_rechazada">Visita rechazada</string>
     <string name="verificar_button">VERIFICAR</string>
+    <string name="especificar_razon">ENVIAR RAZON</string>
     <string name="status_visita_abandonada">Visita abandonada</string>
     <string name="title_verificacion_datos">VERIFICACIÓN DE DATOS</string>
     <string name="subtitle_direccion">Buscar dirección</string>
