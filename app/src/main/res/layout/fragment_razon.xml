@@ -87,15 +87,7 @@
                             app:layout_constraintEnd_toEndOf="@id/tvStatus"
                             app:layout_constraintBottom_toBottomOf="parent">
 
-                            <com.google.android.material.radiobutton.MaterialRadioButton
-                                android:id="@+id/rbS_Encontrador"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/avenir_next_lt_pro_regular"
-                                android:text="@string/status_encontrado"
-                                app:buttonTint="@color/es_encontrado_color"
-                                android:enabled="false"
-                                android:shadowColor="@color/es_encontrado_sh_color" />
+
 
                             <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/rbS_NoEncontrado"
