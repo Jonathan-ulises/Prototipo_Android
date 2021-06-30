@@ -141,6 +141,8 @@ public class VerificacionDatosFragment extends Fragment {
 
             datosBinding.bacgrPr.setVisibility(View.VISIBLE);
             requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            //datosBinding.prBar.setVisibility(View.VISIBLE);  //Progress bar por defecto
+            datosBinding.prBar.playAnimation();
             datosBinding.prBar.setVisibility(View.VISIBLE);
 
             capturarUbicacion.starLocating(new CapturarUbicacion.PlatformLocationListener() {
@@ -151,13 +153,17 @@ public class VerificacionDatosFragment extends Fragment {
 
                     Log.i("location" , "la: " + lat + "||--||" + " lon: " + lon);
 
+                    datosBinding.tvDireccionCap.setText("latitude: " + lat + " - " + " longitud: " + lon);
+
                     editor.putString(LONGITUD_UBI_CLIENTE, Double.toString(lon));
                     editor.putString(LATITUDE_UBI_CLIENTE, Double.toString(lat));
                     editor.apply();
 
                     requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     datosBinding.bacgrPr.setVisibility(View.GONE);
+                    //datosBinding.prBar.setVisibility(View.GONE); //Progress bar por defecto
                     datosBinding.prBar.setVisibility(View.GONE);
+                    datosBinding.prBar.pauseAnimation();
                 }
             });
 
@@ -215,6 +221,8 @@ public class VerificacionDatosFragment extends Fragment {
                             .show();
                     Log.i(TAG_INFO_DATOS_VERIFICACION, "Todo bien");
                 } else {
+
+                    //Genera la lista de acciones faltantes para mostrarla en un Dialog
                     StringBuilder faltantes = new StringBuilder();
 
                     for (String dt: datosFaltantes) {

@@ -57,5 +57,7 @@ dependencies {
 
     implementation 'com.kyanogen.signatureview:signature-view:1.2'
 
+    implementation 'com.airbnb.android:lottie:3.7.0'
+
     implementation(name:'HERE-sdk', ext:'aar')
 }
