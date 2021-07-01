@@ -1,5 +1,6 @@
 package com.its_omar.prototipo;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -7,14 +8,18 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.here.android.mpa.cluster.ClusterLayer;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.GeoPosition;
+import com.here.android.mpa.common.Image;
 import com.here.android.mpa.common.OnEngineInitListener;
 import com.here.android.mpa.common.PositioningManager;
 import com.here.android.mpa.mapping.AndroidXMapFragment;
 import com.here.android.mpa.mapping.Map;
+import com.here.android.mpa.mapping.MapMarker;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class MapClientesActivity extends AppCompatActivity {
@@ -30,13 +35,21 @@ public class MapClientesActivity extends AppCompatActivity {
 
     boolean paused = false;
 
+    private MapMarker markerUser;
 
+    private Image imgMarkerUser;
+
+    private ClusterLayer cl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_clientes);
+
+
         initMapa();
+
+
 
         //mapBinding.mapCl.
     }
@@ -58,6 +71,7 @@ public class MapClientesActivity extends AppCompatActivity {
                     mapClientes.setZoomLevel((mapClientes.getMaxZoomLevel() + mapClientes.getMinZoomLevel()) / 2);
 
                     posicionarVisitador();
+
                 } else {
                     Toast.makeText(getApplicationContext(), "ERROR DE MAPA " + error.getDetails(), Toast.LENGTH_LONG).show();
                 }
@@ -85,6 +99,22 @@ public class MapClientesActivity extends AppCompatActivity {
         public void onPositionUpdated(PositioningManager.LocationMethod locationMethod, @Nullable  GeoPosition geoPosition, boolean b) {
             if(!paused) {
                 mapClientes.setCenter(geoPosition.getCoordinate(), Map.Animation.NONE);
+                markerUser = new MapMarker();
+
+                imgMarkerUser = new Image();
+                try {
+                    imgMarkerUser.setImageResource(R.drawable.user_marker);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                markerUser.setIcon(imgMarkerUser);
+                markerUser.setCoordinate(geoPosition.getCoordinate());
+                cl = new ClusterLayer();
+                cl.addMarker(markerUser);
+
+
+                mapClientes.addClusterLayer(cl);
             }
         }
 
