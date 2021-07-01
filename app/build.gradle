@@ -36,6 +36,8 @@ android {
             dirs 'libs'
         }
     }
+
+
 }
 
 dependencies {
@@ -60,4 +62,5 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.7.0'
 
     implementation(name:'HERE-sdk', ext:'aar')
+
 }
