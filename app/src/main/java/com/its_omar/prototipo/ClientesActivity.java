@@ -106,6 +106,8 @@ public class ClientesActivity extends AppCompatActivity {
 
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
             //MAPA
+            Intent intent = new Intent(this, MapClientesActivity.class);
+            startActivity(intent);
         });
     }
 

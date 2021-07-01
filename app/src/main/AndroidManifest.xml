@@ -5,9 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Prototipo"
         android:usesCleartextTraffic="true">
+        <activity android:name=".MapClientesActivity" />
         <activity android:name=".FirmaActivity" />
         <activity
             android:name=".VerificacionVisitaActivity"
@@ -36,9 +37,15 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.here.android.maps.appid" android:value="Mii6KGQG8aBQIIkLpgbD"/>
-        <meta-data android:name="com.here.android.maps.apptoken" android:value="KLkE93cZiZC46Xjs6tFubw"/>
-        <meta-data android:name="com.here.android.maps.license.key" android:value="X1zVskr9LGqOIPfOTARZ0LdCqu4hTbkPzT5IQ6NKWWAgtVdDQKr/ez8TEhLGIIUtm89rECOVEanEwwBZMG8oeaD1TITuhSETVlhhYkzem9VEqLki4pZEMgeGX4Tw5kAzqw9B9bSpJ5Ipe92yiW4QkeKOtPcbotM5ooF82Fam1dwgV6hlk8uyGhkUp+Gm2C1UwHwi4IiXAKSnLo4+RJGLiJLZAz1OMF1ViNsvkXHvXoeus3rwL7l5xG789dbPgqB3ZlYLkkDK155o0ES399gGH6yehqopPrFutua3TIsWYoJety7i01qSgxCvzB8vnwlFP9lFQC8cKIH9Iya4qANGq/N4xUDIMvRt6pFBTumG9MWYIy7+AD9Ft3wWLhG/X9MaV4/zFpclWgj0zV32I7gzWpUz5vHzewQ7kRncbQoNxCvCsjLS8W7kqyzcMZTvwkac7yjJ+T5CbWTbfmasy5InsHcQRHhD+J5hSy9VChU15Q42TLl5+qSFHAvHCzz16sFkv3odZBNu+BiMMKvjU28ZOA8jcARt3fb3GDai19GyZJNHhpkPCU83h3iPFwhd0eCSchBK7oKNvnbP21lkdBDOHxKesHttYmz3EOf5sKm2pM0GWFjZv3fOfnCo2c2l+8a3oUyy3fY9vlqnfDj/DScc+V6hcpxdPAimH4DtgqF8uIs="/>
+        <meta-data
+            android:name="com.here.android.maps.appid"
+            android:value="Mii6KGQG8aBQIIkLpgbD" />
+        <meta-data
+            android:name="com.here.android.maps.apptoken"
+            android:value="KLkE93cZiZC46Xjs6tFubw" />
+        <meta-data
+            android:name="com.here.android.maps.license.key"
+            android:value="X1zVskr9LGqOIPfOTARZ0LdCqu4hTbkPzT5IQ6NKWWAgtVdDQKr/ez8TEhLGIIUtm89rECOVEanEwwBZMG8oeaD1TITuhSETVlhhYkzem9VEqLki4pZEMgeGX4Tw5kAzqw9B9bSpJ5Ipe92yiW4QkeKOtPcbotM5ooF82Fam1dwgV6hlk8uyGhkUp+Gm2C1UwHwi4IiXAKSnLo4+RJGLiJLZAz1OMF1ViNsvkXHvXoeus3rwL7l5xG789dbPgqB3ZlYLkkDK155o0ES399gGH6yehqopPrFutua3TIsWYoJety7i01qSgxCvzB8vnwlFP9lFQC8cKIH9Iya4qANGq/N4xUDIMvRt6pFBTumG9MWYIy7+AD9Ft3wWLhG/X9MaV4/zFpclWgj0zV32I7gzWpUz5vHzewQ7kRncbQoNxCvCsjLS8W7kqyzcMZTvwkac7yjJ+T5CbWTbfmasy5InsHcQRHhD+J5hSy9VChU15Q42TLl5+qSFHAvHCzz16sFkv3odZBNu+BiMMKvjU28ZOA8jcARt3fb3GDai19GyZJNHhpkPCU83h3iPFwhd0eCSchBK7oKNvnbP21lkdBDOHxKesHttYmz3EOf5sKm2pM0GWFjZv3fOfnCo2c2l+8a3oUyy3fY9vlqnfDj/DScc+V6hcpxdPAimH4DtgqF8uIs=" />
     </application>
 
 </manifest>
