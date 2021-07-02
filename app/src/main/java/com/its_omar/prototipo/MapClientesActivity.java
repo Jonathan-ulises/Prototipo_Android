@@ -18,6 +18,7 @@ import com.here.android.mpa.common.PositioningManager;
 import com.here.android.mpa.mapping.AndroidXMapFragment;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
+import com.here.android.mpa.mapping.MapObject;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 
 import java.io.File;
@@ -42,7 +43,7 @@ public class MapClientesActivity extends AppCompatActivity {
 
     boolean markadorGenerado = false;
 
-
+    ArrayList<Cliente_por_visitar> listaClientesUbi;
 
     private ClusterLayer cl;
 
@@ -54,7 +55,7 @@ public class MapClientesActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        ArrayList<Cliente_por_visitar> listaClientesUbi = extras.getParcelableArrayList(INTENT_ARRAY_COORDENADAS);
+        listaClientesUbi = extras.getParcelableArrayList(INTENT_ARRAY_COORDENADAS);
 
        /* if(listaClientesUbi.isEmpty()) {
             Log.i("listaC", "esta limpia la lista");
@@ -90,6 +91,8 @@ public class MapClientesActivity extends AppCompatActivity {
 
                     posicionarVisitador();
 
+                    posicionarClientes();
+
                 } else {
                     Toast.makeText(getApplicationContext(), "ERROR DE MAPA " + error.getDetails(), Toast.LENGTH_LONG).show();
                 }
@@ -123,7 +126,7 @@ public class MapClientesActivity extends AppCompatActivity {
                 if(!markadorGenerado) {
                     mapClientes.setCenter(geoPosition.getCoordinate(), Map.Animation.NONE);
                     mapClientes.setZoomLevel((mapClientes.getMaxZoomLevel() + mapClientes.getMinZoomLevel()) / 1.5);
-                    mapClientes.addMapObject(agregarMarcador(geoPosition.getCoordinate().getLatitude(), geoPosition.getCoordinate().getLongitude()));
+                    mapClientes.addMapObject(agregarMarcador(geoPosition.getCoordinate().getLatitude(), geoPosition.getCoordinate().getLongitude(), false));
                     markadorGenerado = true;
                     posManager.stop();
                     posManager.removeListener(positionListener);
@@ -175,12 +178,16 @@ public class MapClientesActivity extends AppCompatActivity {
      * @param lon Longitud
      * @return Marcador del mapa {@link MapMarker}
      */
-    private MapMarker agregarMarcador(double lat, double lon) {
+    private MapMarker agregarMarcador(double lat, double lon, boolean isCliente) {
         MapMarker markerUser = new MapMarker();
         Image imgMarkerUser = new Image();
-        IconCategory ic = IconCategory.ALL;
+
         try {
-            imgMarkerUser.setImageResource(R.drawable.user_marker);
+            if(!isCliente) {
+                imgMarkerUser.setImageResource(R.drawable.user_marker);
+            } else {
+                imgMarkerUser.setImageResource(R.drawable.cliente_marker);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -189,5 +196,15 @@ public class MapClientesActivity extends AppCompatActivity {
         markerUser.setCoordinate(new GeoCoordinate(lat, lon));
 
         return markerUser;
+    }
+
+    private void posicionarClientes() {
+        ArrayList<MapObject> marcadoresCl = new ArrayList<>();
+
+        for (Cliente_por_visitar cl: this.listaClientesUbi) {
+            marcadoresCl.add(agregarMarcador(cl.getLat(), cl.getLon(), true));
+        }
+
+        mapClientes.addMapObjects(marcadoresCl);
     }
 }
