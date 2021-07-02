@@ -43,6 +43,7 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.INTENT_ARRAY_COORDENADAS;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
 import static com.its_omar.prototipo.model.Constantes.PERMISOS;
 import static com.its_omar.prototipo.model.Constantes.generarNombreCompleto;
@@ -111,7 +112,7 @@ public class ClientesActivity extends AppCompatActivity {
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
             //MAPA
             Intent intent = new Intent(this, MapClientesActivity.class);
-            intent.putParcelableArrayListExtra()
+            intent.putParcelableArrayListExtra(INTENT_ARRAY_COORDENADAS,userInMap);
             startActivity(intent);
         });
     }

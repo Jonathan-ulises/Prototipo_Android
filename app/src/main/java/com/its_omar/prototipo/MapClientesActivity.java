@@ -18,10 +18,14 @@ import com.here.android.mpa.common.PositioningManager;
 import com.here.android.mpa.mapping.AndroidXMapFragment;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
+import com.its_omar.prototipo.model.Cliente_por_visitar;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+
+import static com.its_omar.prototipo.model.Constantes.INTENT_ARRAY_COORDENADAS;
 
 public class MapClientesActivity extends AppCompatActivity {
 
@@ -47,6 +51,16 @@ public class MapClientesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_clientes);
 
+
+        Bundle extras = getIntent().getExtras();
+
+        ArrayList<Cliente_por_visitar> listaClientesUbi = extras.getParcelableArrayList(INTENT_ARRAY_COORDENADAS);
+
+       /* if(listaClientesUbi.isEmpty()) {
+            Log.i("listaC", "esta limpia la lista");
+        } else {
+            Log.i("listaC", "Coordenada: " + listaClientesUbi.get(0).getLat());
+        }*/
 
         initMapa();
 
