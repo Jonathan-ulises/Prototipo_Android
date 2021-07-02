@@ -26,6 +26,14 @@ public class Json_list {
     @Expose
     private String fotoINE;
 
+    @SerializedName("latitud")
+    @Expose
+    private double lati;
+
+    @SerializedName("longitud")
+    @Expose
+    private double longt;
+
     public int getId_Cliente() {
         return id_Cliente;
     }
@@ -48,5 +56,13 @@ public class Json_list {
 
     public String getFotoINE() {
         return fotoINE;
+    }
+
+    public double getLati() {
+        return lati;
+    }
+
+    public double getLongt() {
+        return longt;
     }
 }

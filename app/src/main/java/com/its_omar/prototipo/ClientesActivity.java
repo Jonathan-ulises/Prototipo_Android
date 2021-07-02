@@ -32,6 +32,7 @@ import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.Usuario;
 import com.its_omar.prototipo.model.resultClienteService.ClientesJSONResult;
 import com.its_omar.prototipo.model.resultClienteService.Resultado;
+import com.nokia.maps.restrouting.GeoCoordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,9 @@ public class ClientesActivity extends AppCompatActivity {
     ClientesVisitaAdapter adapter;
     SharedPreferencesApp sharedPreferencesApp;
     Usuario usu;
+
+    //Lista de coordanadas de los clientes
+    ArrayList<Cliente_por_visitar> userInMap = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +111,7 @@ public class ClientesActivity extends AppCompatActivity {
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
             //MAPA
             Intent intent = new Intent(this, MapClientesActivity.class);
+            intent.putParcelableArrayListExtra()
             startActivity(intent);
         });
     }
@@ -161,7 +166,7 @@ public class ClientesActivity extends AppCompatActivity {
     private void consultarListaCliente(int idEmpleado){
 
         WebService api = ServiceRetrofit.getInstance().getSevices();
-        api.getClientesEmplado(new Empleado(idEmpleado)).enqueue(new Callback<ClientesJSONResult>() {
+        api.getClientesEmpleado(new Empleado(idEmpleado)).enqueue(new Callback<ClientesJSONResult>() {
             @Override
             public void onResponse(Call<ClientesJSONResult> call, Response<ClientesJSONResult> response) {
 
@@ -204,6 +209,12 @@ public class ClientesActivity extends AppCompatActivity {
             cl.setaPaterno(r.getJson().getaPaterno());
             cl.setaMaterno(r.getJson().getaMaterno());
             cl.setIne(r.getJson().getFotoINE());
+            cl.setLat(r.getJson().getLati());
+            cl.setLon(r.getJson().getLongt());
+
+
+            //AGREGACION DE LAS COORDENADAS DE LOS CLIENTES A LA LISTA
+            userInMap.add(cl);
 
             /*Como no recibe estos datos del servidor, se pone "sin .."
             para que no de errores el DIFF CALL*/
@@ -257,4 +268,5 @@ public class ClientesActivity extends AppCompatActivity {
             }
         }
     }
+
 }

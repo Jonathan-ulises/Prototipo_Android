@@ -30,7 +30,7 @@ public interface WebService {
     Call<Result> registrarBitacora(@Body Bitacora bitacora);
 
     @POST("obtenerVisitas")
-    Call<ClientesJSONResult> getClientesEmplado(@Body Empleado idEmpleado);
+    Call<ClientesJSONResult> getClientesEmpleado(@Body Empleado idEmpleado);
 
     @POST("actualizarVisita")
     Call<Result> asignarVisita(@Body BodyJSONCliente request);

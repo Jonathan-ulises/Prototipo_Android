@@ -12,12 +12,14 @@ public class Cliente_por_visitar {
     private String ine;
     private String casa;
     private String firma;
+    private double lat;
+    private double lon;
 
     public Cliente_por_visitar() {
     }
 
     public Cliente_por_visitar(int idCliente, String nombre, String aPaterno, String aMaterno,
-                               int estatusVisita, String ine, String casa, String firma) {
+                               int estatusVisita, String ine, String casa, String firma, double lat, double lon) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.aPaterno = aPaterno;
@@ -26,6 +28,8 @@ public class Cliente_por_visitar {
         this.ine = ine;
         this.casa = casa;
         this.firma = firma;
+        this.lat = lat;
+        this.lon = lon;
     }
 
     public int getIdCliente() {
@@ -60,6 +64,14 @@ public class Cliente_por_visitar {
         return firma;
     }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
@@ -92,6 +104,14 @@ public class Cliente_por_visitar {
         this.firma = firma;
     }
 
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,11 +124,13 @@ public class Cliente_por_visitar {
                 aMaterno.equals(that.aMaterno) &&
                 ine.equals(that.ine) &&
                 casa.equals(that.casa) &&
-                firma.equals(that.firma);
+                firma.equals(that.firma) &&
+                lat == that.lat &&
+                lon == that.lon;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCliente, nombre, aPaterno, aMaterno, estatusVisita, ine, casa);
+        return Objects.hash(idCliente, nombre, aPaterno, aMaterno, estatusVisita, ine, casa, firma, lat, lon);
     }
 }

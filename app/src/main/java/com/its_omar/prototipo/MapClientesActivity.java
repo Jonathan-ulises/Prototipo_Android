@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.here.android.mpa.cluster.ClusterLayer;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.GeoPosition;
+import com.here.android.mpa.common.IconCategory;
 import com.here.android.mpa.common.Image;
 import com.here.android.mpa.common.OnEngineInitListener;
 import com.here.android.mpa.common.PositioningManager;
@@ -35,9 +36,9 @@ public class MapClientesActivity extends AppCompatActivity {
 
     boolean paused = false;
 
-    private MapMarker markerUser;
+    boolean markadorGenerado = false;
 
-    private Image imgMarkerUser;
+
 
     private ClusterLayer cl;
 
@@ -54,6 +55,9 @@ public class MapClientesActivity extends AppCompatActivity {
         //mapBinding.mapCl.
     }
 
+    /**
+     * Inicializa el mapa
+     */
     private void initMapa() {
         mapFragment = (AndroidXMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapCl);
 
@@ -81,6 +85,9 @@ public class MapClientesActivity extends AppCompatActivity {
         //posicionarVisitador();
     }
 
+    /**
+     * Obtiene la posiion del visitador
+     */
     private void posicionarVisitador() {
         try {
             posManager = PositioningManager.getInstance();
@@ -88,6 +95,7 @@ public class MapClientesActivity extends AppCompatActivity {
             posManager.start(PositioningManager.LocationMethod.GPS_NETWORK);
 
             posManager.addListener(new WeakReference<PositioningManager.OnPositionChangedListener>(positionListener));
+
         } catch (Exception e){
             Log.i("mapa", e.getMessage());
         }
@@ -98,23 +106,14 @@ public class MapClientesActivity extends AppCompatActivity {
         @Override
         public void onPositionUpdated(PositioningManager.LocationMethod locationMethod, @Nullable  GeoPosition geoPosition, boolean b) {
             if(!paused) {
-                mapClientes.setCenter(geoPosition.getCoordinate(), Map.Animation.NONE);
-                markerUser = new MapMarker();
-
-                imgMarkerUser = new Image();
-                try {
-                    imgMarkerUser.setImageResource(R.drawable.user_marker);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(!markadorGenerado) {
+                    mapClientes.setCenter(geoPosition.getCoordinate(), Map.Animation.NONE);
+                    mapClientes.setZoomLevel((mapClientes.getMaxZoomLevel() + mapClientes.getMinZoomLevel()) / 1.5);
+                    mapClientes.addMapObject(agregarMarcador(geoPosition.getCoordinate().getLatitude(), geoPosition.getCoordinate().getLongitude()));
+                    markadorGenerado = true;
+                    posManager.stop();
+                    posManager.removeListener(positionListener);
                 }
-
-                markerUser.setIcon(imgMarkerUser);
-                markerUser.setCoordinate(geoPosition.getCoordinate());
-                cl = new ClusterLayer();
-                cl.addMarker(markerUser);
-
-
-                mapClientes.addClusterLayer(cl);
             }
         }
 
@@ -123,6 +122,8 @@ public class MapClientesActivity extends AppCompatActivity {
 
         }
     };
+
+
 
     @Override
     protected void onResume() {
@@ -152,5 +153,27 @@ public class MapClientesActivity extends AppCompatActivity {
 
         mapClientes = null;
         super.onDestroy();
+    }
+
+    /**
+     * genera marcadores para e mapa
+     * @param lat Latitude
+     * @param lon Longitud
+     * @return Marcador del mapa {@link MapMarker}
+     */
+    private MapMarker agregarMarcador(double lat, double lon) {
+        MapMarker markerUser = new MapMarker();
+        Image imgMarkerUser = new Image();
+        IconCategory ic = IconCategory.ALL;
+        try {
+            imgMarkerUser.setImageResource(R.drawable.user_marker);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        markerUser.setIcon(imgMarkerUser);
+        markerUser.setCoordinate(new GeoCoordinate(lat, lon));
+
+        return markerUser;
     }
 }
