@@ -32,7 +32,6 @@ import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.Usuario;
 import com.its_omar.prototipo.model.resultClienteService.ClientesJSONResult;
 import com.its_omar.prototipo.model.resultClienteService.Resultado;
-import com.nokia.maps.restrouting.GeoCoordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
-import static com.its_omar.prototipo.model.Constantes.INTENT_ARRAY_COORDENADAS;
+import static com.its_omar.prototipo.model.Constantes.INTENT_ID_EMPLEADO;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
 import static com.its_omar.prototipo.model.Constantes.PERMISOS;
 import static com.its_omar.prototipo.model.Constantes.generarNombreCompleto;
@@ -112,7 +111,7 @@ public class ClientesActivity extends AppCompatActivity {
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
             //MAPA
             Intent intent = new Intent(this, MapClientesActivity.class);
-            intent.putParcelableArrayListExtra(INTENT_ARRAY_COORDENADAS,userInMap);
+            intent.putExtra(INTENT_ID_EMPLEADO, usu.getId_empleado());
             startActivity(intent);
         });
     }
