@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.GeoPosition;
@@ -43,6 +44,8 @@ import static com.its_omar.prototipo.model.Constantes.INTENT_ID_EMPLEADO;
 
 public class MapClientesActivity extends AppCompatActivity {
 
+    private LottieAnimationView progressView;
+    private View backgroudProgress;
 
     //Mapa enbebido
     private Map mapClientes = null;
@@ -61,6 +64,9 @@ public class MapClientesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_clientes);
 
+        progressView = findViewById(R.id.prBarMap);
+        backgroudProgress = findViewById(R.id.bacgrPrMap);
+
         View view = getCurrentFocus();
 
         Bundle extras = getIntent().getExtras();
@@ -74,6 +80,10 @@ public class MapClientesActivity extends AppCompatActivity {
      * Inicializa el mapa
      */
     private void initMapa() {
+        backgroudProgress.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.VISIBLE);
+        progressView.playAnimation();
+
         mapFragment = (AndroidXMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapCl);
 
         com.here.android.mpa.common.MapSettings.setDiskCacheRootPath(
@@ -92,6 +102,10 @@ public class MapClientesActivity extends AppCompatActivity {
                     posicionarVisitador();
 
                     cargarClientes();
+
+                    backgroudProgress.setVisibility(View.GONE);
+                    progressView.pauseAnimation();
+                    progressView.setVisibility(View.GONE);
                 //posicionarClientes();
 
                 } else {
@@ -212,6 +226,8 @@ public class MapClientesActivity extends AppCompatActivity {
                             /*adapter.submitList(jsonResponse(response.body()));
                             adapter.notifyDataSetChanged();
                             clientesBinding.swipeRfshList.setRefreshing(false);*/
+
+
                         } else {
                             Toast.makeText(getApplication(), "Sin Cliente Asignados", Toast.LENGTH_SHORT).show();
                            /* clientesBinding.swipeRfshList.setRefreshing(false);*/

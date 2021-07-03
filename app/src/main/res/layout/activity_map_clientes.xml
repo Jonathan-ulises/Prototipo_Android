@@ -16,4 +16,24 @@
             android:layout_height="match_parent"/>
 
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/prBarMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/progress_loading"
+        android:elevation="24dp"
+        tools:visibility="visible"
+        android:visibility="gone"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
+
+    <View
+        android:id="@+id/bacgrPrMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background_progressbar"
+        android:visibility="gone"
+        android:elevation="20dp"
+        tools:visibility="visible"/>
     </RelativeLayout>
