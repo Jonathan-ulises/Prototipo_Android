@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerMap"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapClientesActivity">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/containerMap"
+    <fragment
+        android:id="@+id/mapCl"
+        class="com.here.android.mpa.mapping.AndroidXMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MapClientesActivity">
-
-        <fragment
-            android:id="@+id/mapCl"
-            class="com.here.android.mpa.mapping.AndroidXMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 
+    <include android:id="@+id/includeBottom" layout="@layout/layout_bottom_sheet_clientes"/>
+
+    <!-- TIEMPO DE ESPERA DE CARGA DEL MAPA Y LOCALIZACION DE MARCADORES -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/prBarMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:lottie_rawRes="@raw/progress_loading"
         android:elevation="24dp"
-        tools:visibility="visible"
         android:visibility="gone"
+        app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_autoPlay="true"/>
+        app:lottie_rawRes="@raw/progress_loading"
+        tools:visibility="gone" />
 
 
     <View
@@ -33,7 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_background_progressbar"
-        android:visibility="gone"
         android:elevation="20dp"
-        tools:visibility="visible"/>
-    </RelativeLayout>
+        android:visibility="gone"
+        tools:visibility="gone" />
+
+    <!-- TIEMPO DE ESPERA DE CARGA DEL MAPA Y LOCALIZACION DE MARCADORES -->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
