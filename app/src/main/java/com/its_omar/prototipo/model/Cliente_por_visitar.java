@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
-public class Cliente_por_visitar implements Parcelable {
+public class Cliente_por_visitar  {
 
     private int idCliente;
     private String nombre;
@@ -35,30 +35,6 @@ public class Cliente_por_visitar implements Parcelable {
         this.lon = lon;
     }
 
-    protected Cliente_por_visitar(Parcel in) {
-        idCliente = in.readInt();
-        nombre = in.readString();
-        aPaterno = in.readString();
-        aMaterno = in.readString();
-        estatusVisita = in.readInt();
-        ine = in.readString();
-        casa = in.readString();
-        firma = in.readString();
-        lat = in.readDouble();
-        lon = in.readDouble();
-    }
-
-    public static final Creator<Cliente_por_visitar> CREATOR = new Creator<Cliente_por_visitar>() {
-        @Override
-        public Cliente_por_visitar createFromParcel(Parcel in) {
-            return new Cliente_por_visitar(in);
-        }
-
-        @Override
-        public Cliente_por_visitar[] newArray(int size) {
-            return new Cliente_por_visitar[size];
-        }
-    };
 
     public int getIdCliente() {
         return idCliente;
@@ -162,22 +138,4 @@ public class Cliente_por_visitar implements Parcelable {
         return Objects.hash(idCliente, nombre, aPaterno, aMaterno, estatusVisita, ine, casa, firma, lat, lon);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(idCliente);
-        parcel.writeString(nombre);
-        parcel.writeString(aPaterno);
-        parcel.writeString(aMaterno);
-        parcel.writeInt(estatusVisita);
-        parcel.writeString(ine);
-        parcel.writeString(casa);
-        parcel.writeString(firma);
-        parcel.writeDouble(lat);
-        parcel.writeDouble(lon);
-    }
 }
