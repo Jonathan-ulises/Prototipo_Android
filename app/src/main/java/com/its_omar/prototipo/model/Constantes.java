@@ -59,7 +59,7 @@ public class Constantes {
     public static final int ESTATUS_VALIDADO = 7;
     public static final int ESTATUS_NO_VALIDADO = 8;
 
-    public static final String INTENT_ARRAY_COORDENADAS = "cliente_Coord";
+    public static final String INTENT_ID_EMPLEADO = "cliente_Coord";
 
 
     public static final String[] PERMISOS = new String[]{
