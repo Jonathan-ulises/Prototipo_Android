@@ -5,13 +5,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.GeoPosition;
@@ -24,6 +30,7 @@ import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.MapObject;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.fragments.adapters.ClientesVisitaAdapter;
 import com.its_omar.prototipo.model.Cliente_por_visitar;
 import com.its_omar.prototipo.model.Empleado;
 import com.its_omar.prototipo.model.resultClienteService.ClientesJSONResult;
@@ -59,10 +66,51 @@ public class MapClientesActivity extends AppCompatActivity {
 
     int idEmpleado;
 
+    //Bottom Sheet
+    private BottomSheetBehavior mBottomSheetBehavior;
+    private boolean mIsEpanded;
+    private ImageButton btnExpand;
+    private RecyclerView rclClienteInMap;
+    ClientesVisitaAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_clientes);
+
+        //View viewBotoom = View.inflate(this, R.layout.layout_bottom_sheet_clientes, null);
+        View ad = findViewById(R.id.includeBottom);
+
+        btnExpand = ad.findViewById(R.id.btnResize);
+        adapter = new ClientesVisitaAdapter();
+        rclClienteInMap = ad.findViewById(R.id.rclClienteVisita);
+        rclClienteInMap.setLayoutManager(new LinearLayoutManager(this));
+        rclClienteInMap.setAdapter(adapter);
+
+
+        mBottomSheetBehavior = BottomSheetBehavior.from(ad);
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                        mIsEpanded = true;
+                        btnExpand.setImageDrawable(ContextCompat.getDrawable(getApplication(), R.drawable.ic_expand_more));
+                        break;
+                    case BottomSheetBehavior.STATE_COLLAPSED:
+                        mIsEpanded = false;
+                        btnExpand.setImageDrawable(ContextCompat.getDrawable(getApplication(), R.drawable.ic_expand_less));
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
 
         progressView = findViewById(R.id.prBarMap);
         backgroudProgress = findViewById(R.id.bacgrPrMap);
@@ -74,6 +122,13 @@ public class MapClientesActivity extends AppCompatActivity {
 
         initMapa();
 
+        btnExpand.setOnClickListener(v -> {
+            if(mIsEpanded){
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            } else {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
     }
 
     /**
@@ -223,10 +278,8 @@ public class MapClientesActivity extends AppCompatActivity {
 
                             //listClientes = jsonResponse(response.body());
                             mapClientes.addMapObjects(agregarMarcadoresClientes(jsonResponse(response.body())));
-                            /*adapter.submitList(jsonResponse(response.body()));
+                            adapter.submitList(jsonResponse(response.body()));
                             adapter.notifyDataSetChanged();
-                            clientesBinding.swipeRfshList.setRefreshing(false);*/
-
 
                         } else {
                             Toast.makeText(getApplication(), "Sin Cliente Asignados", Toast.LENGTH_SHORT).show();
