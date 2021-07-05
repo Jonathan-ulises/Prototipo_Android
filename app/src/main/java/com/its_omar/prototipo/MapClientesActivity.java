@@ -63,6 +63,8 @@ public class MapClientesActivity extends AppCompatActivity {
     boolean paused = false;
     boolean markadorGenerado = false;
     protected static List<Cliente_por_visitar> listClientes = new ArrayList<>();
+    private boolean isUsuarioPosicionado = false;
+    private GeoCoordinate userCoord;
 
     int idEmpleado;
 
@@ -70,6 +72,7 @@ public class MapClientesActivity extends AppCompatActivity {
     private BottomSheetBehavior mBottomSheetBehavior;
     private boolean mIsEpanded;
     private ImageButton btnExpand;
+    private ImageButton btnRefresh;
     private RecyclerView rclClienteInMap;
     ClientesVisitaAdapter adapter;
 
@@ -82,6 +85,7 @@ public class MapClientesActivity extends AppCompatActivity {
         View ad = findViewById(R.id.includeBottom);
 
         btnExpand = ad.findViewById(R.id.btnResize);
+        btnRefresh = ad.findViewById(R.id.btnRefresh);
         adapter = new ClientesVisitaAdapter();
         rclClienteInMap = ad.findViewById(R.id.rclClienteVisita);
         rclClienteInMap.setLayoutManager(new LinearLayoutManager(this));
@@ -129,6 +133,8 @@ public class MapClientesActivity extends AppCompatActivity {
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         });
+
+        btnRefresh.setOnClickListener(view1 -> initMapa());
     }
 
     /**
@@ -150,12 +156,16 @@ public class MapClientesActivity extends AppCompatActivity {
                 if(error ==  OnEngineInitListener.Error.NONE) {
                     mapClientes = mapFragment.getMap();
 
-                    mapClientes.setCenter(new GeoCoordinate(49.196261, -123.004773, 0.0), Map.Animation.NONE);
+                    //mapClientes.setCenter(new GeoCoordinate(49.196261, -123.004773, 0.0), Map.Animation.NONE);
 
                     mapClientes.setZoomLevel((mapClientes.getMaxZoomLevel() + mapClientes.getMinZoomLevel()) / 2);
 
-                    posicionarVisitador();
+                    if(!isUsuarioPosicionado) {
+                        posicionarVisitador();
+                        isUsuarioPosicionado = true;
+                    }
 
+                    mapClientes.setCenter(userCoord, Map.Animation.NONE);
                     cargarClientes();
 
                     backgroudProgress.setVisibility(View.GONE);
@@ -192,6 +202,7 @@ public class MapClientesActivity extends AppCompatActivity {
         public void onPositionUpdated(PositioningManager.LocationMethod locationMethod, @Nullable  GeoPosition geoPosition, boolean b) {
             if(!paused) {
                 if(!markadorGenerado) {
+                    userCoord = geoPosition.getCoordinate();
                     mapClientes.setCenter(geoPosition.getCoordinate(), Map.Animation.NONE);
                     mapClientes.setZoomLevel((mapClientes.getMaxZoomLevel() + mapClientes.getMinZoomLevel()) / 1.5);
                     mapClientes.addMapObject(agregarMarcador(geoPosition.getCoordinate().getLatitude(), geoPosition.getCoordinate().getLongitude(), false));
@@ -262,10 +273,14 @@ public class MapClientesActivity extends AppCompatActivity {
 
         markerUser.setIcon(imgMarkerUser);
         markerUser.setCoordinate(new GeoCoordinate(lat, lon));
+        markerUser.
 
         return markerUser;
     }
 
+    /**
+     * Carga los clientes en el mapa y en la lista
+     */
     private void cargarClientes(){
         WebService api = ServiceRetrofit.getInstance().getSevices();
         api.getClientesEmpleado(new Empleado(idEmpleado)).enqueue(new Callback<ClientesJSONResult>() {
