@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.GeoPosition;
@@ -50,6 +51,7 @@ import retrofit2.Response;
 import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.INTENT_ID_EMPLEADO;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
+import static com.its_omar.prototipo.model.Constantes.checkIfLocationOpened;
 import static com.its_omar.prototipo.model.Constantes.generarNombreCompleto;
 
 
@@ -165,42 +167,56 @@ public class MapClientesActivity extends AppCompatActivity {
         progressView.setVisibility(View.VISIBLE);
         progressView.playAnimation();
 
-        mapFragment = (AndroidXMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapCl);
 
-        com.here.android.mpa.common.MapSettings.setDiskCacheRootPath(
-                getApplicationContext().getExternalFilesDir(null) + File.separator + ".here-maps");
+        //Comprueba que se tenga el GPS encendido
+        if(checkIfLocationOpened(this)) {
 
-        mapFragment.init(new OnEngineInitListener() {
-            @Override
-            public void onEngineInitializationCompleted(Error error) {
-                if(error ==  OnEngineInitListener.Error.NONE) {
-                    mapClientes = mapFragment.getMap();
+            mapFragment = (AndroidXMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapCl);
 
-                    //mapClientes.setCenter(new GeoCoordinate(49.196261, -123.004773, 0.0), Map.Animation.NONE);
+            com.here.android.mpa.common.MapSettings.setDiskCacheRootPath(
+                    getApplicationContext().getExternalFilesDir(null) + File.separator + ".here-maps");
 
-                    mapClientes.setZoomLevel((mapClientes.getMaxZoomLevel() + mapClientes.getMinZoomLevel()) / 2);
+            mapFragment.init(new OnEngineInitListener() {
+                @Override
+                public void onEngineInitializationCompleted(Error error) {
+                    if(error ==  OnEngineInitListener.Error.NONE) {
+                        mapClientes = mapFragment.getMap();
 
-                    if(!isUsuarioPosicionado) {
-                        posicionarVisitador();
-                        isUsuarioPosicionado = true;
+                        //mapClientes.setCenter(new GeoCoordinate(49.196261, -123.004773, 0.0), Map.Animation.NONE);
+
+                        mapClientes.setZoomLevel((mapClientes.getMaxZoomLevel() + mapClientes.getMinZoomLevel()) / 2);
+
+                        if(!isUsuarioPosicionado) {
+                            posicionarVisitador();
+                            isUsuarioPosicionado = true;
+                        }
+
+                        mapClientes.setCenter(userCoord, Map.Animation.NONE);
+
+                        //Carga los clientes asignados
+                        cargarClientes();
+
+                        //Esconde el progress y el fondo oscuro
+                        backgroudProgress.setVisibility(View.GONE);
+                        progressView.pauseAnimation();
+                        progressView.setVisibility(View.GONE);
+                        //posicionarClientes();
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "ERROR DE MAPA " + error.getDetails(), Toast.LENGTH_LONG).show();
                     }
-
-                    mapClientes.setCenter(userCoord, Map.Animation.NONE);
-
-                    //Carga los clientes asignados
-                    cargarClientes();
-
-                    //Esconde el progress y el fondo oscuro
-                    backgroudProgress.setVisibility(View.GONE);
-                    progressView.pauseAnimation();
-                    progressView.setVisibility(View.GONE);
-                //posicionarClientes();
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "ERROR DE MAPA " + error.getDetails(), Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+            });
+        } else {
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            new MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_MaterialComponents_Dialog)
+                    .setTitle(R.string.alert_mapa_title_error)
+                    .setIcon(R.drawable.ic_warning)
+                    .setMessage(R.string.alert_mapa_message_error)
+                    .show();
+
+
+        }
     }
 
     /**

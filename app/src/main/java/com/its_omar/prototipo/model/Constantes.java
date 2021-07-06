@@ -1,7 +1,9 @@
 package com.its_omar.prototipo.model;
 
 import android.Manifest;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.provider.Settings;
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
@@ -85,5 +87,19 @@ public class Constantes {
         bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    /**
+     * Revisa que se tiene el servicio de GPS encendido
+     * @param context Contexto de ejecucion
+     * @return Si esta conectado
+     */
+    public static boolean checkIfLocationOpened(Context context) {
+        String provider = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        System.out.println("Provider contains=> " + provider);
+        if (provider.contains("gps") || provider.contains("network")){
+            return true;
+        }
+        return false;
     }
 }

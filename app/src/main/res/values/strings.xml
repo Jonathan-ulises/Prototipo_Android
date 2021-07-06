@@ -50,4 +50,6 @@
     <string name="alert_datos_faltantes_positive_btn">OK</string>
     <string name="place_holder_razon">Razon...</string>
     <string name="bottom_sheet_title">LISTA DE CLIENTES</string>
+    <string name="alert_mapa_title_error">Error del Mapa</string>
+    <string name="alert_mapa_message_error">Regresa al la pantalla principal y verifica que tengas el GPS encendido</string>
 </resources>

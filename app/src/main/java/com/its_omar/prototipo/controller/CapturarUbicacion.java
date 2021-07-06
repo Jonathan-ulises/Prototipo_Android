@@ -20,14 +20,6 @@ import static android.content.Context.LOCATION_SERVICE;
 public class CapturarUbicacion implements LocationListener {
 
 
-    public static boolean checkIfLocationOpened(Context context) {
-        String provider = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-        System.out.println("Provider contains=> " + provider);
-        if (provider.contains("gps") || provider.contains("network")){
-            return true;
-        }
-        return false;
-    }
 
 
     public static final String LOG_TAG = "CapturarUbicacions";
