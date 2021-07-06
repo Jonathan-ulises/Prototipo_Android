@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.ClientesActivity;
@@ -35,6 +36,7 @@ import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,6 +55,7 @@ import static com.its_omar.prototipo.model.Constantes.FOTO_CASA_KEY;
 import static com.its_omar.prototipo.model.Constantes.LATITUDE_UBI_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.LONGITUD_UBI_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.TAG_INFO_DATOS_VERIFICACION;
+import static com.its_omar.prototipo.model.Constantes.checkIfLocationOpened;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -139,34 +142,44 @@ public class VerificacionDatosFragment extends Fragment {
         //EVENTO OBTENER UBICACION TODO: IMPLEMENTAR HERE MAPS
         datosBinding.btnObtenerUbicacion.setOnClickListener(view -> {
 
-            datosBinding.bacgrPr.setVisibility(View.VISIBLE);
-            requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            //datosBinding.prBar.setVisibility(View.VISIBLE);  //Progress bar por defecto
-            datosBinding.prBar.playAnimation();
-            datosBinding.prBar.setVisibility(View.VISIBLE);
+            //Comprueba que se tenga el GPS encendido
+            if(checkIfLocationOpened(requireContext())){
+                datosBinding.bacgrPr.setVisibility(View.VISIBLE);
+                requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                //datosBinding.prBar.setVisibility(View.VISIBLE);  //Progress bar por defecto
+                datosBinding.prBar.playAnimation();
+                datosBinding.prBar.setVisibility(View.VISIBLE);
 
-            capturarUbicacion.starLocating(new CapturarUbicacion.PlatformLocationListener() {
-                @Override
-                public void onLocationUpdate(Location location, int status) {
-                    double lat = location.getLatitude();
-                    double lon = location.getLongitude();
+                capturarUbicacion.starLocating(new CapturarUbicacion.PlatformLocationListener() {
+                    @Override
+                    public void onLocationUpdate(Location location, int status) {
+                        double lat = location.getLatitude();
+                        double lon = location.getLongitude();
 
-                    Log.i("location" , "la: " + lat + "||--||" + " lon: " + lon);
+                        Log.i("location" , "la: " + lat + "||--||" + " lon: " + lon);
 
-                    datosBinding.tvDireccionCap.setText("latitude: " + lat + " - " + " longitud: " + lon);
+                        datosBinding.tvDireccionCap.setText("latitude: " + lat + " - " + " longitud: " + lon);
 
-                    editor.putString(LONGITUD_UBI_CLIENTE, Double.toString(lon));
-                    editor.putString(LATITUDE_UBI_CLIENTE, Double.toString(lat));
-                    editor.apply();
+                        editor.putString(LONGITUD_UBI_CLIENTE, Double.toString(lon));
+                        editor.putString(LATITUDE_UBI_CLIENTE, Double.toString(lat));
+                        editor.apply();
 
-                    requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    datosBinding.bacgrPr.setVisibility(View.GONE);
-                    //datosBinding.prBar.setVisibility(View.GONE); //Progress bar por defecto
-                    datosBinding.prBar.setVisibility(View.GONE);
-                    datosBinding.prBar.pauseAnimation();
-                }
-            });
+                        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        datosBinding.bacgrPr.setVisibility(View.GONE);
+                        //datosBinding.prBar.setVisibility(View.GONE); //Progress bar por defecto
+                        datosBinding.prBar.setVisibility(View.GONE);
+                        datosBinding.prBar.pauseAnimation();
+                    }
+                });
 
+            } else {
+
+                new MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)
+                        .setTitle(R.string.alert_mapa_title_error)
+                        .setIcon(R.drawable.ic_warning)
+                        .setMessage(R.string.alert_mapa_message_error)
+                        .show();
+            }
         });
 
         //EVENTO CAPTURAR FIRMA
