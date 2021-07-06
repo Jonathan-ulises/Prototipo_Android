@@ -1,6 +1,7 @@
 package com.its_omar.prototipo;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +47,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.INTENT_ID_EMPLEADO;
+import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
+import static com.its_omar.prototipo.model.Constantes.generarNombreCompleto;
 
 
 public class MapClientesActivity extends AppCompatActivity {
@@ -135,6 +139,15 @@ public class MapClientesActivity extends AppCompatActivity {
         });
 
         btnRefresh.setOnClickListener(view1 -> initMapa());
+
+        adapter.setOnItemClickListener(cliente -> {
+            //Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, VerificacionVisitaActivity.class);
+            String nombre = generarNombreCompleto(cliente);
+            intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, nombre);
+            intent.putExtra(ID_CLIENTE, cliente.getIdCliente());
+            startActivity(intent);
+        });
     }
 
     /**
@@ -273,7 +286,6 @@ public class MapClientesActivity extends AppCompatActivity {
 
         markerUser.setIcon(imgMarkerUser);
         markerUser.setCoordinate(new GeoCoordinate(lat, lon));
-        markerUser.
 
         return markerUser;
     }
