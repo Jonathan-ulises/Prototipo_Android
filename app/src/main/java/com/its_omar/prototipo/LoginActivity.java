@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-//https://itsmarts.fortidns.com:4600
+
     /**
      * Comprueba que los TextInputEditText no esten vacios
      * @return boolean si esta validado
@@ -90,6 +90,10 @@ public class LoginActivity extends AppCompatActivity {
         return isValidated;
     }
 
+    /**
+     * Metodo que regresa al menu Home del dispositivo si el usuario presiona el boton back del
+     * navegador del telefono
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -146,7 +150,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Limpia los campos del login
+     */
     private void limpiarCampos(){
         loginBinding.etNomUsuario.setText("");
         loginBinding.etPassword.setText("");

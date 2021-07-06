@@ -96,6 +96,7 @@ public class MapClientesActivity extends AppCompatActivity {
         rclClienteInMap.setAdapter(adapter);
 
 
+        //Propiedades del ButtomSheet
         mBottomSheetBehavior = BottomSheetBehavior.from(ad);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -120,6 +121,7 @@ public class MapClientesActivity extends AppCompatActivity {
             }
         });
 
+        //Progreso del carga del mapa
         progressView = findViewById(R.id.prBarMap);
         backgroudProgress = findViewById(R.id.bacgrPrMap);
 
@@ -128,8 +130,10 @@ public class MapClientesActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         idEmpleado = extras.getInt(INTENT_ID_EMPLEADO);
 
+        //Inicializa el mapa
         initMapa();
 
+        //Expande o collapsa el ButtomSheet
         btnExpand.setOnClickListener(v -> {
             if(mIsEpanded){
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -138,8 +142,10 @@ public class MapClientesActivity extends AppCompatActivity {
             }
         });
 
+        //Refresca el mapa, unicamente los marcadores de los clientes
         btnRefresh.setOnClickListener(view1 -> initMapa());
 
+        //Evento click de los items de la lista de clientes
         adapter.setOnItemClickListener(cliente -> {
             //Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, VerificacionVisitaActivity.class);
@@ -154,6 +160,7 @@ public class MapClientesActivity extends AppCompatActivity {
      * Inicializa el mapa
      */
     private void initMapa() {
+        //Muestra los prograsos
         backgroudProgress.setVisibility(View.VISIBLE);
         progressView.setVisibility(View.VISIBLE);
         progressView.playAnimation();
@@ -179,8 +186,11 @@ public class MapClientesActivity extends AppCompatActivity {
                     }
 
                     mapClientes.setCenter(userCoord, Map.Animation.NONE);
+
+                    //Carga los clientes asignados
                     cargarClientes();
 
+                    //Esconde el progress y el fondo oscuro
                     backgroudProgress.setVisibility(View.GONE);
                     progressView.pauseAnimation();
                     progressView.setVisibility(View.GONE);
@@ -214,6 +224,7 @@ public class MapClientesActivity extends AppCompatActivity {
         @Override
         public void onPositionUpdated(PositioningManager.LocationMethod locationMethod, @Nullable  GeoPosition geoPosition, boolean b) {
             if(!paused) {
+                //Si no se ha enerado un margador del usuario
                 if(!markadorGenerado) {
                     userCoord = geoPosition.getCoordinate();
                     mapClientes.setCenter(geoPosition.getCoordinate(), Map.Animation.NONE);
@@ -265,9 +276,10 @@ public class MapClientesActivity extends AppCompatActivity {
     }
 
     /**
-     * genera marcadores para e mapa
+     * genera marcadores para el mapa con el estio de cliente o usuario
      * @param lat Latitude
      * @param lon Longitud
+     * @param isCliente Comprueba si es un marcador de cliente
      * @return Marcador del mapa {@link MapMarker}
      */
     private MapMarker agregarMarcador(double lat, double lon, boolean isCliente) {
@@ -306,7 +318,7 @@ public class MapClientesActivity extends AppCompatActivity {
                             //listClientes = jsonResponse(response.body());
                             mapClientes.addMapObjects(agregarMarcadoresClientes(jsonResponse(response.body())));
                             adapter.submitList(jsonResponse(response.body()));
-                            adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged(); //Notifica al adapter de cambios en los datos de la lista
 
                         } else {
                             Toast.makeText(getApplication(), "Sin Cliente Asignados", Toast.LENGTH_SHORT).show();
@@ -317,6 +329,7 @@ public class MapClientesActivity extends AppCompatActivity {
 
             }
 
+            //TODO: Analizar implementacion ya que no muestra el snack
             @SuppressLint("ResourceType")
             @RequiresApi(api = Build.VERSION_CODES.P)
             @Override

@@ -1,5 +1,8 @@
 package com.its_omar.prototipo.model.bodyJSONCliente;
 
+/**
+ * Modelo para generar la estructura de una peticion en formato JSON
+ */
 public class BodyJSONCliente {
 
     private int idEstatusVisita;

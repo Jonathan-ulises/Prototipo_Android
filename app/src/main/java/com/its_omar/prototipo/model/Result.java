@@ -4,6 +4,9 @@ package com.its_omar.prototipo.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Modelo generico para optener respuesta en formato JSON
+ */
 public class Result {
 
     private boolean ok;

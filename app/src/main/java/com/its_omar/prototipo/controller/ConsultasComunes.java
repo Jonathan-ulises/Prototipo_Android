@@ -14,6 +14,12 @@ import retrofit2.Response;
 
 public class ConsultasComunes {
 
+    /**
+     * Registra en la bitacora una las acciones que realice el visitador
+     * @param modulo El modulo donde se esta llevando tal accion
+     * @param accion La accion realizada
+     * @param id_empleado Identificador del empleado que la realizo
+     */
     public static void registrarAccionBitacora(String modulo, String accion, int id_empleado) {
         WebService api = ServiceRetrofit.getInstance().getSevices();
 

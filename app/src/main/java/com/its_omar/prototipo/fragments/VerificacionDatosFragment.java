@@ -361,6 +361,10 @@ public class VerificacionDatosFragment extends Fragment {
         return isComplete;
     }
 
+    /**
+     * Sube los datos de la verificacion al servicio web de asignarvisita
+     * @param iDCl
+     */
     private void subirDatos(int iDCl){
         int idE = sp.getUsuarioLogeado().getId_empleado();
 

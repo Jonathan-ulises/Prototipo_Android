@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Modelo para generar la estructura de una respuesta en formato JSON
+ */
 public class ClientesJSONResult {
 
     private boolean ok;

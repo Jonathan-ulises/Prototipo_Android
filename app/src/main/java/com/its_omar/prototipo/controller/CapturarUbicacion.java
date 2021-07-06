@@ -19,6 +19,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class CapturarUbicacion implements LocationListener {
 
+
     public static boolean checkIfLocationOpened(Context context) {
         String provider = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
         System.out.println("Provider contains=> " + provider);
@@ -47,12 +48,18 @@ public class CapturarUbicacion implements LocationListener {
     }
 
 
+    /**
+     * Escucha las actualizaciones de la ubicacion del dispositivo
+     * @param location
+     */
     @Override
     public void onLocationChanged(@NonNull Location location) {
         if (platformLocationListener != null) {
             int statusProviderAnPosition = statusProvider;
             platformLocationListener.onLocationUpdate(location, statusProviderAnPosition);
             Log.d("geo", location.getLatitude() + " " + location.getLongitude());
+
+            //Cuando detecte la primer coordenada, se detiene el evento.
             stopLocating();
         }
     }

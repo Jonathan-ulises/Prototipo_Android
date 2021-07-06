@@ -40,6 +40,10 @@ public class SharedPreferencesApp {
     private SharedPreferences sharedPreferencesVerificacion;
     private Cliente_por_visitar cl;
 
+    /**
+     * Inicializa las preferencias del Login y de los datos de verificacion de usuario
+     * @param ctx
+     */
     private SharedPreferencesApp(Context ctx){
         //referencias del login
         sharedPreferences = ctx.getSharedPreferences(PREFERENCES_LOGIN, Context.MODE_PRIVATE);
@@ -48,11 +52,15 @@ public class SharedPreferencesApp {
         sharedPreferencesVerificacion = ctx.getSharedPreferences(PREFERENCES_USUARIO_DATOS_VERIFICACION, Context.MODE_PRIVATE);
     }
 
+    /**
+     * Obtiene una instancia de esta clase
+     * @param context
+     * @return
+     */
     public static SharedPreferencesApp getInstance(Context context){
         if(SharedPreferencesApp.instance == null){
             SharedPreferencesApp.instance = new SharedPreferencesApp(context);
         }
-
         return instance;
     }
 
@@ -172,10 +180,14 @@ public class SharedPreferencesApp {
             }
 
         }
-
         return datosAgregados;
     }
 
+    /**
+     * Genera el cuerpo de la peticion al servicio en formato JSON
+     * @param idCliente ID del cliente a verificar
+     * @return Cuerpo de la peticion en JSON
+     */
     public BodyJSONCliente generateBodyRequestVisita(int idCliente){
         String foto_v = sharedPreferencesVerificacion.getString(FOTO_CASA_KEY, "not");
         String firma_v = sharedPreferencesVerificacion.getString(FIRMA_CLIENTE_KEY, "not");

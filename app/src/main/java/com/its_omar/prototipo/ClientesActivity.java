@@ -98,7 +98,7 @@ public class ClientesActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
+        //Refresca la lista con un gesto en la pantalla
         clientesBinding.swipeRfshList.setOnRefreshListener(() -> {
             try {
                 consultarListaCliente(usu.getId_empleado());
@@ -108,6 +108,7 @@ public class ClientesActivity extends AppCompatActivity {
             }
         });
 
+        //Abre la activity del mapa
         clientesBinding.btnCargarMaoa.setOnClickListener(view -> {
             //MAPA
             Intent intent = new Intent(this, MapClientesActivity.class);
@@ -231,15 +232,11 @@ public class ClientesActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
-
         if((ActivityCompat.checkSelfPermission(ctx, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
-
             return true;
         } else {
-
             requestPermissions(PERMISOS, 100);
         }
-
         return false;
     }
 
