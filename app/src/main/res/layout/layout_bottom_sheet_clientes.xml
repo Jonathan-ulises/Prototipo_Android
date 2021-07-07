@@ -65,7 +65,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rclClienteVisita"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="300dp"
             android:layout_marginTop="@dimen/margin_component_2"
             app:layout_constraintTop_toBottomOf="@id/containerHeader"
             app:layout_constraintEnd_toEndOf="parent"
