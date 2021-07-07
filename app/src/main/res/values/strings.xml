@@ -52,4 +52,7 @@
     <string name="bottom_sheet_title">LISTA DE CLIENTES</string>
     <string name="alert_mapa_title_error">Error del Mapa</string>
     <string name="alert_mapa_message_error">Regresa al la pantalla principal y verifica que tengas el GPS encendido</string>
+    <string name="alert_mapa_title_visitar">¿Quieres Realizar una visita?</string>
+    <string name="alert_mapa_message_visitar">Recuerda llenar los parametros obligatorios</string>
+    <string name="alert_mapa_positive_btn">VISITAR</string>
 </resources>
