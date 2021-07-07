@@ -451,7 +451,7 @@ public class MapClientesActivity extends AppCompatActivity {
 
                                             Intent intent = new Intent(getApplicationContext(), VerificacionVisitaActivity.class);
                                             intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, values[0]);
-                                            intent.putExtra(ID_CLIENTE, values[1]);
+                                            intent.putExtra(ID_CLIENTE, Integer.parseInt(values[1]));
                                             startActivity(intent);
                                         }).show();
 
