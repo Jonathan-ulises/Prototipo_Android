@@ -1,7 +1,10 @@
 package com.its_omar.prototipo;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,8 +29,11 @@ import com.here.android.mpa.common.GeoPosition;
 import com.here.android.mpa.common.Image;
 import com.here.android.mpa.common.OnEngineInitListener;
 import com.here.android.mpa.common.PositioningManager;
+import com.here.android.mpa.common.ViewObject;
 import com.here.android.mpa.mapping.AndroidXMapFragment;
 import com.here.android.mpa.mapping.Map;
+import com.here.android.mpa.mapping.MapGesture;
+import com.here.android.mpa.mapping.MapGesture.OnGestureListener.OnGestureListenerAdapter;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.MapObject;
 import com.its_omar.prototipo.api.ServiceRetrofit;
@@ -43,6 +49,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,6 +78,7 @@ public class MapClientesActivity extends AppCompatActivity {
     protected static List<Cliente_por_visitar> listClientes = new ArrayList<>();
     private boolean isUsuarioPosicionado = false;
     private GeoCoordinate userCoord;
+    private Context ctx;
 
     int idEmpleado;
 
@@ -87,7 +95,7 @@ public class MapClientesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_clientes);
 
-        //View viewBotoom = View.inflate(this, R.layout.layout_bottom_sheet_clientes, null);
+        ctx = this;
         View ad = findViewById(R.id.includeBottom);
 
         btnExpand = ad.findViewById(R.id.btnResize);
@@ -193,6 +201,7 @@ public class MapClientesActivity extends AppCompatActivity {
 
                         mapClientes.setCenter(userCoord, Map.Animation.NONE);
 
+
                         //Carga los clientes asignados
                         cargarClientes();
 
@@ -200,13 +209,25 @@ public class MapClientesActivity extends AppCompatActivity {
                         backgroudProgress.setVisibility(View.GONE);
                         progressView.pauseAnimation();
                         progressView.setVisibility(View.GONE);
-                        //posicionarClientes();
+
+
+                        Objects.requireNonNull(mapFragment.getMapGesture()).addOnGestureListener(gestureListener, 1, false);
+                        /*mapFragment.getMapGesture().addOnGestureListener(new MapGesture.OnGestureListener.OnGestureListenerAdapter() {
+                            @Override
+                            public boolean onLongPressEvent(@NonNull PointF pointF) {
+                                Toast.makeText(mapFragment.requireContext(), pointF.x + "" , Toast.LENGTH_LONG).show();
+                                return super.onLongPressEvent(pointF);
+                            }
+                        }, 1, false);*/
+
 
                     } else {
                         Toast.makeText(getApplicationContext(), "ERROR DE MAPA " + error.getDetails(), Toast.LENGTH_LONG).show();
                     }
                 }
             });
+
+
         } else {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             new MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_MaterialComponents_Dialog)
@@ -245,7 +266,7 @@ public class MapClientesActivity extends AppCompatActivity {
                     userCoord = geoPosition.getCoordinate();
                     mapClientes.setCenter(geoPosition.getCoordinate(), Map.Animation.NONE);
                     mapClientes.setZoomLevel((mapClientes.getMaxZoomLevel() + mapClientes.getMinZoomLevel()) / 1.5);
-                    mapClientes.addMapObject(agregarMarcador(geoPosition.getCoordinate().getLatitude(), geoPosition.getCoordinate().getLongitude(), false));
+                    mapClientes.addMapObject(agregarMarcador(geoPosition.getCoordinate().getLatitude(), geoPosition.getCoordinate().getLongitude(), false, null));
                     markadorGenerado = true;
                     posManager.stop();
                     posManager.removeListener(positionListener);
@@ -292,13 +313,14 @@ public class MapClientesActivity extends AppCompatActivity {
     }
 
     /**
-     * genera marcadores para el mapa con el estio de cliente o usuario
+     * genera marcadores para el mapa con el estio de cliente o usuario, ademas de agregar una
+     * descripcion al marcador.
      * @param lat Latitude
      * @param lon Longitud
      * @param isCliente Comprueba si es un marcador de cliente
      * @return Marcador del mapa {@link MapMarker}
      */
-    private MapMarker agregarMarcador(double lat, double lon, boolean isCliente) {
+    private MapMarker agregarMarcador(double lat, double lon, boolean isCliente, @Nullable Cliente_por_visitar cl) {
         MapMarker markerUser = new MapMarker();
         Image imgMarkerUser = new Image();
 
@@ -307,6 +329,9 @@ public class MapClientesActivity extends AppCompatActivity {
                 imgMarkerUser.setImageResource(R.drawable.user_marker);
             } else {
                 imgMarkerUser.setImageResource(R.drawable.cliente_marker);
+                if(cl != null) {
+                    markerUser.setDescription(String.valueOf(cl.getIdCliente()));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -396,9 +421,38 @@ public class MapClientesActivity extends AppCompatActivity {
     private List<MapObject> agregarMarcadoresClientes(List<Cliente_por_visitar> lsCl) {
         List<MapObject> listaMarcadores = new ArrayList<>();
         for(Cliente_por_visitar c : lsCl) {
-            listaMarcadores.add(agregarMarcador(c.getLat(), c.getLon(), true));
+            listaMarcadores.add(agregarMarcador(c.getLat(), c.getLon(), true, c));
         }
 
         return listaMarcadores;
     }
+
+    /**
+     * Evento de gestos de la pantalla (MARCADORES)
+     */
+    MapGesture.OnGestureListener gestureListener =
+            new MapGesture.OnGestureListener.OnGestureListenerAdapter() {
+                @Override
+                public boolean onMapObjectsSelected(@NonNull List<ViewObject> list) {
+                    for (ViewObject viewObj : list) {
+                        if(viewObj.getBaseType() == ViewObject.Type.USER_OBJECT) {
+                            if(((MapObject) viewObj).getType() == MapObject.Type.MARKER) {
+                                MapMarker mk = (MapMarker) viewObj;
+
+                                new MaterialAlertDialogBuilder(ctx, R.style.ThemeOverlay_MaterialComponents_Dialog)
+                                        .setTitle(R.string.alert_mapa_title_visitar)
+                                        .setMessage(R.string.alert_mapa_message_visitar)
+                                        .setIcon(R.drawable.ic_edit_location)
+                                        .setPositiveButton(R.string.alert_mapa_positive_btn, (dialogInterface, i) -> {
+                                            Intent intent = new Intent(getApplicationContext(), VerificacionVisitaActivity.class);
+                                            intent.putExtra(ID_CLIENTE,mk.getDescription());
+                                            startActivity(intent);
+                                        }).show();
+
+                            }
+                        }
+                    }
+                    return super.onMapObjectsSelected(list);
+                }
+            };
 }
