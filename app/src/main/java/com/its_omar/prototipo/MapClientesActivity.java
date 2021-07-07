@@ -330,7 +330,7 @@ public class MapClientesActivity extends AppCompatActivity {
             } else {
                 imgMarkerUser.setImageResource(R.drawable.cliente_marker);
                 if(cl != null) {
-                    markerUser.setDescription(String.valueOf(cl.getIdCliente()));
+                    markerUser.setDescription((generarNombreCompleto(cl) + "|" + cl.getIdCliente()));
                 }
             }
         } catch (IOException e) {
@@ -439,13 +439,24 @@ public class MapClientesActivity extends AppCompatActivity {
                             if(((MapObject) viewObj).getType() == MapObject.Type.MARKER) {
                                 MapMarker mk = (MapMarker) viewObj;
 
+                                /*
+                                La cedan contiene "nombre_cliente|id_cliente", por medio
+                                del metodo splitse obtiene un arreglo de String con los
+                                dos datos necesarios: el nombre ([0]) y el idCliente ([1])
+                                */
+                                String[] values = mk.getDescription().split("\\|");
+                                
                                 new MaterialAlertDialogBuilder(ctx, R.style.ThemeOverlay_MaterialComponents_Dialog)
                                         .setTitle(R.string.alert_mapa_title_visitar)
-                                        .setMessage(R.string.alert_mapa_message_visitar)
+                                        .setMessage("Recuerda llenar los parametros obligatorios" + "\n" + "Cliente:" + "\n" + values[0])
                                         .setIcon(R.drawable.ic_edit_location)
                                         .setPositiveButton(R.string.alert_mapa_positive_btn, (dialogInterface, i) -> {
+
+
+
                                             Intent intent = new Intent(getApplicationContext(), VerificacionVisitaActivity.class);
-                                            intent.putExtra(ID_CLIENTE,mk.getDescription());
+                                            intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, values[0]);
+                                            intent.putExtra(ID_CLIENTE, values[1]);
                                             startActivity(intent);
                                         }).show();
 
