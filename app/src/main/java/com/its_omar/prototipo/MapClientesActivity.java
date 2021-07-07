@@ -2,9 +2,7 @@ package com.its_omar.prototipo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +31,6 @@ import com.here.android.mpa.common.ViewObject;
 import com.here.android.mpa.mapping.AndroidXMapFragment;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapGesture;
-import com.here.android.mpa.mapping.MapGesture.OnGestureListener.OnGestureListenerAdapter;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.MapObject;
 import com.its_omar.prototipo.api.ServiceRetrofit;
@@ -451,8 +448,6 @@ public class MapClientesActivity extends AppCompatActivity {
                                         .setMessage("Recuerda llenar los parametros obligatorios" + "\n" + "Cliente:" + "\n" + values[0])
                                         .setIcon(R.drawable.ic_edit_location)
                                         .setPositiveButton(R.string.alert_mapa_positive_btn, (dialogInterface, i) -> {
-
-
 
                                             Intent intent = new Intent(getApplicationContext(), VerificacionVisitaActivity.class);
                                             intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, values[0]);
