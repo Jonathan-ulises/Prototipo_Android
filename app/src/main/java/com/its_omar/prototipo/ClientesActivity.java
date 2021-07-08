@@ -95,6 +95,8 @@ public class ClientesActivity extends AppCompatActivity {
             String nombre = generarNombreCompleto(cliente);
             intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, nombre);
             intent.putExtra(ID_CLIENTE, cliente.getIdCliente());
+
+            //HILO DE ENVIO DE UBLICACION
             startActivity(intent);
         });
 
