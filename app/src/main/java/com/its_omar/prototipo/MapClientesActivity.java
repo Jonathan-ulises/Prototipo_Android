@@ -154,12 +154,15 @@ public class MapClientesActivity extends AppCompatActivity {
 
         //Evento click de los items de la lista de clientes
         adapter.setOnItemClickListener(cliente -> {
+
+            mapClientes.setCenter(new GeoCoordinate(cliente.getLat(), cliente.getLon()), Map.Animation.NONE);
+
             //Toast.makeText(this, cliente.getNombre(), Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, VerificacionVisitaActivity.class);
+            /*Intent intent = new Intent(this, VerificacionVisitaActivity.class);
             String nombre = generarNombreCompleto(cliente);
             intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, nombre);
             intent.putExtra(ID_CLIENTE, cliente.getIdCliente());
-            startActivity(intent);
+            startActivity(intent);*/
         });
     }
 
