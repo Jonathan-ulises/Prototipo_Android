@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         verificarConexionServidor(this);
 
+        //HILO DE ENVIO DE UBLICACION
+
     }
 
     /**
