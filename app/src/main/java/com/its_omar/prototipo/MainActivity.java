@@ -1,7 +1,6 @@
 package com.its_omar.prototipo;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -10,10 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
-import com.its_omar.prototipo.controller.Commons;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityMainBinding;
 import com.its_omar.prototipo.model.Result;
@@ -42,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mainBinding.getRoot());
 
         verificarConexionServidor(this);
-
-        
-
     }
 
     /**
@@ -79,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-                //showAlertError(R.string.alert_verificacion_conx_title_error,R.string.alert_verificacion_conx_mesage_error, context );
-                Commons.showAlertError(
+                showAlertError(
                         R.string.alert_verificacion_conx_title_error,
                         R.string.alert_verificacion_conx_mesage_error,
                         R.string.alert_verificacion_positive_btn,
