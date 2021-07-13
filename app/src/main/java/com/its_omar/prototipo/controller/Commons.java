@@ -23,6 +23,20 @@ public class Commons {
     }
 
     /**
+     * Muestra alerta de error
+     * @param title Titulo de la alerta
+     * @param message Mensaje de la alerta
+     * @param context Contexto de ejecucion
+     */
+    public static void showAlertError(String title, String message, Context context) {
+        new MaterialAlertDialogBuilder(context, R.style.ThemeOverlay_MaterialComponents_Dialog)
+                .setTitle(title)
+                .setIcon(R.drawable.ic_error)
+                .setMessage(message)
+                .show();
+    }
+
+    /**
      * Muestra alerta de error con boton positivo,
      * @param titleIDResource titleIDResource IDResource Titulo de la alerta
      * @param messageIDResource messageIDResource IDResource Mensaje de la alerta
@@ -38,4 +52,6 @@ public class Commons {
                 .setPositiveButton(textPositiveBtnID, onClickPositiver)
                 .show();
     }
+
+
 }

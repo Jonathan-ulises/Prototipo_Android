@@ -1,14 +1,13 @@
 package com.its_omar.prototipo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.its_omar.prototipo.api.ServiceRetrofit;
@@ -22,12 +21,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.its_omar.prototipo.controller.Commons.showAlertError;
+
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding loginBinding;
-    public static final String SESION_KEY = "login_ok";
-
-    private SharedPreferences sharedPreferences;
+    private int contadorIntentos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/AvenirNextLTPro-Regular.otf");
         setContentView(loginBinding.getRoot());
 
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         asignarTipografia(face);
-
 
         loginBinding.btnLogin.setOnClickListener(view -> {
             if(validarCampos()){
@@ -111,40 +108,45 @@ public class LoginActivity extends AppCompatActivity {
      * @param ctx contexto de ejecucion de la activity
      */
     protected void verificarDatosLogin(String nombreUsuario, String password, Context ctx){
-        WebService geoService = ServiceRetrofit.getInstance().getSevices();
 
-        geoService.loginApp(nombreUsuario, password).enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
-                } else {
-                    if(response.body().isOk()){
-                        SharedPreferencesApp sharedPreferencesApp = SharedPreferencesApp.getInstance(ctx);
-                        sharedPreferencesApp.saveSharePreferencesLogin(nombreUsuario, response.body().getFk_empleado());
-
-                        ConsultasComunes.registrarAccionBitacora("Login", "Inicio Sesion", response.body().getFk_empleado());
-
-                        Intent intent = new Intent(getApplication(), ClientesActivity.class);
-                        startActivity(intent);
-                        finish();
+        if(contadorIntentos < 5){
+            WebService geoService = ServiceRetrofit.getInstance().getSevices();
+            geoService.loginApp(nombreUsuario, password).enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getApplication(), "Error de respuesta", Toast.LENGTH_SHORT).show();
                     } else {
-                        new MaterialAlertDialogBuilder(ctx, R.style.ThemeOverlay_MaterialComponents_Dialog)
-                                .setIcon(R.drawable.ic_error)
-                                .setTitle(R.string.alert_login_error)
-                                .setMessage(response.body().getMensaje())
-                                .setPositiveButton(R.string.alert_dialog_confirm_login, null)
-                                .show();
+                        if(response.body().isOk()){
+                            SharedPreferencesApp sharedPreferencesApp = SharedPreferencesApp.getInstance(ctx);
+                            sharedPreferencesApp.saveSharePreferencesLogin(nombreUsuario, response.body().getFk_empleado());
 
+                            ConsultasComunes.registrarAccionBitacora("Login", "Inicio Sesion", response.body().getFk_empleado());
+
+                            Intent intent = new Intent(getApplication(), ClientesActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            new MaterialAlertDialogBuilder(ctx, R.style.ThemeOverlay_MaterialComponents_Dialog)
+                                    .setIcon(R.drawable.ic_error)
+                                    .setTitle(R.string.alert_login_error)
+                                    .setMessage(response.body().getMensaje())
+                                    .setPositiveButton(R.string.alert_dialog_confirm_login, (dialogInterface, i) -> contadorIntentos++)
+                                    .setOnDismissListener(dialogInterface -> contadorIntentos++)
+                                    .show();
+
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                Toast.makeText(getApplication(), "Error -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+                    Toast.makeText(getApplication(), "Error -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            showAlertError(R.string.alert_logout_intentos_title_error, R.string.alert_logout_intentos_mesage_error, ctx);
+        }
 
     }
 
