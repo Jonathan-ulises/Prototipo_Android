@@ -129,34 +129,29 @@ public class ClientesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.action_logout:
+        if (item.getItemId() == R.id.action_logout) {
+            if (usu != null) {
+                WebService api = ServiceRetrofit.getInstance().getSevices();
+                api.logoutApp(usu.getNombreUsuario()).enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.body().isOk()) {
+                            //ConsultasComunes.registrarAccionBitacora("Login", "Cerrar Sesion", usu.getId_empleado());
+                            sharedPreferencesApp.borrarPreferences();
+                            finish();
+                        } else {
+                            Snackbar.make(clientesBinding.getRoot(), "Ha sucedido un error", Snackbar.LENGTH_SHORT)
+                                    .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+                        }
+                    }
 
-                if (usu != null) {
-                    WebService api = ServiceRetrofit.getInstance().getSevices();
-                    api.logoutApp(usu.getNombreUsuario()).enqueue(new Callback<Result>() {
-                        @Override
-                        public void onResponse(Call<Result> call, Response<Result> response) {
-                            if(response.body().isOk()){
-                                //ConsultasComunes.registrarAccionBitacora("Login", "Cerrar Sesion", usu.getId_empleado());
-                                sharedPreferencesApp.borrarPreferences();
-                                finish();
-                            } else {
-                                Snackbar.make(clientesBinding.getRoot(), "Ha sucedido un error", Snackbar.LENGTH_SHORT)
-                                        .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<Result> call, Throwable t) {
-                            Log.e(Constantes.TAG_ERROR_LOGOUT, "ERROR -> ", t);
-                        }
-                    });
-                }
-                //Logout
-                break;
-            case R.id.action_about:
-                //about
-                break;
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        Log.e(Constantes.TAG_ERROR_LOGOUT, "ERROR -> ", t);
+                    }
+                });
+            }
+            //Logout
         }
 
         return super.onOptionsItemSelected(item);
