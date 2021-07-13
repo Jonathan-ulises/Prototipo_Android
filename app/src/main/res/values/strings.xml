@@ -54,4 +54,7 @@
     <string name="alert_mapa_message_error">Regresa al la pantalla principal y verifica que tengas el GPS encendido</string>
     <string name="alert_mapa_title_visitar">¿Quieres Realizar una visita?</string>
     <string name="alert_mapa_positive_btn">VISITAR</string>
+    <string name="alert_verificacion_conx_title_error">Error de Conexion</string>
+    <string name="alert_verificacion_conx_mesage_error">Verifique su conexion a Internet o sus datos moviles.</string>
+    <string name="alert_verificacion_positive_btn">REINTENTAR</string>
 </resources>

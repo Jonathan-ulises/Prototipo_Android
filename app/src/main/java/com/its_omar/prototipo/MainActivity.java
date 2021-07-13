@@ -1,6 +1,7 @@
 package com.its_omar.prototipo;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -9,8 +10,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.controller.Commons;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityMainBinding;
 import com.its_omar.prototipo.model.Result;
@@ -19,15 +22,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.its_omar.prototipo.controller.Commons.showAlertError;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mainBinding;
     private SharedPreferences sharedPreferences;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.context = this;
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -72,10 +79,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-                Toast.makeText(getApplication(), "Error -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                //showAlertError(R.string.alert_verificacion_conx_title_error,R.string.alert_verificacion_conx_mesage_error, context );
+                Commons.showAlertError(
+                        R.string.alert_verificacion_conx_title_error,
+                        R.string.alert_verificacion_conx_mesage_error,
+                        R.string.alert_verificacion_positive_btn,
+                        context,
+                        (dialogInterface, i) -> {
+                            verificarConexionServidor(context);
+                        });
             }
         });
-
     }
 
 
