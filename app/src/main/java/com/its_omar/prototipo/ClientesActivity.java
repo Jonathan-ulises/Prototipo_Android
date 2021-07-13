@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.controller.EnvioUbicacion;
+import com.its_omar.prototipo.controller.EnvioUbicacionWorker;
 import com.its_omar.prototipo.controller.SharedPreferencesApp;
 import com.its_omar.prototipo.databinding.ActivityClientesBinding;
 import com.its_omar.prototipo.fragments.adapters.ClientesVisitaAdapter;
@@ -54,6 +56,7 @@ public class ClientesActivity extends AppCompatActivity {
     ClientesVisitaAdapter adapter;
     SharedPreferencesApp sharedPreferencesApp;
     Usuario usu;
+    EnvioUbicacionWorker envioUbicacionWorker;
 
     //Lista de coordanadas de los clientes
     ArrayList<Cliente_por_visitar> userInMap = new ArrayList<>();
@@ -67,6 +70,8 @@ public class ClientesActivity extends AppCompatActivity {
 
         validarPermisos(this);
 
+        //Ejecucion del asyncTask
+        envioUbicacionWorker.execute(getApplicationContext());
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
