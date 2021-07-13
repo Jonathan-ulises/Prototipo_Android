@@ -32,7 +32,7 @@
     <string name="enviar_razon_btn">Enviar Razon</string>
     <string name="razon_status">Especificar Razon</string>
     <string name="text_input_empty_error_login">No deje campos vacios</string>
-    <string name="alert_dialog_confirm_login">OK</string>
+    <string name="alert_dialog_confirm_login">REINTENTAR</string>
     <string name="alert_login_error">Error de Login</string>
     <string name="label_clietneActivity">Lista de Cliente</string>
     <string name="alert_logout_title">Estado de sesion</string>

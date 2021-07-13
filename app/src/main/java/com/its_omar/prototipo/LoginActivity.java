@@ -123,19 +123,17 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferencesApp sharedPreferencesApp = SharedPreferencesApp.getInstance(ctx);
                         sharedPreferencesApp.saveSharePreferencesLogin(nombreUsuario, response.body().getFk_empleado());
 
-                        //Toast.makeText(ctx, "" + response.body().getFk_empleado(), Toast.LENGTH_SHORT).show();
                         ConsultasComunes.registrarAccionBitacora("Login", "Inicio Sesion", response.body().getFk_empleado());
 
                         Intent intent = new Intent(getApplication(), ClientesActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-
                         new MaterialAlertDialogBuilder(ctx, R.style.ThemeOverlay_MaterialComponents_Dialog)
                                 .setIcon(R.drawable.ic_error)
                                 .setTitle(R.string.alert_login_error)
                                 .setMessage(response.body().getMensaje())
-                                .setPositiveButton(R.string.alert_dialog_confirm_login, (dialogInterface, i) -> limpiarCampos())
+                                .setPositiveButton(R.string.alert_dialog_confirm_login, null)
                                 .show();
 
                     }
@@ -149,15 +147,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-    /**
-     * Limpia los campos del login
-     */
-    private void limpiarCampos(){
-        loginBinding.etNomUsuario.setText("");
-        loginBinding.etPassword.setText("");
-    }
-
 
     private void asignarTipografia(Typeface face){
         loginBinding.tvTitle.setTypeface(face);
