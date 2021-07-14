@@ -13,17 +13,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.work.ListenableWorker;
 
-import com.its_omar.prototipo.api.ServiceRetrofit;
-import com.its_omar.prototipo.api.WebService;
-import com.its_omar.prototipo.model.Result;
-import com.its_omar.prototipo.model.geoCercaJSONRequest.Coordenadas;
 import com.its_omar.prototipo.model.geoCercaJSONRequest.GeoCercaJSONRequest;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.content.Context.LOCATION_SERVICE;
 //import static com.its_omar.prototipo.model.Constantes.TAG_INFO_ENVIO_UBICACION;

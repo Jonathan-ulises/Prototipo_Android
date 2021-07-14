@@ -19,15 +19,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.its_omar.prototipo.controller.Commons.showAlertError;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mainBinding;
     private SharedPreferences sharedPreferences;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.context = this;
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -35,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mainBinding.getRoot());
 
         verificarConexionServidor(this);
-
-        
-
     }
 
     /**
@@ -72,10 +73,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-                Toast.makeText(getApplication(), "Error -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showAlertError(
+                        R.string.alert_verificacion_conx_title_error,
+                        R.string.alert_verificacion_conx_mesage_error,
+                        R.string.alert_verificacion_positive_btn,
+                        context,
+                        (dialogInterface, i) -> {
+                            verificarConexionServidor(context);
+                        });
             }
         });
-
     }
 
 

@@ -32,7 +32,7 @@
     <string name="enviar_razon_btn">Enviar Razon</string>
     <string name="razon_status">Especificar Razon</string>
     <string name="text_input_empty_error_login">No deje campos vacios</string>
-    <string name="alert_dialog_confirm_login">OK</string>
+    <string name="alert_dialog_confirm_login">REINTENTAR</string>
     <string name="alert_login_error">Error de Login</string>
     <string name="label_clietneActivity">Lista de Cliente</string>
     <string name="alert_logout_title">Estado de sesion</string>
@@ -54,4 +54,9 @@
     <string name="alert_mapa_message_error">Regresa al la pantalla principal y verifica que tengas el GPS encendido</string>
     <string name="alert_mapa_title_visitar">¿Quieres Realizar una visita?</string>
     <string name="alert_mapa_positive_btn">VISITAR</string>
+    <string name="alert_verificacion_conx_title_error">Error de Conexion</string>
+    <string name="alert_verificacion_conx_mesage_error">Verifique su conexion a Internet o sus datos moviles.</string>
+    <string name="alert_verificacion_positive_btn">REINTENTAR</string>
+    <string name="alert_logout_intentos_title_error">Limite de intentos</string>
+    <string name="alert_logout_intentos_mesage_error">Has alcanzado el limite de intestos permitidos, (5 intentos)</string>
 </resources>

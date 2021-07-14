@@ -94,6 +94,8 @@
                     android:layout_marginTop="28dp"
                     app:startIconDrawable="@drawable/ic_account_circle"
                     app:endIconMode="clear_text"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="15"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle"
                     app:layout_constraintStart_toStartOf="@id/tvTitle"
                     app:layout_constraintEnd_toEndOf="@id/tvTitle"
@@ -104,6 +106,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/hitn_user_name"
+                        android:maxLength="15"
                         android:fontFamily="@font/avenir_next_lt_pro_regular"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -118,6 +121,8 @@
                     app:startIconDrawable="@drawable/ic_key"
                     android:hint="@string/user_password"
                     app:endIconMode="password_toggle"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="15"
                     app:layout_constraintTop_toBottomOf="@id/tlNombreUsuario"
                     app:layout_constraintStart_toStartOf="@id/tlNombreUsuario"
                     app:layout_constraintEnd_toEndOf="@id/tlNombreUsuario"
@@ -127,6 +132,7 @@
                         android:id="@+id/etPassword"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:maxLength="15"
                         android:fontFamily="@font/avenir_next_lt_pro_regular"
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
