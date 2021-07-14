@@ -20,12 +20,6 @@ import static com.its_omar.prototipo.model.Constantes.FIRMA_CLIENTE_KEY;
 public class FirmaActivity extends AppCompatActivity {
 
     private ActivityFirmaBinding binding;
-    //private SharedPreferences.Editor editor;
-
-    private static String fileName;
-    File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/myFirmas");
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +44,6 @@ public class FirmaActivity extends AppCompatActivity {
                     editor.putString(FIRMA_CLIENTE_KEY, f);
                     editor.apply();
                 }
-
-                System.out.println("golo");
 
                 finish();
             }

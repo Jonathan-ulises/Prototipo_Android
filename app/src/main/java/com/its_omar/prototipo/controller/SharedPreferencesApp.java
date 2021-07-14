@@ -205,7 +205,19 @@ public class SharedPreferencesApp {
         body.setComentario("Todo esta correcto");
 
         return body;
+    }
 
+    /**
+     * Verifica que se tenga una firma registrada en el SharePreferences
+     * @return Comprobante su esta completada la firma
+     */
+    public boolean firmaCompletado() {
+        boolean isTerminado = false;
+        String firma = sharedPreferencesVerificacion.getString(FIRMA_CLIENTE_KEY, "not");
+        if(!firma.equals("not")) {
+            isTerminado = true;
+        }
+        return isTerminado;
     }
 
     /**

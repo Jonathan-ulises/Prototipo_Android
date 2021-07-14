@@ -36,7 +36,6 @@ import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,11 +56,7 @@ import static com.its_omar.prototipo.model.Constantes.LONGITUD_UBI_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.TAG_INFO_DATOS_VERIFICACION;
 import static com.its_omar.prototipo.model.Constantes.checkIfLocationOpened;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link VerificacionDatosFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class VerificacionDatosFragment extends Fragment {
 
     private FragmentVerificacionDatosBinding datosBinding;
@@ -81,6 +76,7 @@ public class VerificacionDatosFragment extends Fragment {
 
     private int mIdCliente;
     private String nomCliente;
+
 
     public VerificacionDatosFragment() {
     }
@@ -119,16 +115,12 @@ public class VerificacionDatosFragment extends Fragment {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(datosBinding.toolbarDatos);
 
         capturarUbicacion = new CapturarUbicacion(getActivity());
-
         cl = new Cliente_por_visitar(); //Objeto a enviar al servicio
-
         datosFaltantes = new ArrayList<>();
-
         initEditorVerificacion(); //Inicializa el editor
-
         sp = SharedPreferencesApp.getInstance(getContext());
-
         datosBinding.rbSVEncontrado.setChecked(true);
+
 
         //EVENTO de abandonada la visita
         datosBinding.rgEstatus.setOnCheckedChangeListener((group, checkedId) -> {
@@ -139,14 +131,13 @@ public class VerificacionDatosFragment extends Fragment {
             }
         });
 
-        //EVENTO OBTENER UBICACION TODO: IMPLEMENTAR HERE MAPS
+        //EVENTO OBTENER UBICACION
         datosBinding.btnObtenerUbicacion.setOnClickListener(view -> {
-
             //Comprueba que se tenga el GPS encendido
             if(checkIfLocationOpened(requireContext())){
                 datosBinding.bacgrPr.setVisibility(View.VISIBLE);
                 requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                //datosBinding.prBar.setVisibility(View.VISIBLE);  //Progress bar por defecto
+
                 datosBinding.prBar.playAnimation();
                 datosBinding.prBar.setVisibility(View.VISIBLE);
 
@@ -169,6 +160,9 @@ public class VerificacionDatosFragment extends Fragment {
                         //datosBinding.prBar.setVisibility(View.GONE); //Progress bar por defecto
                         datosBinding.prBar.setVisibility(View.GONE);
                         datosBinding.prBar.pauseAnimation();
+                        //Hace visible la flecha de dato completado
+                        datosBinding.ivUbicacionChk.setVisibility(View.VISIBLE);
+                        datosBinding.tpUbi.setVisibility(View.GONE);
                     }
                 });
 
@@ -195,6 +189,7 @@ public class VerificacionDatosFragment extends Fragment {
 
         //EVENTO VALIDACION DEL CLIENTE
         datosBinding.rgValidacion.setOnCheckedChangeListener((radioGroup, i) -> {
+            datosBinding.tpVeri.setVisibility(View.GONE);
             if (datosBinding.rbValidado.isChecked()){
                 editor.putInt(ESTATUS_VERIFICACION, 7);
                 editor.apply();
@@ -224,7 +219,6 @@ public class VerificacionDatosFragment extends Fragment {
                             .setTitle(R.string.alert_datos_title)
                             .setMessage(R.string.alert_datos_message)
                             .setPositiveButton(R.string.alert_datos_positive_btn, (dialogInterface, i) -> {
-                                //Toast.makeText(getContext(), "REGISTRADO", Toast.LENGTH_SHORT).show();
                                 subirDatos(mIdCliente);
                             })
                             .setNegativeButton(R.string.alert_datos_negative_btn, (dialogInterface, i) -> {
@@ -294,6 +288,9 @@ public class VerificacionDatosFragment extends Fragment {
                     editor.apply();
                 }
 
+                datosBinding.ivCasaChk.setVisibility(View.VISIBLE);
+                datosBinding.tpCasa.setVisibility(View.GONE);
+
                 Snackbar.make(datosBinding.getRoot(), "Foto capturada", Snackbar.LENGTH_SHORT)
                         .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).setAction("REINTENTAR", view -> abrirCamera()) .show();
 
@@ -319,6 +316,7 @@ public class VerificacionDatosFragment extends Fragment {
      * @return esta completo el formulario {@link boolean}
      */
     private boolean validarCampos(){
+        datosFaltantes.clear();
         datosVerificados = sp.getFlagValidacion();
 
         int flagDatos = 1; //Contador de datos correctos
@@ -408,12 +406,33 @@ public class VerificacionDatosFragment extends Fragment {
         });
     }
 
+    /**
+     * Verificac que la captura de la firma se realizo, muestra flecha de completado.
+     */
+    private void verificarFirmaCheched() {
+        if(sp.firmaCompletado()) {
+            datosBinding.ivFirmaChk.setVisibility(View.VISIBLE);
+            datosBinding.tpFirma.setVisibility(View.GONE);
+        } else {
+            datosBinding.ivFirmaChk.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         sp.borrarPreferencesDatos(editor);
-        //Log.i("final", "xd");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        verificarFirmaCheched();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        sp.borrarPreferencesDatos(editor);
+    }
 }
