@@ -19,12 +19,16 @@
             android:layout_height="wrap_content">
 
             <!-- TOOLBAR-->
+            <!-- La linea android:theme es para añadir el tema que hace
+             que el icono del menu sea de color blanco-->
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 app:titleTextColor="@color/on_primary_color"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/ic_location_on"
+                android:theme="@style/tolbar_theme"
+                app:menu="@menu/menu_toolbar"
                 app:navigationIconTint="@android:color/white"/>
         </com.google.android.material.appbar.AppBarLayout>
 
