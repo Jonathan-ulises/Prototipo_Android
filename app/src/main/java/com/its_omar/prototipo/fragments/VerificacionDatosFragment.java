@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -35,6 +36,7 @@ import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,16 +75,14 @@ public class VerificacionDatosFragment extends Fragment {
     //POCISIONAMIENTO
     private CapturarUbicacion capturarUbicacion;
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ID_CLIENTE = "idCliente";
+    private static final String NOMBRE_CLIENTE_VERIFICACION = "clienteVer";
 
-    // TODO: Rename and change types of parameters
+
     private int mIdCliente;
+    private String nomCliente;
 
     public VerificacionDatosFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -93,10 +93,11 @@ public class VerificacionDatosFragment extends Fragment {
      * @return A new instance of fragment VerificacionDatosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VerificacionDatosFragment newInstance(int idC) {
+    public static VerificacionDatosFragment newInstance(int idC, String nombreCliente) {
         VerificacionDatosFragment fragment = new VerificacionDatosFragment();
         Bundle args = new Bundle();
         args.putInt(ID_CLIENTE, idC);
+        args.putString(NOMBRE_CLIENTE_VERIFICACION, nombreCliente);
         fragment.setArguments(args);
         return fragment;
     }
@@ -106,6 +107,7 @@ public class VerificacionDatosFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mIdCliente = getArguments().getInt(ID_CLIENTE);
+            nomCliente = getArguments().getString(NOMBRE_CLIENTE_VERIFICACION);
         }
     }
 
@@ -113,6 +115,8 @@ public class VerificacionDatosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         datosBinding = FragmentVerificacionDatosBinding.inflate(inflater, container, false);
+        datosBinding.toolbarDatos.setTitle(nomCliente);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(datosBinding.toolbarDatos);
 
         capturarUbicacion = new CapturarUbicacion(getActivity());
 
@@ -123,8 +127,6 @@ public class VerificacionDatosFragment extends Fragment {
         initEditorVerificacion(); //Inicializa el editor
 
         sp = SharedPreferencesApp.getInstance(getContext());
-
-
 
         datosBinding.rbSVEncontrado.setChecked(true);
 
@@ -210,13 +212,12 @@ public class VerificacionDatosFragment extends Fragment {
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
             if(datosBinding.rbSVAbandonada.isChecked()){
                 sp.borrarPreferencesDatos(editor);
-                //RazonFragment fragment = RazonFragment.newInstance(mIdCliente, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_ABANDONADA);
+                RazonFragment fragment = RazonFragment.newInstance(mIdCliente, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_ABANDONADA, nomCliente);
                 getFragmentManager().beginTransaction().remove(this).commit();
-                //getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
+                getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
 
             } else {
                 boolean res = validarCampos();
-
 
                 if(res){
                     new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_MaterialComponents_Dialog)

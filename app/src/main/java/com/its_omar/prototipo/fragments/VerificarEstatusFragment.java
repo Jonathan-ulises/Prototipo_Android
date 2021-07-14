@@ -97,7 +97,7 @@ public class VerificarEstatusFragment extends Fragment {
         verificarBinding.btnVerificar.setOnClickListener(view -> {
 
             if (verificarBinding.rbSEncontrador.isChecked()){
-                VerificacionDatosFragment fragment = VerificacionDatosFragment.newInstance(mIdC);
+                VerificacionDatosFragment fragment = VerificacionDatosFragment.newInstance(mIdC, mNombre);
                 getFragmentManager().beginTransaction().remove(this).commit();
                 getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
 
