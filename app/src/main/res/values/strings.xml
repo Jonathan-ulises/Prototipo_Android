@@ -55,6 +55,8 @@
     <string name="alert_mapa_title_visitar">¿Quieres Realizar una visita?</string>
     <string name="alert_mapa_positive_btn">VISITAR</string>
     <string name="alert_verificacion_conx_title_error">Error de Conexion</string>
+    <string name="alert_razon_title_error">Campos Vacios</string>
+    <string name="alert_razon_mensaje_error">El campo de la rezon esta vacio, este debe ser completado</string>
     <string name="alert_verificacion_conx_mesage_error">Verifique su conexion a Internet o sus datos moviles.</string>
     <string name="alert_verificacion_positive_btn">REINTENTAR</string>
     <string name="alert_logout_intentos_title_error">Limite de intentos</string>

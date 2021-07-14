@@ -29,6 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.its_omar.prototipo.controller.Commons.showAlertError;
 import static com.its_omar.prototipo.controller.ConsultasComunes.registrarAccionBitacora;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_NO_ENCONTRADO;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_ABANDONADA;
@@ -189,38 +190,44 @@ public class RazonFragment extends Fragment {
      * Sube los datos de la razon al webservice
      */
     private void subirRazon(){
-        BodyJSONCliente body = new BodyJSONCliente();
-        body.setFirma("");
-        body.setFotoCasa("");
-        body.setIdCliente(mIdCliente);
-        body.setLatitudReal(0d);
-        body.setLongitudReal(0d);
-        body.setIdEstatusVisita(mEstatusV);
+
         String razon = razonBinding.etRazonV.getText().toString();
-        body.setComentario(razon);
 
-        WebService api = ServiceRetrofit.getInstance().getSevices();
+        if(razon.equals(null) || razon.equals("")) {
+            showAlertError(R.string.alert_razon_title_error, R.string.alert_razon_mensaje_error, getContext());
+        } else {
+            BodyJSONCliente body = new BodyJSONCliente();
+            body.setFirma("");
+            body.setFotoCasa("");
+            body.setIdCliente(mIdCliente);
+            body.setLatitudReal(0d);
+            body.setLongitudReal(0d);
+            body.setIdEstatusVisita(mEstatusV);
+            body.setComentario(razon);
 
-        api.asignarVisita(body).enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                if(response.code() == 200){
-                    if(response.body().isOk()){
-                        registrarAccionBitacora("Verificacion", "Asignacion", mIdEmpleado);
+            WebService api = ServiceRetrofit.getInstance().getSevices();
 
-                        Snackbar.make(razonBinding.getRoot(), "Datos Capturados", Snackbar.LENGTH_SHORT)
-                                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+            api.asignarVisita(body).enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    if(response.code() == 200){
+                        if(response.body().isOk()){
+                            registrarAccionBitacora("Verificacion", "Asignacion", mIdEmpleado);
 
-                        Intent intent = new Intent(getActivity(), ClientesActivity.class);
-                        startActivity(intent);
+                            Snackbar.make(razonBinding.getRoot(), "Datos Capturados", Snackbar.LENGTH_SHORT)
+                                    .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+
+                            Intent intent = new Intent(getActivity(), ClientesActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
