@@ -50,16 +50,7 @@
                     android:fontFamily="@font/avenir_next_lt_pro_regular"
                     android:textSize="20sp"
                     android:layout_toEndOf="@+id/ic_location"
-                    android:layout_toStartOf="@+id/ic_calendar"/>
-
-                <ImageView
-                    android:id="@+id/ic_calendar"
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:src="@drawable/ic_calendar"
-                    android:layout_marginStart="@dimen/margin_component_1"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_alignParentEnd="true"/>
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
