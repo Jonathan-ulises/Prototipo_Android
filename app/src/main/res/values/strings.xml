@@ -59,4 +59,8 @@
     <string name="alert_verificacion_positive_btn">REINTENTAR</string>
     <string name="alert_logout_intentos_title_error">Limite de intentos</string>
     <string name="alert_logout_intentos_mesage_error">Has alcanzado el limite de intestos permitidos, (5 intentos)</string>
+    <string name="rol_placeholder_textview">Rol</string>
+    <string name="rol_visitador">VISITADOR</string>
+    <string name="fecha_de_sesion_textView">Fecha de sesion</string>
+    <string name="action_mi_perfil">Mi Perfil</string>
 </resources>

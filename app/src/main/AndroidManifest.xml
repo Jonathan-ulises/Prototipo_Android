@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Prototipo"
         android:usesCleartextTraffic="true">
+        <activity android:name=".PerfilActivity"></activity>
         <activity android:name=".MapClientesActivity" />
         <activity android:name=".FirmaActivity" />
         <activity
