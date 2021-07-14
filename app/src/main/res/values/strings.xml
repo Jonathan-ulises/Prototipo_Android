@@ -63,4 +63,6 @@
     <string name="rol_visitador">VISITADOR</string>
     <string name="fecha_de_sesion_textView">Fecha de sesion</string>
     <string name="action_mi_perfil">Mi Perfil</string>
+    <string name="btn_ver_ine">VER INE</string>
+    <string name="check_value">CHECK VALUE</string>
 </resources>
