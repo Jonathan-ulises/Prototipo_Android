@@ -102,11 +102,11 @@ public class VerificarEstatusFragment extends Fragment {
                 getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
 
             } else if(verificarBinding.rbSNoEncontrado.isChecked()){
-                RazonFragment fragment = RazonFragment.newInstance(mIdC, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_NO_ENCONTRADO);
+                RazonFragment fragment = RazonFragment.newInstance(mIdC, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_NO_ENCONTRADO, mNombre);
                 getFragmentManager().beginTransaction().remove(this).commit();
                 getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
             } else if(verificarBinding.rbSVisitaRechazada.isChecked()){
-                RazonFragment fragment = RazonFragment.newInstance(mIdC, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_RECHAZADA);
+                RazonFragment fragment = RazonFragment.newInstance(mIdC, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_RECHAZADA, mNombre);
                 getFragmentManager().beginTransaction().remove(this).commit();
                 getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
             }

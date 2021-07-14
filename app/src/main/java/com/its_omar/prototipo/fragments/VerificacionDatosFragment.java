@@ -210,9 +210,9 @@ public class VerificacionDatosFragment extends Fragment {
         datosBinding.btnCapturarDatos.setOnClickListener(v -> {
             if(datosBinding.rbSVAbandonada.isChecked()){
                 sp.borrarPreferencesDatos(editor);
-                RazonFragment fragment = RazonFragment.newInstance(mIdCliente, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_ABANDONADA);
+                //RazonFragment fragment = RazonFragment.newInstance(mIdCliente, sp.getUsuarioLogeado().getId_empleado(), ESTATUS_VISITA_ABANDONADA);
                 getFragmentManager().beginTransaction().remove(this).commit();
-                getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
+                //getFragmentManager().beginTransaction().add(R.id.container_verificacion, fragment).commit();
 
             } else {
                 boolean res = validarCampos();

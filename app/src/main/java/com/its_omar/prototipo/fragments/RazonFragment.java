@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -16,6 +17,8 @@ import com.its_omar.prototipo.api.WebService;
 import com.its_omar.prototipo.databinding.FragmentRazonBinding;
 import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +41,7 @@ public class RazonFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ID_CLIENTE = "idC";
+    private static final String NOMBRE_CLIENTE = "nombreC";
     private static final String ID_EMPLEADO = "idE";
     private static final String ESTATUS_VISITA_FINAL = "estatus_visita";
 
@@ -45,6 +49,7 @@ public class RazonFragment extends Fragment {
     private int mIdCliente;
     private int mIdEmpleado;
     private int mEstatusV;
+    private String nombreC;
 
     public RazonFragment() {
         // Required empty public constructor
@@ -59,12 +64,13 @@ public class RazonFragment extends Fragment {
      * @return A new instance of fragment RazonFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RazonFragment newInstance(int idC, int idE, int est) {
+    public static RazonFragment newInstance(int idC, int idE, int est, String nombreC) {
         RazonFragment fragment = new RazonFragment();
         Bundle args = new Bundle();
         args.putInt(ID_CLIENTE, idC);
         args.putInt(ID_EMPLEADO, idE);
         args.putInt(ESTATUS_VISITA_FINAL, est);
+        args.putString(NOMBRE_CLIENTE, nombreC);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,6 +82,7 @@ public class RazonFragment extends Fragment {
             mIdCliente = getArguments().getInt(ID_CLIENTE);
             mIdEmpleado = getArguments().getInt(ID_EMPLEADO);
             mEstatusV = getArguments().getInt(ESTATUS_VISITA_FINAL);
+            nombreC = getArguments().getString(NOMBRE_CLIENTE);
         }
     }
 
@@ -83,6 +90,9 @@ public class RazonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         razonBinding = FragmentRazonBinding.inflate(inflater, container, false);
+
+        razonBinding.toolbarRazon.setTitle(nombreC);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(razonBinding.toolbarRazon);
 
         initRadioButtons();
 
@@ -118,8 +128,10 @@ public class RazonFragment extends Fragment {
     private void radioButtonsVisitaAbandonada(){
         razonBinding.rbSNoEncontrado.setChecked(false);
         razonBinding.rbSNoEncontrado.setEnabled(false);
+        razonBinding.rbSNoEncontrado.setVisibility(View.GONE);
         razonBinding.rbSVisitaRechazada.setChecked(false);
         razonBinding.rbSVisitaRechazada.setEnabled(false);
+        razonBinding.rbSVisitaRechazada.setVisibility(View.GONE);
         razonBinding.rbSVisitaAbandonada.setChecked(true);
         razonBinding.rbSVisitaAbandonada.setEnabled(true);
     }
@@ -132,8 +144,10 @@ public class RazonFragment extends Fragment {
         razonBinding.rbSNoEncontrado.setEnabled(true);
         razonBinding.rbSVisitaRechazada.setChecked(false);
         razonBinding.rbSVisitaRechazada.setEnabled(false);
+        razonBinding.rbSVisitaRechazada.setVisibility(View.GONE);
         razonBinding.rbSVisitaAbandonada.setChecked(false);
         razonBinding.rbSVisitaAbandonada.setEnabled(false);
+        razonBinding.rbSVisitaAbandonada.setVisibility(View.GONE);
     }
 
     /**
@@ -142,10 +156,12 @@ public class RazonFragment extends Fragment {
     private void radioButtonsVisitaRechazada(){
         razonBinding.rbSNoEncontrado.setChecked(false);
         razonBinding.rbSNoEncontrado.setEnabled(false);
+        razonBinding.rbSNoEncontrado.setVisibility(View.GONE);
         razonBinding.rbSVisitaRechazada.setChecked(true);
         razonBinding.rbSVisitaRechazada.setEnabled(true);
         razonBinding.rbSVisitaAbandonada.setChecked(false);
         razonBinding.rbSVisitaAbandonada.setEnabled(false);
+        razonBinding.rbSVisitaAbandonada.setVisibility(View.GONE);
     }
 
     /**
