@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         if(response.body().isOk()){
                             SharedPreferencesApp sharedPreferencesApp = SharedPreferencesApp.getInstance(ctx);
-                            sharedPreferencesApp.saveSharePreferencesLogin(nombreUsuario, response.body().getFk_empleado());
+                            sharedPreferencesApp.saveSharePreferencesLogin(nombreUsuario, response.body().getFk_empleado(), response.body().getNomUsu());
 
                             ConsultasComunes.registrarAccionBitacora("Login", "Inicio Sesion", response.body().getFk_empleado());
 

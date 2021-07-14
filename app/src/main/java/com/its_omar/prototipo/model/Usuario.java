@@ -4,6 +4,7 @@ public class Usuario {
 
     private int id_empleado;
     private String nombreUsuario;
+    private String nombrePersona;
 
     public Usuario() {
     }
@@ -27,5 +28,13 @@ public class Usuario {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getNombrePersona() {
+        return nombrePersona;
+    }
+
+    public void setNombrePersona(String nombrePersona) {
+        this.nombrePersona = nombrePersona;
     }
 }

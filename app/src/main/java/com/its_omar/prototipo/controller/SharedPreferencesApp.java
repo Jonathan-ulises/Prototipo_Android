@@ -24,6 +24,7 @@ import static com.its_omar.prototipo.model.Constantes.FOTO_CASA_KEY;
 import static com.its_omar.prototipo.model.Constantes.ID_EMPLEADO_LOGEADO;
 import static com.its_omar.prototipo.model.Constantes.LATITUDE_UBI_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.LONGITUD_UBI_CLIENTE;
+import static com.its_omar.prototipo.model.Constantes.NOMBRE_PERSONA_LOGEADO;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_USUARIO_LOGEADO;
 import static com.its_omar.prototipo.model.Constantes.NO_REALIZADO;
 import static com.its_omar.prototipo.model.Constantes.NO_VALIDADO;
@@ -68,10 +69,11 @@ public class SharedPreferencesApp {
     /**
      * Guarda el estatus de la sesion
      */
-    public void saveSharePreferencesLogin(String nombreusu, int id_empleado){
+    public void saveSharePreferencesLogin(String nombreusu, int id_empleado, String nombrePersona){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(SESION_ESTATUS, true);
         editor.putString(NOMBRE_USUARIO_LOGEADO, nombreusu);
+        editor.putString(NOMBRE_PERSONA_LOGEADO, nombrePersona);
         editor.putInt(ID_EMPLEADO_LOGEADO, id_empleado);
         editor.apply();
     }
@@ -101,6 +103,7 @@ public class SharedPreferencesApp {
         Usuario u = new Usuario();
         u.setNombreUsuario(sharedPreferences.getString(NOMBRE_USUARIO_LOGEADO, null));
         u.setId_empleado(sharedPreferences.getInt(ID_EMPLEADO_LOGEADO, 0));
+        u.setNombrePersona(sharedPreferences.getString(NOMBRE_PERSONA_LOGEADO, "not"));
 
         return u;
     }

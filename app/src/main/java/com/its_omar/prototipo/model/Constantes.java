@@ -21,6 +21,7 @@ public class Constantes {
     //Keys editor
     public static final String SESION_ESTATUS = "login_ok";
     public static final String NOMBRE_USUARIO_LOGEADO = "usu_logeado";
+    public static final String NOMBRE_PERSONA_LOGEADO = "persona_log";
     public static final String ID_EMPLEADO_LOGEADO = "id_empleado_logeado";
     public static final String NOMBRE_CLIENTE_EXTRA_KEY = "cliente_por_visitar";
     public static final String FOTO_INE_CLIENTE = "foto_cliente";

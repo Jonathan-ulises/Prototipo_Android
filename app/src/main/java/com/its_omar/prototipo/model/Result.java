@@ -12,6 +12,10 @@ public class Result {
     private boolean ok;
     private String mensaje;
 
+    @SerializedName("nombrePersona")
+    @Expose
+    private String nomUsu;
+
     @SerializedName("idEmpleado")
     @Expose
     private int fk_empleado;
@@ -31,4 +35,8 @@ public class Result {
     }
 
     public int getFk_empleado() { return fk_empleado; }
+
+    public String getNomUsu() {
+        return nomUsu;
+    }
 }

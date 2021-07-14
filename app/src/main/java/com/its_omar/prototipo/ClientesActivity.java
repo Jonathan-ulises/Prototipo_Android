@@ -55,7 +55,7 @@ public class ClientesActivity extends AppCompatActivity {
     ClientesVisitaAdapter adapter;
     SharedPreferencesApp sharedPreferencesApp;
     Usuario usu;
-
+    String nombreUsuario;
     //Lista de coordanadas de los clientes
     ArrayList<Cliente_por_visitar> userInMap = new ArrayList<>();
 
@@ -67,6 +67,7 @@ public class ClientesActivity extends AppCompatActivity {
         setContentView(clientesBinding.getRoot());
 
         validarPermisos(this);
+
 
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -157,6 +158,8 @@ public class ClientesActivity extends AppCompatActivity {
 
             case R.id.action_perfil:
                 Intent intent = new Intent(this, PerfilActivity.class);
+                intent.putExtra("usuario", usu.getNombrePersona());
+                intent.putExtra("usu", usu.getNombreUsuario());
                 startActivity(intent);
                 break;
         }
