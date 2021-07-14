@@ -128,30 +128,35 @@ public class ClientesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.action_logout) {
-            if (usu != null) {
-                WebService api = ServiceRetrofit.getInstance().getSevices();
-                api.logoutApp(usu.getNombreUsuario()).enqueue(new Callback<Result>() {
-                    @Override
-                    public void onResponse(Call<Result> call, Response<Result> response) {
-                        if (response.body().isOk()) {
-                            //ConsultasComunes.registrarAccionBitacora("Login", "Cerrar Sesion", usu.getId_empleado());
-                            sharedPreferencesApp.borrarPreferences();
-                            finish();
-                        } else {
-                            Snackbar.make(clientesBinding.getRoot(), "Ha sucedido un error", Snackbar.LENGTH_SHORT)
-                                    .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                if (usu != null) {
+                    WebService api = ServiceRetrofit.getInstance().getSevices();
+                    api.logoutApp(usu.getNombreUsuario()).enqueue(new Callback<Result>() {
+                        @Override
+                        public void onResponse(Call<Result> call, Response<Result> response) {
+                            if (response.body().isOk()) {
+                                //ConsultasComunes.registrarAccionBitacora("Login", "Cerrar Sesion", usu.getId_empleado());
+                                sharedPreferencesApp.borrarPreferences();
+                                finish();
+                            } else {
+                                Snackbar.make(clientesBinding.getRoot(), "Ha sucedido un error", Snackbar.LENGTH_SHORT)
+                                        .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<Result> call, Throwable t) {
-                        Log.e(Constantes.TAG_ERROR_LOGOUT, "ERROR -> ", t);
-                    }
-                });
-            }
-            //Logout
+                        @Override
+                        public void onFailure(Call<Result> call, Throwable t) {
+                            Log.e(Constantes.TAG_ERROR_LOGOUT, "ERROR -> ", t);
+                        }
+                    });
+                }
+                break;
+
+            case R.id.action_perfil:
+                Intent intent = new Intent(this, PerfilActivity.class);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -210,7 +215,6 @@ public class ClientesActivity extends AppCompatActivity {
             cl.setLat(r.getJson().getLati());
             cl.setLon(r.getJson().getLongt());
 
-
             //AGREGACION DE LAS COORDENADAS DE LOS CLIENTES A LA LISTA
             userInMap.add(cl);
 
@@ -225,16 +229,17 @@ public class ClientesActivity extends AppCompatActivity {
     }
 
 
-    private boolean validarPermisos(Context ctx) {
+    private void validarPermisos(Context ctx) {
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
+            //return true;
         }
         if((ActivityCompat.checkSelfPermission(ctx, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
-            return true;
+            //return true;
         } else {
             requestPermissions(PERMISOS, 100);
         }
-        return false;
+        //return false;
     }
 
     @Override
