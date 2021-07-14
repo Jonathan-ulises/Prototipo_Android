@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -72,10 +74,12 @@ public class VerificacionDatosFragment extends Fragment {
 
     private static final String ID_CLIENTE = "idCliente";
     private static final String NOMBRE_CLIENTE_VERIFICACION = "clienteVer";
+    private static final String FOTO_INE = "foto_ine";
 
 
     private int mIdCliente;
     private String nomCliente;
+    private String fotoIne;
 
 
     public VerificacionDatosFragment() {
@@ -89,11 +93,12 @@ public class VerificacionDatosFragment extends Fragment {
      * @return A new instance of fragment VerificacionDatosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VerificacionDatosFragment newInstance(int idC, String nombreCliente) {
+    public static VerificacionDatosFragment newInstance(int idC, String nombreCliente, String fotoIne) {
         VerificacionDatosFragment fragment = new VerificacionDatosFragment();
         Bundle args = new Bundle();
         args.putInt(ID_CLIENTE, idC);
         args.putString(NOMBRE_CLIENTE_VERIFICACION, nombreCliente);
+        args.putString(FOTO_INE, fotoIne);
         fragment.setArguments(args);
         return fragment;
     }
@@ -104,6 +109,7 @@ public class VerificacionDatosFragment extends Fragment {
         if (getArguments() != null) {
             mIdCliente = getArguments().getInt(ID_CLIENTE);
             nomCliente = getArguments().getString(NOMBRE_CLIENTE_VERIFICACION);
+            fotoIne = getArguments().getString(FOTO_INE);
         }
     }
 
@@ -249,6 +255,12 @@ public class VerificacionDatosFragment extends Fragment {
             }
 
 
+        });
+
+        datosBinding.btnVerFotoINE.setOnClickListener(v -> {
+            DialogINEFragment dialogINEFragment = DialogINEFragment.newInstance(fotoIne);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            dialogINEFragment.show(transaction, DialogINEFragment.TAG);
         });
 
         // Inflate the layout for this fragment

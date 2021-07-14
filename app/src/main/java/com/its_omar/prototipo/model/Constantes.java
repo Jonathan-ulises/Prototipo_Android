@@ -23,6 +23,7 @@ public class Constantes {
     public static final String NOMBRE_USUARIO_LOGEADO = "usu_logeado";
     public static final String ID_EMPLEADO_LOGEADO = "id_empleado_logeado";
     public static final String NOMBRE_CLIENTE_EXTRA_KEY = "cliente_por_visitar";
+    public static final String FOTO_INE_CLIENTE = "foto_cliente";
     public static final String ID_CLIENTE = "clente_seleccionado";
     public static final String FOTO_CASA_KEY = "fotografia_casa";
     public static final String FIRMA_CLIENTE_KEY = "firma_cliente";

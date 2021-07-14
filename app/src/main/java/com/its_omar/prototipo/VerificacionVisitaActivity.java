@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.its_omar.prototipo.fragments.VerificarEstatusFragment;
 
+import static com.its_omar.prototipo.model.Constantes.FOTO_INE_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
 
@@ -24,10 +25,11 @@ public class VerificacionVisitaActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         String nom = extras.getString(NOMBRE_CLIENTE_EXTRA_KEY);
+        String ine = extras.getString(FOTO_INE_CLIENTE);
         int id = extras.getInt(ID_CLIENTE);
         try {
 
-            VerificarEstatusFragment fragment = VerificarEstatusFragment.newInstance(nom, id);
+            VerificarEstatusFragment fragment = VerificarEstatusFragment.newInstance(nom, id, ine);
             getSupportFragmentManager().beginTransaction().add(R.id.container_verificacion , fragment).commit();
         } catch (Exception e){
             Log.d("frag", "error", e);

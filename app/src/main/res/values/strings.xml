@@ -65,4 +65,6 @@
     <string name="action_mi_perfil">Mi Perfil</string>
     <string name="btn_ver_ine">VER INE</string>
     <string name="check_value">CHECK VALUE</string>
+    <string name="foto_ine">FOTO_INE</string>
+    <string name="image_error">IMAGE_ERROR</string>
 </resources>

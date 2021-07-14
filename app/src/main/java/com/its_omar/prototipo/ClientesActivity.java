@@ -41,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static com.its_omar.prototipo.model.Constantes.FOTO_INE_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.ID_CLIENTE;
 import static com.its_omar.prototipo.model.Constantes.INTENT_ID_EMPLEADO;
 import static com.its_omar.prototipo.model.Constantes.NOMBRE_CLIENTE_EXTRA_KEY;
@@ -95,6 +96,7 @@ public class ClientesActivity extends AppCompatActivity {
             String nombre = generarNombreCompleto(cliente);
             intent.putExtra(NOMBRE_CLIENTE_EXTRA_KEY, nombre);
             intent.putExtra(ID_CLIENTE, cliente.getIdCliente());
+            intent.putExtra(FOTO_INE_CLIENTE, cliente.getIne());
 
             //HILO DE ENVIO DE UBLICACION
             startActivity(intent);
