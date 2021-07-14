@@ -35,7 +35,7 @@
     </style>
 
     <style name="tolbar_theme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-
+        <item name="android:textColor">@color/on_surface_color</item>
     </style>
 
 </resources>
