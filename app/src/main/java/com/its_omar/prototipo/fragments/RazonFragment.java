@@ -2,6 +2,9 @@ package com.its_omar.prototipo.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +15,10 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.its_omar.prototipo.ClientesActivity;
+import com.its_omar.prototipo.R;
 import com.its_omar.prototipo.api.ServiceRetrofit;
 import com.its_omar.prototipo.api.WebService;
+import com.its_omar.prototipo.controller.Commons;
 import com.its_omar.prototipo.databinding.FragmentRazonBinding;
 import com.its_omar.prototipo.model.Result;
 import com.its_omar.prototipo.model.bodyJSONCliente.BodyJSONCliente;
@@ -29,11 +34,7 @@ import static com.its_omar.prototipo.model.Constantes.ESTATUS_NO_ENCONTRADO;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_ABANDONADA;
 import static com.its_omar.prototipo.model.Constantes.ESTATUS_VISITA_RECHAZADA;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RazonFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RazonFragment extends Fragment {
 
     private FragmentRazonBinding razonBinding;
@@ -91,14 +92,34 @@ public class RazonFragment extends Fragment {
                              Bundle savedInstanceState) {
         razonBinding = FragmentRazonBinding.inflate(inflater, container, false);
 
+        razonBinding.etRazonV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int cantCaracteres = (charSequence.length() + 1);
+                if(cantCaracteres == 201) {
+                    Snackbar.make(
+                            getContext(),
+                            razonBinding.getRoot(),
+                            getString(R.string.snack_msg_warning_razon_text_lenght),
+                            Snackbar.LENGTH_SHORT)
+                            .setBackgroundTint(getResources().getColor(R.color.es_no_encontrado_color))
+                            .show();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
         razonBinding.toolbarRazon.setTitle(nombreC);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(razonBinding.toolbarRazon);
 
         initRadioButtons();
 
-        razonBinding.btnVerificar.setOnClickListener(v -> {
-            subirRazon();
-        });
+        razonBinding.btnVerificar.setOnClickListener(v -> subirRazon());
 
         // Inflate the layout for this fragment
         return razonBinding.getRoot();

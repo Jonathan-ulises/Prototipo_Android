@@ -67,4 +67,5 @@
     <string name="check_value">CHECK VALUE</string>
     <string name="foto_ine">FOTO_INE</string>
     <string name="image_error">IMAGE_ERROR</string>
+    <string name="snack_msg_warning_razon_text_lenght">Ha sobrepasado el valor de caracteres permitido</string>
 </resources>

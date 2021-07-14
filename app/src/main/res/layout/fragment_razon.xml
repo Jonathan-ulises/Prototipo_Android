@@ -136,7 +136,7 @@
                     app:boxStrokeColor="@color/primary_color"
                     android:hint="@string/place_holder_razon"
                     app:counterEnabled="true"
-                    app:counterMaxLength="150"
+                    app:counterMaxLength="200"
                     android:scrollbars="vertical"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
@@ -145,7 +145,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:inputType="textMultiLine"
-                        android:maxLength="150"/>
+                        android:maxLength="200"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
